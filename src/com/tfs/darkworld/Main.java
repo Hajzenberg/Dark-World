@@ -1,4 +1,4 @@
-package app.com.tfs.darkworld;
+package com.tfs.darkworld;
 
 public class Main {
 
