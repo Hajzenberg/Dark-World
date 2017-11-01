@@ -53,7 +53,7 @@ public class PauseState extends GameState{
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		g.setFont(mFonts.getFont("Phantom Fingers"));
-		g.drawString(Strings.MENU_SATE, 250, 250);
+		g.drawString(Strings.PAUSE_SATE, 250, 250);
 		
 	}
 
