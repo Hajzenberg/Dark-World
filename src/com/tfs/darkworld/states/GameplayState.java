@@ -69,13 +69,23 @@ public class GameplayState extends GameState {
 	@Override
 	public void update() {
 		if(host.isKeyDown(KeyEvent.VK_LEFT)){
-			System.out.println("Pritisnuto levo");
-			mPlayer.move(-mPlayer.getSpeed(), 0);
+			mPlayer.move(KeyEvent.VK_LEFT);
 		}
 		else if(host.isKeyDown(KeyEvent.VK_RIGHT)){
-			System.out.println("Pritisnuto levo");
-			mPlayer.move(mPlayer.getSpeed(), 0);
+			mPlayer.move(KeyEvent.VK_RIGHT);
 		}
+		
+		if (mPlayer.getPlayerRect().intersects(mBackground.getGroundRect())){
+			System.out.println("INTERSECT");
+			mPlayer.setDX(0);
+			mPlayer.setPosition(mPlayer.getX(), 400);
+		} 
+		
+		if (mPlayer.getY() > 400){
+			System.out.println("Y VECE OD 400");
+			mPlayer.setPosition(mPlayer.getX(), 400);
+		}
+		
 		mPlayer.update();
 		
 	}
@@ -111,14 +121,6 @@ public class GameplayState extends GameState {
 		case KeyEvent.VK_ESCAPE:
 			transType = TransitionType.values()[4];
 			Transition.transitionTo(Strings.MENU_SATE, transType, 0.5f);
-			break;
-		case KeyEvent.VK_LEFT:
-		case KeyEvent.VK_A:
-			//mPlayer.move(-mPlayer.getSpeed(), 0);
-			break;	
-		case KeyEvent.VK_RIGHT:
-		case KeyEvent.VK_D:
-			//mPlayer.move(mPlayer.getSpeed(), 0);
 			break;
 
 		default:

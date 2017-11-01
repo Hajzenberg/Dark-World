@@ -27,6 +27,7 @@ public class Game {
 	}
 	
 	public void start(){
+		System.out.println(" start() "+Thread.currentThread().getName());
 		mGameHost.setState(Strings.LOADING_SATE);
 	}
 	

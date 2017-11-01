@@ -7,18 +7,18 @@ import com.tfs.darkworld.res.Colors;
 
 public class Background extends GameEntity {
 
-	Rectangle mGroundRect;
-	Rectangle mSkyRect;
+	private Rectangle mGroundRect;
+	private Rectangle mSkyRect;
 
 	public Background(int sw, int sh) {
-		super(0, 0, 0);
+		super(0, 0, 0, 0, 0, 0, 0);
 		mSkyRect = new Rectangle(0, 0, sw, sh);
 		mGroundRect = new Rectangle(0, sh - 100, sw, sh);
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -29,7 +29,12 @@ public class Background extends GameEntity {
 		g.draw(mSkyRect);
 		g.setColor(Colors.BROWN);
 		g.fill(mGroundRect);
-
 	}
+
+	public Rectangle getGroundRect() {
+		return mGroundRect;
+	}
+	
+	
 
 }
