@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 
+import com.tfs.darkworld.entities.Background;
+import com.tfs.darkworld.entities.Player;
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
@@ -17,9 +19,15 @@ public class GameplayState extends GameState {
 
 	private Fonts mFonts;
 	
+	private Background mBackground;
+	private Player mPlayer;
+	
 	public GameplayState(GameHost host) {
 		super(host);
 		mFonts = new Fonts();
+		
+		mBackground = new Background(host.getWidth(), host.getHeight());
+		mPlayer = new Player(host.getWidth(), host.getHeight());
 	}
 
 	@Override
@@ -47,19 +55,28 @@ public class GameplayState extends GameState {
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
-		g.setColor(Colors.MIDNIGHT_BLUE);
-		g.fillRect(0, 0, sw, sh);
-		g.setColor(Colors.ALIZARIN);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		mBackground.render(g, sw, sh);
+		mPlayer.render(g, sw, sh);
 
 		g.setFont(mFonts.getFont("Phantom Fingers"));
+		g.setColor(Colors.POMEGRANATE);
 		g.drawString(Strings.GAMEPLAY_SATE, 250, 250);
 		
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		if(host.isKeyDown(KeyEvent.VK_LEFT)){
+			System.out.println("Pritisnuto levo");
+			mPlayer.move(-mPlayer.getSpeed(), 0);
+		}
+		else if(host.isKeyDown(KeyEvent.VK_RIGHT)){
+			System.out.println("Pritisnuto levo");
+			mPlayer.move(mPlayer.getSpeed(), 0);
+		}
+		mPlayer.update();
 		
 	}
 
@@ -83,12 +100,29 @@ public class GameplayState extends GameState {
 
 	@Override
 	public void handleKeyDown(int keyCode) {
-		if (keyCode == KeyEvent.VK_P){
-			TransitionType transType = TransitionType.values()[2];
+		
+		TransitionType transType = null;
+		
+		switch (keyCode) {
+		case KeyEvent.VK_P:
+			transType = TransitionType.values()[2];
 			Transition.transitionTo(Strings.PAUSE_SATE, transType, 0.5f);
-		} else if (keyCode == KeyEvent.VK_ESCAPE){
-			TransitionType transType = TransitionType.values()[4];
+			break;
+		case KeyEvent.VK_ESCAPE:
+			transType = TransitionType.values()[4];
 			Transition.transitionTo(Strings.MENU_SATE, transType, 0.5f);
+			break;
+		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_A:
+			//mPlayer.move(-mPlayer.getSpeed(), 0);
+			break;	
+		case KeyEvent.VK_RIGHT:
+		case KeyEvent.VK_D:
+			//mPlayer.move(mPlayer.getSpeed(), 0);
+			break;
+
+		default:
+			break;
 		}
 	}
 

@@ -1,29 +1,19 @@
 package com.tfs.darkworld.states;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
+import com.tfs.darkworld.states.Transition.TransitionType;
 
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
-import com.tfs.darkworld.states.Transition;
-import com.tfs.darkworld.states.Transition.TransitionType;
-
 import rafgfxlib.GameState;
 
 public class LoadingState extends GameState {
@@ -31,8 +21,6 @@ public class LoadingState extends GameState {
 	private int offset = 0;
 
 	private Fonts mFonts;
-
-	private BufferedImage img = null;
 	
 	private static final int STRING_X_0 = 3;
 	private static final int STRING_Y_0 = 59; 
@@ -41,13 +29,6 @@ public class LoadingState extends GameState {
 	public LoadingState(GameHost host) {
 		super(host);
 		mFonts = new Fonts();
-
-		try {
-			img = ImageIO.read(new File("src/stuff-200x200.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Loading konstruktor");
 	}
 
 	@Override
