@@ -49,6 +49,8 @@ public class MenuState extends GameState{
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
+		//System.out.println(" menu "+Thread.currentThread().getName());
+		
 		g.setColor(Colors.ALIZARIN);
 		g.fillRect(0, 0, sw, sh);
 		g.setColor(Colors.NICE_BLUE);

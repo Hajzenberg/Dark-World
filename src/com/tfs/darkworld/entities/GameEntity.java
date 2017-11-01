@@ -4,13 +4,21 @@ import java.awt.Graphics2D;
 
 public abstract class GameEntity {
 
-	protected int mX;
-	protected int mY;
-	protected int mSpeed;
-
-	public GameEntity(int x, int y, int speed) {
+	protected double mX;
+	protected double mY;
+	protected double mWidth;
+	protected double mHeight;
+	protected double mDX;
+	protected double mDY;
+	protected double mSpeed;
+	
+	public GameEntity(double x, double y, double width, double height, double dx, double dy, double speed) {
 		mX = x;
 		mY = y;
+		mWidth = width;
+		mHeight = height;
+		mDX = dx;
+		mDY = dy;
 		mSpeed = speed;
 	}
 
@@ -18,15 +26,15 @@ public abstract class GameEntity {
 
 	public abstract void render(Graphics2D g, int sw, int sh);
 
-	public int getX() {
+	public double getX() {
 		return mX;
 	}
 
-	public int getY() {
+	public double getY() {
 		return mY;
 	}
 
-	public int getSpeed() {
+	public double getSpeed() {
 		return mSpeed;
 	}
 
@@ -34,13 +42,26 @@ public abstract class GameEntity {
 		mSpeed = speed;
 	}
 
-	public void setPosition(int x, int y) {
+	public void setPosition(double x, double y) {
 		mX = x;
 		mY = y;
 	}
 
-	public void move(int dX, int dY) {
-		mX += dX;
-		mY += dY;
+	public double getDX() {
+		return mDX;
 	}
+
+	public void setDX(double mDX) {
+		this.mDX = mDX;
+	}
+
+	public double getDY() {
+		return mDY;
+	}
+
+	public void setDY(double mDY) {
+		this.mDY = mDY;
+	}
+	
+	
 }
