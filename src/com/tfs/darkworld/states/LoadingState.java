@@ -33,6 +33,10 @@ public class LoadingState extends GameState {
 	private Fonts mFonts;
 
 	private BufferedImage img = null;
+	
+	private static final int STRING_X_0 = 3;
+	private static final int STRING_Y_0 = 59; 
+	
 
 	public LoadingState(GameHost host) {
 		super(host);
@@ -67,6 +71,8 @@ public class LoadingState extends GameState {
 		// TODO Auto-generated method stub
 
 	}
+	
+	//TODO Izvuci promenljive na klasni nivo da ne instanciras objekte u svakom lupu
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
@@ -77,37 +83,36 @@ public class LoadingState extends GameState {
 
 		g.setFont(mFonts.getFont("Phantom Fingers"));
 
-		FontMetrics fm = g.getFontMetrics();
-
 		AffineTransform old = g.getTransform();
 		AffineTransform at = new AffineTransform();
 
+//		Daje 1 piksel manje width i height
 		Rectangle r = getStringBounds(g, Strings.LOADING_SATE, 150, 150);
+		
+		System.out.println("getbounds" + r.width + " " + r.height);
 
-		System.out.println(r.getWidth() + "  " + r.getHeight());
-
-		// g.drawRect(r.x, r.y, r.width, r.height);
-
-		int x = 0 - r.width / 2;
-		int y = 0 - r.height / 2;
-
-		// g.drawRect(0, 0, fm.stringWidth(Strings.LOADING_SATE),
-		// fm.getHeight());
-
-		// System.out.println("sw " + sw + " sh " + sh + " x " + x + " y " + y +
-		// " str len " + fm.stringWidth(Strings.LOADING_SATE) + "str height
-		// "+fm.getHeight());
+		int messageCenterX = STRING_X_0 - r.width / 2;
+		int messageCenterY = STRING_Y_0 - r.height / 2;
+		
+		int rectCenterX = 0 - r.width / 2;
+		int rectCenterY = 0 - r.height / 2;
+		
+		r.setBounds(rectCenterX, rectCenterY, r.width, r.height);
+		
+//		Daje pogresne mere, 3 piksela za width i 18 za height
+//		FontMetrics metrics = g.getFontMetrics();
+//		System.out.println("metrics" + metrics.stringWidth(Strings.LOADING_SATE) + " " + metrics.getHeight());
+		
 
 		at.translate(sw / 2, sh / 2);
 		at.rotate(Math.toRadians(offset));
+		//koja je fora sa primenom at na sam font?
 		// Font f = mFonts.getFont("Phantom Fingers").deriveFont(at);
 		// g.setFont(f);
 		g.setTransform(at);
-		g.drawString(Strings.LOADING_SATE, x, y);
-		r.setBounds(x, y, r.width, r.height);
-		// g.draw(r);
+		g.drawString(Strings.LOADING_SATE, messageCenterX, messageCenterY);
+		//g.draw(r);
 		g.setTransform(old);
-		// things you draw after here will not be rotated
 
 	}
 
@@ -120,7 +125,6 @@ public class LoadingState extends GameState {
 	@Override
 	public void update() {
 		offset = (offset + 1) % 360;
-
 	}
 
 	@Override
