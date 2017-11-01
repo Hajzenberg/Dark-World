@@ -6,6 +6,7 @@ import com.tfs.darkworld.states.GameplayState;
 import com.tfs.darkworld.states.LoadingState;
 import com.tfs.darkworld.states.MenuState;
 import com.tfs.darkworld.states.PauseState;
+import com.tfs.darkworld.states.Transition;
 
 import rafgfxlib.GameHost;
 
@@ -18,6 +19,7 @@ public class Game {
 		mGameHost = new GameHost("Dark World", 800, 600, false);
 		mGameHost.setUpdateRate(60);
 		
+		new Transition(mGameHost);
 		new LoadingState(mGameHost);
 		new MenuState(mGameHost);
 		new GameplayState(mGameHost);

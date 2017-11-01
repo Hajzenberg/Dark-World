@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
+import com.tfs.darkworld.states.Transition.TransitionType;
 
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
@@ -83,7 +84,8 @@ public class PauseState extends GameState{
 	@Override
 	public void handleKeyDown(int keyCode) {
 		if (keyCode == KeyEvent.VK_P){
-			host.setState(Strings.GAMEPLAY_SATE);
+			TransitionType transType = TransitionType.values()[1];
+			Transition.transitionTo(Strings.GAMEPLAY_SATE, transType, 0.5f);
 		}
 		
 	}

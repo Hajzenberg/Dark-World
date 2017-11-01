@@ -21,6 +21,9 @@ import com.tfs.darkworld.res.fonts.Fonts;
 
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
+import com.tfs.darkworld.states.Transition;
+import com.tfs.darkworld.states.Transition.TransitionType;
+
 import rafgfxlib.GameState;
 
 public class LoadingState extends GameState {
@@ -28,16 +31,15 @@ public class LoadingState extends GameState {
 	private int offset = 0;
 
 	private Fonts mFonts;
-	
+
 	private BufferedImage img = null;
-	
 
 	public LoadingState(GameHost host) {
 		super(host);
 		mFonts = new Fonts();
-		
+
 		try {
-		    img = ImageIO.read(new File("src/stuff-200x200.png"));
+			img = ImageIO.read(new File("src/stuff-200x200.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -79,30 +81,31 @@ public class LoadingState extends GameState {
 
 		AffineTransform old = g.getTransform();
 		AffineTransform at = new AffineTransform();
-		
+
 		Rectangle r = getStringBounds(g, Strings.LOADING_SATE, 150, 150);
-		
-		System.out.println(r.getWidth() + "  "+ r.getHeight());
-		
-		//g.drawRect(r.x, r.y, r.width, r.height);
+
+		System.out.println(r.getWidth() + "  " + r.getHeight());
+
+		// g.drawRect(r.x, r.y, r.width, r.height);
 
 		int x = 0 - r.width / 2;
 		int y = 0 - r.height / 2;
-		
-		//g.drawRect(0, 0, fm.stringWidth(Strings.LOADING_SATE), fm.getHeight());
-		
-		
 
-		//System.out.println("sw " + sw + " sh " + sh + " x " + x + " y " + y + " str len " + fm.stringWidth(Strings.LOADING_SATE) + "str height "+fm.getHeight());
+		// g.drawRect(0, 0, fm.stringWidth(Strings.LOADING_SATE),
+		// fm.getHeight());
 
-		at.translate(sw/2, sh/2);
+		// System.out.println("sw " + sw + " sh " + sh + " x " + x + " y " + y +
+		// " str len " + fm.stringWidth(Strings.LOADING_SATE) + "str height
+		// "+fm.getHeight());
+
+		at.translate(sw / 2, sh / 2);
 		at.rotate(Math.toRadians(offset));
-		//Font f = mFonts.getFont("Phantom Fingers").deriveFont(at);
-		//g.setFont(f);
+		// Font f = mFonts.getFont("Phantom Fingers").deriveFont(at);
+		// g.setFont(f);
 		g.setTransform(at);
 		g.drawString(Strings.LOADING_SATE, x, y);
 		r.setBounds(x, y, r.width, r.height);
-		//g.draw(r);
+		// g.draw(r);
 		g.setTransform(old);
 		// things you draw after here will not be rotated
 
@@ -128,8 +131,9 @@ public class LoadingState extends GameState {
 
 	@Override
 	public void handleMouseUp(int x, int y, GFMouseButton button) {
-		if (button == GFMouseButton.Left){
-			host.setState(Strings.MENU_SATE);
+		if (button == GFMouseButton.Left) {
+			TransitionType transType = TransitionType.values()[0];
+			Transition.transitionTo(Strings.MENU_SATE, transType, 0.5f);
 		}
 
 	}

@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
+import com.tfs.darkworld.states.Transition.TransitionType;
 
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
@@ -73,7 +74,8 @@ public class MenuState extends GameState{
 	@Override
 	public void handleMouseUp(int x, int y, GFMouseButton button) {
 		if (button == GFMouseButton.Left){
-			host.setState(Strings.GAMEPLAY_SATE);
+			TransitionType transType = TransitionType.values()[3];
+			Transition.transitionTo(Strings.GAMEPLAY_SATE, transType, 0.5f);
 		}
 		
 	}
