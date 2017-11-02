@@ -68,22 +68,15 @@ public class GameplayState extends GameState {
 
 	@Override
 	public void update() {
-		if(host.isKeyDown(KeyEvent.VK_LEFT)){
-			mPlayer.move(KeyEvent.VK_LEFT);
-		}
-		else if(host.isKeyDown(KeyEvent.VK_RIGHT)){
-			mPlayer.move(KeyEvent.VK_RIGHT);
-		}
 		
-		if (mPlayer.getPlayerRect().intersects(mBackground.getGroundRect())){
-			System.out.println("INTERSECT");
-			mPlayer.setDX(0);
-			mPlayer.setPosition(mPlayer.getX(), 400);
-		} 
+		mPlayer.setLeft(host.isKeyDown(KeyEvent.VK_LEFT));
+		mPlayer.setRight(host.isKeyDown(KeyEvent.VK_RIGHT));
+		mPlayer.setJumping(host.isKeyDown(KeyEvent.VK_SPACE));
 		
-		if (mPlayer.getY() > 400){
-			System.out.println("Y VECE OD 400");
-			mPlayer.setPosition(mPlayer.getX(), 400);
+		if (mPlayer.getY() > 440 || mPlayer.getCharacterRect().intersects(mBackground.getGroundRect())){
+			//System.out.println("Intersect");
+			mPlayer.setFalling(false);
+			//mPlayer.setPosition(, y);
 		}
 		
 		mPlayer.update();

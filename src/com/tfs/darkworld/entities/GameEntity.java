@@ -12,13 +12,11 @@ public abstract class GameEntity {
 	protected double mDY;
 	protected double mSpeed;
 	
-	public GameEntity(double x, double y, double width, double height, double dx, double dy, double speed) {
+	public GameEntity(double x, double y, double width, double height, double speed) {
 		mX = x;
 		mY = y;
 		mWidth = width;
 		mHeight = height;
-		mDX = dx;
-		mDY = dy;
 		mSpeed = speed;
 	}
 
