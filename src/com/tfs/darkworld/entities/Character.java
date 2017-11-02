@@ -12,20 +12,11 @@ public abstract class Character extends GameEntity{
 	protected boolean mIsJumping;
 	protected boolean mIsFalling;
 
-	protected double mMaxSpeed;
-	protected double mMaxFallSpeed;
-	protected double mStoppingSpeed;
-	protected double mFallingSpeed;
-	protected double mStartingJumpSpeed;
-	protected double mStoppingJumpSpeed;
+	protected double mMovingSpeed;
+	protected double mJumpingForce;
 	
-	protected double mMaxdY;
-	protected double mGravity;
-	protected boolean mCanJump;
-	protected boolean mFalling;
-	
-	public Character(double x, double y, double width, double height, double speed) {
-		super(x, y, width, height, speed);
+	public Character(double x, double y, double width, double height, double speed, double mass) {
+		super(x, y, width, height, speed, mass);
 	}
 	
 	public Rectangle2D getCharacterRect() {

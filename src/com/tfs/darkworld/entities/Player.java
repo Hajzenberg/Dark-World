@@ -25,18 +25,15 @@ public class Player extends Character {
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
 	protected boolean facingRight;
-
+	
+	
 	public Player(int sw, int sh) {
-		super(200, 200, 30, 30, 2); // y = sh -200
-
+		super(200, 200, 30, 30, 2, 50); // y = sh -200
+		
 		mCurrentAnimation = new Animation();
 		facingRight = true;
-		mMaxSpeed = 1.6;
-		mStoppingSpeed = 1.6;
-		mFallingSpeed = 0.15;
-		mMaxFallSpeed = 4.0;
-		mStartingJumpSpeed = -4.8;
-		mStoppingJumpSpeed = 0.3;
+		mMovingSpeed = 1.8;
+		mJumpingForce = 5;
 
 		try {
 
@@ -70,15 +67,22 @@ public class Player extends Character {
 
 		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
 	}
-
+	
+	
+	
+	
 	@Override
 	public void update() {
 
+		if (mDY == 0) {
+			mIsJumping = false;
+		}
+		
 		getNextPosition();
 		
-		if (mDX == 0) {
-			mX = (int) mX;
-		}
+//		if (mDX == 0) {
+//			mX = (int) mX;
+//		}
 
 		if (mDY < 0) {
 			if (mCurrentAction != ACTION_JUMP) {
@@ -113,65 +117,105 @@ public class Player extends Character {
 
 		// System.out.println(x + " " + y + " mDX " + mDX + "mDY " + mDY);
 
-		mX += mDX;
-		mY += mDY;
+//		mX += mDX;
+//		mY += mDY;
 
 		if (facingRight) {
 			// System.out.println("RIGHT");
 			g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY, null);
 		} else {
 			// System.out.println("LEFT");
-			g.drawImage(mCurrentAnimation.getImage(), (int) (mX + mWidth), (int) (mY), (int) -mWidth, (int) mHeight,
-					null);
+			g.drawImage(mCurrentAnimation.getImage(), (int) (mX + mWidth), (int) (mY), (int) -mWidth, (int) mHeight, null);
 		}
 
 		g.draw(mCharacterRect);
 	}
-
+	
+	
+	private double boundGreater(double x, double boundary) {
+		if (x > boundary) {
+			return x;
+		}
+		return boundary;
+	}
+	
+	private double boundSmaller(double x, double boundary) {
+		if (x < boundary) {
+			return x;
+		}
+		return boundary;
+	}
+	
 	private void getNextPosition() {
-
-		if (mIsGoingLeft) {
-			mDX -= mSpeed;
-			if (mDX < -mMaxSpeed) {
-				mDX = -mMaxSpeed;
-			}
-		} else if (mIsGoingRight) {
-			mDX += mSpeed;
-			if (mDX > mMaxSpeed) {
-				mDX = mMaxSpeed;
-			}
-		} else {
-			if (mDX > 0) {
-				mDX -= mStoppingSpeed;
-				if (mDX < 0) {
-					mDX = 0;
-				}
-			} else if (mDX < 0) {
-				mDX += mStoppingSpeed;
-				if (mDX > 0) {
-					mDX = 0;
-				}
-			}
-		}
-
-		if ((mIsAttacking) && !(mIsJumping || mIsFalling)) {
-			mDX = 0;
-		}
-
-		if (mIsJumping && !mIsFalling) {
-			mDY = mStartingJumpSpeed;
-			mIsFalling = true;
-		}
-
-		if (mIsFalling) {
-			mDY += mFallingSpeed;
-			if (mDY < 0 && !mIsJumping)
-				mDY += mStoppingJumpSpeed;
-			if (mDY > mMaxFallSpeed)
-				mDY = mMaxFallSpeed;
+		
+		mX += mDX;
+		mY += mDY;
+		
+//		if (mIsGoingLeft) {
+//			mDX -= mSpeed;
+//			if (mDX < -mMaxSpeed) {
+//				mDX = -mMaxSpeed;
+//			}
+//		} else if (mIsGoingRight) {
+//			mDX += mSpeed;
+//			if (mDX > mMaxSpeed) {
+//				mDX = mMaxSpeed;
+//			}
+//		} else {
+//			if (mDX > 0) {
+//				mDX -= mStoppingSpeed;
+//				if (mDX < 0) {
+//					mDX = 0;
+//				}
+//			} else if (mDX < 0) {
+//				mDX += mStoppingSpeed;
+//				if (mDX > 0) {
+//					mDX = 0;
+//				}
+//			}
+//		}
+//
+//		if ((mIsAttacking) && !(mIsJumping || mIsFalling)) {
+//			mDX = 0;
+//		}
+//
+//		if (mIsJumping && !mIsFalling) {
+//			mDY = mStartingJumpSpeed;
+//			mIsFalling = true;
+//		}
+//
+//		if (mIsFalling) {
+//			mDY += mFallingSpeed;
+//			if (mDY < 0 && !mIsJumping)
+//				mDY += mStoppingJumpSpeed;
+//			if (mDY > mMaxFallSpeed)
+//				mDY = mMaxFallSpeed;
+//		}
+	}
+	
+	
+	public void stop() {
+		mDX = 0;
+	}
+	
+	public void jump() {
+		if (mDY == 0) {
+			System.err.println("@@");
+			mIsJumping = true;
+			mDY = -mJumpingForce;
 		}
 	}
-
+	public void left() {
+		mIsGoingLeft = true;
+		facingRight = false;
+		mDX = -mMovingSpeed;
+	}
+	public void right() {
+		mIsGoingRight = true;
+		facingRight = true;
+		mDX = +mMovingSpeed;
+	}
+	
 	private void setAnimation(int i) {
 		mCurrentAction = i;
 		mCurrentAnimation.setFrames(mSprites.get(mCurrentAction));
@@ -180,11 +224,6 @@ public class Player extends Character {
 		mHeight = mFrameLengths[mCurrentAction];
 
 		System.out.println("SET ANIMATION " + mWidth + " " + mHeight);
-	}
-
-	public void setPosition(double x, double y) {
-		mX = x;
-		mY = y;
 	}
 
 	public void setLeft(boolean b) {
@@ -205,8 +244,31 @@ public class Player extends Character {
 			mDY = 0;
 		}
 	}
+	
 
 	public Rectangle2D getCharacterRect() {
 		return mCharacterRect;
+	}
+
+	@Override
+	public void intersect(GameEntity ge) {
+//		System.err.println("Intesected checked");
+		
+		IntersectType intersectType = isIntersecting(ge);
+		
+		System.out.println(intersectType.name());
+		
+		switch (intersectType) {
+		case UpperLine: case UpperLeftCorner: case UpperRightCorner:
+//			System.out.println("!!!!");
+			mDY = 0;
+			break;
+		case leftLine: case RightLine:
+//			System.err.println("123");
+			mDX = 0;
+		default:
+			break;
+		}
+		
 	}
 }
