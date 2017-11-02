@@ -8,6 +8,8 @@ public class CommonRasters {
 	private static BufferedImage darkBackground;
 	private static BufferedImage playerSptitesheet;
 	
+	private static BufferedImage menuBackgroundImg;
+	
 	public static BufferedImage getLightBackground() {
 		return lightBackground;
 	}
@@ -30,6 +32,14 @@ public class CommonRasters {
 	
 	public static void setPlayerSptitesheet(BufferedImage playerSptitesheet) {
 		CommonRasters.playerSptitesheet = playerSptitesheet;
+	}
+
+	public static BufferedImage getMenuBackgroundImg() {
+		return menuBackgroundImg;
+	}
+
+	public static void setMenuBackgroundImg(BufferedImage menuBackgroundImg) {
+		CommonRasters.menuBackgroundImg = menuBackgroundImg;
 	}
 	
 	
