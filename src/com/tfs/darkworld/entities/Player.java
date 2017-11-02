@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import com.tfs.darkworld.util.ImageUtil;
 
 public class Player extends Character {
-	
+
 	private static final int ACTION_IDLE = 0;
-	//private static final int ACTION_ATTACK = 1;
+	// private static final int ACTION_ATTACK = 1;
 	private static final int ACTION_WALK = 4;
-	private static final int ACTION_JUMP = 1;
+	private static final int ACTION_JUMP = 3;
 	private static final int ACTION_FALL = 1;
 
 	private ArrayList<BufferedImage[]> mSprites;
@@ -26,14 +26,11 @@ public class Player extends Character {
 	protected int mCurrentAction;
 	protected boolean facingRight;
 
-	
-
 	public Player(int sw, int sh) {
 		super(200, 200, 30, 30, 2); // y = sh -200
 
 		mCurrentAnimation = new Animation();
 		facingRight = true;
-
 		mMaxSpeed = 1.6;
 		mStoppingSpeed = 1.6;
 		mFallingSpeed = 0.15;
@@ -49,17 +46,17 @@ public class Player extends Character {
 			mSprites = new ArrayList<BufferedImage[]>();
 			for (int i = 0; i < mNumOfFrames.length; i++) {
 				BufferedImage[] bi = new BufferedImage[mNumOfFrames[i]];
-				
-				System.out.println("RED "+i);
-				
+
+				System.out.println("RED " + i);
+
 				for (int j = 0; j < mNumOfFrames[i]; j++) {
 					bi[j] = spritesheet.getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i]);
-					System.out.println(" frame "+(j * mFrameWidths[i]) + " "+(count)+ " "+ " "+mFrameWidths[i] + " " + mFrameLengths[i]);
+					System.out.println(" frame " + (j * mFrameWidths[i]) + " " + (count) + " " + " " + mFrameWidths[i]
+							+ " " + mFrameLengths[i]);
 				}
 				mSprites.add(bi);
 				count += mFrameLengths[i];
-				
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,18 +69,13 @@ public class Player extends Character {
 		// System.out.println("posle "+width + " " + height);
 
 		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
-
-	}
-
-	public void setmDY(double dy) {
-		mDY = dy;
 	}
 
 	@Override
 	public void update() {
-		//
 
 		getNextPosition();
+		
 		if (mDX == 0) {
 			mX = (int) mX;
 		}
@@ -129,7 +121,8 @@ public class Player extends Character {
 			g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY, null);
 		} else {
 			// System.out.println("LEFT");
-			g.drawImage(mCurrentAnimation.getImage(), (int) (mX + mWidth), (int) (mY), (int) -mWidth, (int) mHeight, null);
+			g.drawImage(mCurrentAnimation.getImage(), (int) (mX + mWidth), (int) (mY), (int) -mWidth, (int) mHeight,
+					null);
 		}
 
 		g.draw(mCharacterRect);
