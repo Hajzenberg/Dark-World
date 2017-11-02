@@ -52,8 +52,22 @@ public class Transition extends GameState
 	}
 	
 	// Staticni poziv, radi lakse upotrebe, pokrenuce proces tranzicije
-	public static void transitionTo(String nextStateName, TransitionType type, float seconds)
-	{
+	public static void transitionTo(String nextStateName, TransitionType type, float seconds) {
+		transitionTo(nextStateName, type, seconds,null);
+	}
+	
+	public static void transitionTo(String nextStateName, TransitionType type, float seconds, ITransitionRoutine routine) {
+		
+		if (routine != null) {
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					routine.doRoutine();
+				}
+			}).start();
+		}
+		
 		// Trazimo stanje po imenu
 		instance.nextState = instance.host.getState(nextStateName);
 		
@@ -81,6 +95,7 @@ public class Transition extends GameState
 		// kontrolu sljedecem stanju (sto se desava kada position stigne do 1).
 		instance.host.setState(instance);
 	}
+	
 
 	@Override
 	public boolean handleWindowClose()
@@ -114,7 +129,6 @@ public class Transition extends GameState
 		// position, tj. ovdje na licu mjesta izracunavamo sve pozicije i velicine oslanjajuci
 		// se samo na tu promjenjivu. Eventualne dodatne tranzicije bi bilo dobro implementirati
 		// na isti nacin, kako bi se zadrzala jednostavnost.
-		
 		switch(type)
 		{
 		case Crossfade:
