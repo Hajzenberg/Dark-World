@@ -1,46 +1,40 @@
 package com.tfs.darkworld.states;
 
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.KeyEvent;
 
-import com.tfs.darkworld.res.Colors;
+import com.tfs.darkworld.loading.transformations.PauseTransformation;
 import com.tfs.darkworld.res.CommonRasters;
-import com.tfs.darkworld.res.GameConstants;
 import com.tfs.darkworld.res.Strings;
-import com.tfs.darkworld.res.fonts.Fonts;
 import com.tfs.darkworld.states.Transition.TransitionType;
 
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
 import rafgfxlib.GameState;
+import rafgfxlib.Util;
 
-public class PauseState extends GameState{
-
-	private Fonts mFonts;
-	private final String pauseText = "Need a break? Pussy";
+public class GameToPauseTransitionState extends GameState  {
 	
-	public PauseState(GameHost host) {
+	private static final PauseTransformation pTransformation = new PauseTransformation();
+	
+	public GameToPauseTransitionState(GameHost host) {
 		super(host);
-		mFonts = new Fonts();
-		//host.renderSnapshot(canvas, state)
-		
 	}
 
 	@Override
 	public boolean handleWindowClose() {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	@Override
 	public String getName() {
-		return Strings.PAUSE_SATE;
+		return Strings.GAME_TO_PAUSE_SATE;
 	}
 
 	@Override
 	public void resumeState() {
-		
+		CommonRasters.setLastTransformedScreenCapture(Util.rasterToImage(pTransformation.process(CommonRasters.getLastScreenCapture().getRaster())));
+		Transition.transitionTo(Strings.PAUSE_SATE, TransitionType.Crossfade, 2f);
 	}
 
 	@Override
@@ -51,15 +45,7 @@ public class PauseState extends GameState{
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
-		
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		g.drawImage(CommonRasters.getLastTransformedScreenCapture(), 0, 0, null);
-//		g.setColor(Colors.ALIZARIN);
-		g.setColor(Colors.MIDNIGHT_BLUE);
-		g.setFont(mFonts.getFont("Phantom Fingers"));
-		g.drawString(pauseText, GameConstants.FRAME_WIDTH/2-300, GameConstants.FRAME_HEIGTH/2);
-		
+		g.drawImage(CommonRasters.getLastScreenCapture(), 0, 0, null);
 	}
 
 	@Override
@@ -88,10 +74,7 @@ public class PauseState extends GameState{
 
 	@Override
 	public void handleKeyDown(int keyCode) {
-		if (keyCode == KeyEvent.VK_P){
-			TransitionType transType = TransitionType.Crossfade;
-			Transition.transitionTo(Strings.GAMEPLAY_SATE, transType, 0.5f);
-		}
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -100,5 +83,10 @@ public class PauseState extends GameState{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+	
+	
 
 }

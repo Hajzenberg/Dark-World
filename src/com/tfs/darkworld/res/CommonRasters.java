@@ -7,6 +7,8 @@ public class CommonRasters {
 	private static BufferedImage lightBackground;
 	private static BufferedImage darkBackground;
 	private static BufferedImage playerSptitesheet;
+	private static BufferedImage lastScreenCapture;
+	private static BufferedImage lastTransformedScreenCapture;
 	
 	public static BufferedImage getLightBackground() {
 		return lightBackground;
@@ -34,5 +36,19 @@ public class CommonRasters {
 	
 	
 	
+	public static void setLastScreenCapture(BufferedImage lastScreenCapture) {
+		CommonRasters.lastScreenCapture = lastScreenCapture;
+	}
+	
+	public static BufferedImage getLastScreenCapture() {
+		return lastScreenCapture;
+	}
+	
+	public static BufferedImage getLastTransformedScreenCapture() {
+		return lastTransformedScreenCapture;
+	}
+	public static void setLastTransformedScreenCapture(BufferedImage lastTransformedScreenCapture) {
+		CommonRasters.lastTransformedScreenCapture = lastTransformedScreenCapture;
+	}
 	
 }

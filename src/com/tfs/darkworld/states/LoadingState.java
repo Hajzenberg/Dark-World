@@ -2,16 +2,13 @@ package com.tfs.darkworld.states;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
 
 import com.tfs.darkworld.loading.AsyncLoader;
 import com.tfs.darkworld.loading.IProgressListener;
 import com.tfs.darkworld.loading.ITaskListener;
 import com.tfs.darkworld.res.Colors;
+import com.tfs.darkworld.res.GameConstants;
 import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
 import com.tfs.darkworld.states.Transition.TransitionType;
@@ -32,26 +29,21 @@ public class LoadingState extends GameState {
 	private String currentTask;
 	private int skip = 0;
 	
+	private final int rectCenterX = GameConstants.FRAME_WIDTH / 2;
+	private final int rectCenterY = GameConstants.FRAME_HEIGTH / 2;
+	
+	
 	private Fonts mFonts;
-
+	private Font f2 = new Font("Phantom Fingers", Font.PLAIN, 15);
+	
 	private AsyncLoader asyncLoader;
-
-	public void setPercent(int percent) {
-		this.percent = percent;
-	}
-
-	public void setCurrentTask(String currentTask) {
-		this.currentTask = currentTask;
-	}
-
-//	private static final int STRING_X_0 = 3;
-//	private static final int STRING_Y_0 = 59;
 
 	public LoadingState(GameHost host, AsyncLoader loader) {
 		super(host);
 		this.asyncLoader = loader;
 		mFonts = new Fonts();
-
+		currentTask = "";
+		
 		loader.setProgressListener(new IProgressListener() {
 
 			@Override
@@ -86,73 +78,32 @@ public class LoadingState extends GameState {
 	}
 
 	@Override
-	public void suspendState() {
-		// TODO Auto-generated method stub
-
-	}
-
-	// TODO Izvuci promenljive na klasni nivo da ne instanciras objekte u svakom
-	// lupu
+	public void suspendState() {}
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		g.setColor(Colors.MIDNIGHT_BLUE);
 		g.fillRect(0, 0, sw, sh);
 		g.setColor(Colors.ALIZARIN);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 
 		g.setFont(mFonts.getFont("Phantom Fingers"));
 
-		AffineTransform old = g.getTransform();
-//		AffineTransform at = new AffineTransform();
+//		AffineTransform old = g.getTransform();
 
-		// Daje 1 piksel manje width i height
-//		Rectangle loadMsg = getStringBounds(g, msStrings[offset], 150, 150);
 
-		// System.out.println("getbounds" + r.width + " " + r.height);
-
-//		int messageCenterX = STRING_X_0 - loadMsg.width / 2;
-//		int messageCenterY = STRING_Y_0 - loadMsg.height / 2;
-//
-		int rectCenterX = 800 / 2;
-		int rectCenterY = 600 / 2;
-
-//		loadMsg.setBounds(rectCenterX, rectCenterY, loadMsg.width, loadMsg.height);
-
-		// Daje pogresne mere, 3 piksela za width i 18 za height
-		// FontMetrics metrics = g.getFontMetrics();
-		// System.out.println("metrics" +
-		// metrics.stringWidth(Strings.LOADING_SATE) + " " +
-		// metrics.getHeight());
-//		at.translate(sw / 2, sh / 2);
-
-		// at.rotate(Math.toRadians(offset));
-		// koja je fora sa primenom at na sam font?
-		// Font f = mFonts.getFont("Phantom Fingers").deriveFont(at);
-		// g.setFont(f);
-//		g.setTransform(at);
 		g.drawString(msStrings[offset], rectCenterX-100, rectCenterY-70);
-
-//		at = new AffineTransform();
-//		at.translate(sw / 2, sh / 2);
-//		g.setTransform(at);
 		g.drawString(percent + " %", rectCenterX-40, rectCenterY+50);
-		if (currentTask != null) {
-			g.setFont(f2);
-			g.drawString(currentTask, rectCenterX-60, rectCenterY + 120);
-		}
-		// g.draw(r);
-		g.setTransform(old);
-
+		
+		g.setFont(f2);
+		g.drawString(currentTask, rectCenterX-60, rectCenterY + 120);
+//		g.setTransform(old);
 	}
 
-	Font f2 = new Font("Phantom Fingers", Font.PLAIN, 15);
+	
 
-	private Rectangle getStringBounds(Graphics2D g2, String str, float x, float y) {
-		FontRenderContext frc = g2.getFontRenderContext();
-		GlyphVector gv = g2.getFont().createGlyphVector(frc, str);
-		return gv.getPixelBounds(null, x, y);
-	}
 	
 	@Override
 	public void update() {
@@ -175,10 +126,6 @@ public class LoadingState extends GameState {
 
 	@Override
 	public void handleMouseUp(int x, int y, GFMouseButton button) {
-		if (button == GFMouseButton.Left) {
-			TransitionType transType = TransitionType.values()[0];
-			Transition.transitionTo(Strings.MENU_SATE, transType, 0.5f);
-		}
 
 	}
 

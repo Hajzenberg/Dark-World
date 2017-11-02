@@ -14,7 +14,7 @@ public class AsyncLoader extends Thread {
 	private IProgressListener internalProgress;
 	private ITaskListener internalTask;
 	
-	private int currentProgress = 0;
+	private float currentProgress = 0;
 	
 	public void setProgressListener(IProgressListener progressListener) {
 		this.progressListener = progressListener;
@@ -39,8 +39,8 @@ public class AsyncLoader extends Thread {
 			@Override
 			public void updateProgress(int progress) {
 				if (progressListener != null) {
-					currentProgress += progress/tasks.size();
-					progressListener.updateProgress(currentProgress);
+					currentProgress += (float)progress/tasks.size();
+					progressListener.updateProgress((int)currentProgress);
 				}
 			}
 		};

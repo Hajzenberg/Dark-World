@@ -3,10 +3,12 @@ package com.tfs.darkworld.states;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import com.tfs.darkworld.entities.Background;
 import com.tfs.darkworld.entities.Player;
 import com.tfs.darkworld.res.Colors;
+import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
 import com.tfs.darkworld.states.Transition.TransitionType;
@@ -21,6 +23,7 @@ public class GameplayState extends GameState {
 	
 	private Background mBackground;
 	private Player mPlayer;
+	
 	
 	public GameplayState(GameHost host) {
 		super(host);
@@ -100,7 +103,6 @@ public class GameplayState extends GameState {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void handleKeyDown(int keyCode) {
 		
@@ -108,11 +110,17 @@ public class GameplayState extends GameState {
 		
 		switch (keyCode) {
 		case KeyEvent.VK_P:
-			transType = TransitionType.values()[2];
-			Transition.transitionTo(Strings.PAUSE_SATE, transType, 0.5f);
+			transType = TransitionType.Crossfade;
+			
+			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
+			renderSnapshot(mImage);
+			CommonRasters.setLastScreenCapture(mImage);
+			
+			host.setState(Strings.GAME_TO_PAUSE_SATE);
+//			Transition.transitionTo(Strings.GAME_TO_PAUSE_SATE, null, 0.5f);
 			break;
 		case KeyEvent.VK_ESCAPE:
-			transType = TransitionType.values()[4];
+			transType = TransitionType.ZoomOut;
 			Transition.transitionTo(Strings.MENU_SATE, transType, 0.5f);
 			break;
 

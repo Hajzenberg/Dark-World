@@ -1,10 +1,7 @@
 package com.tfs.darkworld.states;
 
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
 
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.Strings;
