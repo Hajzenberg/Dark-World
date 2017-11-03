@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.CommonRasters;
@@ -23,12 +25,11 @@ public class MenuState extends GameState{
 	private Fonts mFonts;
 	private int rectCenterX = 800 / 2;
 	private int rectCenterY = 600 / 2;
-	private float offset = 0.5f;
-	private float titleSize = 0;
-	private int frames = 0;
 	private Rectangle rectStart;
 	private Rectangle rectAbout;
 	private Rectangle rectExit;
+	private float scaleDelta = 0.001f;
+	private float currentScale = 1f;
 	
 	Font titleFont = new Font("Phantom Fingers", Font.PLAIN, 50);
 	public MenuState(GameHost host) {
@@ -37,7 +38,6 @@ public class MenuState extends GameState{
 		rectStart = new Rectangle (rectCenterX - 85, rectCenterY - 25, 200, 100);
 		rectAbout = new Rectangle (rectCenterX - 160, rectCenterY + 75, 350, 100);
 		rectExit = new Rectangle (rectCenterX - 85, rectCenterY + 175, 150, 100);
-		titleSize = mFonts.getFont("Phantom Fingers").getSize();
 	}
 
 	@Override
@@ -79,27 +79,9 @@ public class MenuState extends GameState{
 
 	@Override
 	public void update() {
-		frames--;
-		if(frames <= 0)
-		{
-			frames = 60;
-			offset = -offset;
+		if (currentScale > 1.3 || currentScale < 1) {
+			scaleDelta *= -1;
 		}
-//		if(frames <= 60)
-//		{
-//			
-//			titleSize = (titleSize + offset) %65;
-//			
-//		}
-//		if(frames < 30)
-//		{
-//			offset = -offset;
-//			titleSize = (titleSize - offset) % 65;
-//		}
-		titleSize = (titleSize + offset) %100;
-		
-		
-		System.out.println(titleSize);
 	}
 
 	@Override
@@ -158,8 +140,19 @@ public class MenuState extends GameState{
 	}
 	private void setTitle(Graphics2D g){
 		g.setColor(Colors.ALIZARIN);
-		g.setFont(mFonts.getFont("Phantom Fingers").deriveFont(Font.PLAIN, 48));
-		g.drawString(Strings.MENU_SATE, rectCenterX - 150, rectCenterY - 200);
+		g.setFont(mFonts.getFont("Phantom Fingers"));
+		currentScale += scaleDelta;
+		AffineTransform old = g.getTransform();
+		AffineTransform at = new AffineTransform();
+		at.scale(currentScale, currentScale);
+		g.setTransform(at);
+		Rectangle2D rect = getStringBounds(g, Strings.MENU_SATE, 0,0);
+		int x = rectCenterX - (int)rect.getWidth()/2;
+		int y = rectCenterY - (int)rect.getHeight()/2 - 100;
+		
+		g.drawString(Strings.MENU_SATE, x, y);
+		
+		g.setTransform(old);
 	}
 	
 	private void setStart(Graphics2D g){
