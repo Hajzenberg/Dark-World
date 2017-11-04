@@ -98,28 +98,7 @@ public abstract class GameEntity {
 		None;	
 	}
 	
-	
-//	public static enum IntersectType {
-//		UpperLine,
-//		BottomLine,
-//		leftLine,
-//		RightLine,
-//		Inside,
-//		None;	
-//	}
-	
-	/*
-	 *  p1 ----- p2
-	 *  |        |
-	 *  |        |
-	 * 	p3 ----- p4
-	 * 
-	 */
-	
-	
-	
 	/**
-	 * Ja secem prosledjeni entitet
 	 * @param ge
 	 * @return
 	 */

@@ -33,7 +33,7 @@ public class Background extends GameEntity {
 		g.setColor(Colors.LIGHT_GREEN);
 		g.fill(mSkyRect);
 		g.draw(mSkyRect);
-		g.setColor(Colors.BROWN);
+//		g.setColor(Colors.BROWN);
 		g.fill(mGroundRect);
 		
 		g.drawImage(mBackGround,  (int)(mScale*mX), (int)(mY), null);

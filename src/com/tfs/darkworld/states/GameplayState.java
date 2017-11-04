@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.beans.beancontext.BeanContextChildComponentProxy;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -51,7 +52,7 @@ public class GameplayState extends GameState {
 	// private GameEntity[] gravityAffectedEntities = {mPlayer};
 
 	private final double gravity = 0.0015;
-	private final double airResistance = 0.99;
+	private final double airResistance = 0.988;
 
 	private Random rnd;
 
@@ -64,23 +65,26 @@ public class GameplayState extends GameState {
 		compositeGround = new LinkedList<Box>();
 
 		recycledGroundTiles = new LinkedList<>();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 10; i++) {
 			Ground ground = new Ground();
 			ground.setPosition(i * Ground.TILE_WIDTH, 500);
-			compositeGround.add(ground);
-			// recycledGroundTiles.add(ground);
+			recycledGroundTiles.add(ground);
 		}
 
 		recycledLavaTiles = new LinkedList<>();
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 10; i++) {
 			Lava lava = new Lava();
-			lava.setPosition(i * Lava.LAVA_WIDTH, 500);
+			lava.setPosition(i * Lava.LAVA_WIDTH, 520);
 			// compositeGround.add(lava);
 			recycledLavaTiles.add(lava);
 		}
 
-		mPlayer.setPosition(100, 200);
+		for (int i = 0; i < 5; i++) {
+			compositeGround.add(recycledGroundTiles.poll());
+		}
+
+		mPlayer.setPosition(100, 400);
 
 		// entities = new ArrayList<>();
 		// entities.add(mPlayer);
@@ -137,29 +141,26 @@ public class GameplayState extends GameState {
 			float n = rnd.nextFloat();
 
 			Box box = null;
-			
-			if (n < 0.75f) {
-				if (!recycledGroundTiles.isEmpty()) {
-					box = recycledGroundTiles.poll();
-					
-				}
-			} else {
-				if (!recycledLavaTiles.isEmpty()) {
-					box = recycledLavaTiles.poll();
-				}
+
+			if (!(compositeGround.getLast() instanceof Ground)) {
+				box = recycledGroundTiles.poll();
 			}
-			
+			else if (n < 0.75f) {
+				box = recycledGroundTiles.poll();
+			} else {
+				box = recycledLavaTiles.poll();
+			}
+
 			if (box == null) {
 				System.err.println("Recycling failed!");
 				return;
 			}
-			
-			
+
 			Box last = compositeGround.getLast();
 			box.setPosition(last.getX() + last.getWidth(), box.getY());
 			box.setDX(last.getDX());
 			compositeGround.addLast(box);
-			
+
 		}
 	}
 
@@ -188,7 +189,6 @@ public class GameplayState extends GameState {
 		for (Box b : compositeGround) {
 			b.update();
 		}
-
 
 		if (host.isKeyDown(KeyEvent.VK_A)) {
 			mPlayer.left();
