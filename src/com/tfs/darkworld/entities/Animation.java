@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 
 public class Animation {
 	
-	private IFinishingAnimationListener finishingAnimationListeners;
 	private BufferedImage[] mFrames;
 	private int mCurrentFrameIndex;
 	private int mNumOfFrames;
@@ -23,9 +22,6 @@ public class Animation {
 	}
 	
 	
-	public void setFinishingAnimationListeners(IFinishingAnimationListener finishingAnimationListeners) {
-		this.finishingAnimationListeners = finishingAnimationListeners;
-	}
 	public void setFrameInterval(int i) { mFrameInterval = i; }
 	public void setFrame(int i) { mCurrentFrameIndex = i; }
 	public void setNumFrames(int i) { mNumOfFrames = i; }
@@ -45,12 +41,6 @@ public class Animation {
 			mCurrentFrameIndex = 0;
 			mTimesPlayed++;
 		}
-		if (mCurrentFrameIndex == mNumOfFrames -1) {
-			if (finishingAnimationListeners != null) {
-				finishingAnimationListeners.animationFinished();
-			}
-		}
-		
 	}
 	
 	public int getFrame() { return mCurrentFrameIndex; }
@@ -58,5 +48,6 @@ public class Animation {
 	public BufferedImage getImage() { return mFrames[mCurrentFrameIndex]; }
 	public boolean hasPlayedOnce() { return mTimesPlayed > 0; }
 	public boolean hasPlayed(int i) { return mTimesPlayed == i; }
+	public boolean isLastFrame() { return mCurrentFrameIndex == mNumOfFrames-1; }
 	
 }

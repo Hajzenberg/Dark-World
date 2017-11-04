@@ -32,15 +32,6 @@ public class Player extends Character {
 		return officialyDead;
 	}
 
-	private IFinishingAnimationListener[] listeners = { null, new IFinishingAnimationListener() {
-
-		@Override
-		public void animationFinished() {
-			System.out.println("Anim finished.");
-			officialyDead = true;
-		}
-	}, null, null, null, null };
-
 	/*
 	 * private static final int ACTION_IDLE = 0; // private static final int
 	 * ACTION_ATTACK = 1; private static final int ACTION_WALK = 4; private static
@@ -95,6 +86,12 @@ public class Player extends Character {
 
 	@Override
 	public void update() {
+
+		if (mCurrentAction == ACTION_DIE) {
+			if (mCurrentAnimation.isLastFrame()) {
+				officialyDead = true;
+			}
+		}
 
 		if (mIsAlive) {
 			if (mDX > 0) {
@@ -175,23 +172,29 @@ public class Player extends Character {
 	}
 
 	public void jump() {
-		if (mDY == 0) {
-			setAnimation(ACTION_JUMP);
-			mIsJumping = true;
-			mDY = -mJumpingForce;
+		if (mIsAlive) {
+			if (mDY == 0) {
+				setAnimation(ACTION_JUMP);
+				mIsJumping = true;
+				mDY = -mJumpingForce;
+			}
 		}
 	}
 
 	public void left() {
-		mIsGoingLeft = true;
-		// facingRight = false;
-		mDX = -mSpeed;
+		if (mIsAlive) {
+			mIsGoingLeft = true;
+			// facingRight = false;
+			mDX = -mSpeed;
+		}
 	}
 
 	public void right() {
-		mIsGoingRight = true;
-		// facingRight = true;
-		mDX = +mSpeed;
+		if (mIsAlive) {
+			mIsGoingRight = true;
+			// facingRight = true;
+			mDX = +mSpeed;
+		}
 	}
 
 	private void setAnimation(int i) {
@@ -200,7 +203,6 @@ public class Player extends Character {
 		mCurrentAnimation.setFrameInterval(mFrameIntervals[mCurrentAction]);
 		mWidth = mFrameWidths[mCurrentAction];
 		mHeight = mFrameLengths[mCurrentAction];
-		mCurrentAnimation.setFinishingAnimationListeners(listeners[mCurrentAction]);
 		// System.out.println("SET ANIMATION " + mWidth + " " + mHeight);
 	}
 
