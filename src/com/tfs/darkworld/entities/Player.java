@@ -83,7 +83,7 @@ public class Player extends Character {
 				BufferedImage[] bi = new BufferedImage[mNumOfFrames[i]];
 
 				for (int j = 0; j < mNumOfFrames[i]; j++) {
-					bi[j] = spritesheet.getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i]);
+					bi[j] = spritesheet.getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i]).getSubimage(0, 0, mFrameWidths[i], mFrameLengths[i]);
 //					System.out.println(" frame " + (j * mFrameWidths[i]) + " " + (count) + " " + " " + mFrameWidths[i]
 //							+ " " + mFrameLengths[i]);
 				}
@@ -163,14 +163,14 @@ public class Player extends Character {
 	public void render(Graphics2D g, int sw, int sh) {
 		// System.out.println(mX+" "+mY);
 		// if (facingRight) {
-		g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY, null);
+		g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY+3, null);
 
 		// } else {
 		// g.drawImage(mCurrentAnimation.getImage(), (int) (mX + mWidth), (int) (mY),
 		// (int) -mWidth, (int) mHeight, null);
 		// }
 		// g.drawRect((int)mX,(int)mY,(int) mWidth,(int) mHeight);
-//		g.draw(mCharacterRect);
+		g.draw(mCharacterRect);
 	}
 
 	private double boundGreater(double x, double boundary) {

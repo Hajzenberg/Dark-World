@@ -17,7 +17,7 @@ public class SkyGenerator {
 	}
 
 	public WritableRaster generateSky() {
-		return gpGenerator.generateGradientPerlin(12, 0.7f, gradient);
+		return gpGenerator.generateGradientPerlin(10, 0.7f, gradient);
 	}
 
 }

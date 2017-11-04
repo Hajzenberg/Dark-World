@@ -11,6 +11,7 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.CommonRasters;
@@ -18,6 +19,7 @@ import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
 import com.tfs.darkworld.states.Transition.TransitionType;
 
+import jaco.mp3.player.MP3Player;
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
 import rafgfxlib.GameState;
@@ -34,12 +36,17 @@ public class MenuState extends GameState{
 	private float currentScale = 1f;
 	private AffineTransform old;
 	
+	private MP3Player mp3Player;
+	
 	private Particle[] parts = new Particle[PARTICLE_MAX];
 	private static final int PARTICLE_MAX = 100;
 	
 	public MenuState(GameHost host) {
 		super(host);
 		mFonts = new Fonts();
+		
+		mp3Player = new MP3Player(new File("music/mercy_in_darkness.mp3"));
+		
 		rectStart = new Rectangle (rectCenterX - 85, rectCenterY - 25, 200, 100);
 		rectAbout = new Rectangle (rectCenterX - 160, rectCenterY + 75, 350, 100);
 		rectExit = new Rectangle (rectCenterX - 85, rectCenterY + 175, 150, 100);
@@ -62,13 +69,13 @@ public class MenuState extends GameState{
 
 	@Override
 	public void resumeState() {
-		// TODO Auto-generated method stub
+		mp3Player.play();
 		
 	}
 
 	@Override
 	public void suspendState() {
-		// TODO Auto-generated method stub
+		mp3Player.pause();
 	}
 	
 	@Override
@@ -134,13 +141,13 @@ public class MenuState extends GameState{
 	@Override
 	public void handleMouseMove(int x, int y) {
 		Point2D p = new Point(x, y);
-		if(rectStart.contains(p)) 	 startFlag = Color.CYAN;
+		if(rectStart.contains(p)) 	 startFlag = Colors.POMEGRANATE;
 		else 						 startFlag = Colors.ALIZARIN;
 		
-		if(rectAbout.contains(p)) aboutFlag = Color.CYAN;
+		if(rectAbout.contains(p)) aboutFlag = Colors.POMEGRANATE;
 		else 						 aboutFlag = Colors.ALIZARIN;
 		
-		if(rectExit.contains(p))  exitFlag = Color.CYAN;
+		if(rectExit.contains(p))  exitFlag = Colors.POMEGRANATE;
 		else 						 exitFlag = Colors.ALIZARIN;
 		
 	}
