@@ -2,6 +2,7 @@ package com.tfs.darkworld.entities;
 
 import java.awt.Graphics2D;
 
+
 public abstract class GameEntity {
 
 	protected double mX;
@@ -12,18 +13,159 @@ public abstract class GameEntity {
 	protected double mDY;
 	protected double mSpeed;
 	
-	public GameEntity(double x, double y, double width, double height, double speed) {
+	protected double mass;
+	
+	public double getMass() {
+		return mass;
+	}
+	
+	
+	
+	/*
+	 *  p1 ----- p2
+	 *  |        |
+	 *  |        |
+	 * 	p3 ----- p4
+	 * 
+	 */
+	
+	protected double getPX1() {
+		return mX;
+	}
+	protected double getPY1() {
+		return mY;
+	}
+	protected double getPX2() {
+		return mX+mWidth;
+	}
+	protected double getPY2() {
+		return mY;
+	}
+	protected double getPX3() {
+		return mX;
+	}
+	protected double getPY3() {
+		return mY+mHeight;
+	}
+	protected double getPX4() {
+		return mX+mWidth;
+	}
+	protected double getPY4() {
+		return mY+mHeight;
+	}
+	
+	
+	
+	
+	public GameEntity(double x, double y, double width, double height, double speed, double mass) {
 		mX = x;
 		mY = y;
 		mWidth = width;
 		mHeight = height;
 		mSpeed = speed;
+		this.mass = mass;
 	}
 
 	public abstract void update();
 
 	public abstract void render(Graphics2D g, int sw, int sh);
-
+	
+	public abstract void intersect(GameEntity ge);
+//	public abstract void intersectRoutine(GameEntity ge);
+	
+	public static enum IntersectType {
+		UpperLine,
+		BottomLine,
+		leftLine,
+		RightLine,
+		UpperRightCorner,
+		UpperLeftCorner,
+		BottomRightCorner,
+		BottomLeftCorner,
+		Inside,
+		None;	
+	}
+	
+	
+//	public static enum IntersectType {
+//		UpperLine,
+//		BottomLine,
+//		leftLine,
+//		RightLine,
+//		Inside,
+//		None;	
+//	}
+	
+	/*
+	 *  p1 ----- p2
+	 *  |        |
+	 *  |        |
+	 * 	p3 ----- p4
+	 * 
+	 */
+	
+	
+	
+	/**
+	 * Ja secem prosledjeni entitet
+	 * @param ge
+	 * @return
+	 */
+	public IntersectType isIntersecting(GameEntity ge) {
+		
+		boolean pInside1 = isInsideSquare(getPX1(), getPY1(),ge.getPX1(), ge.getPY1(), ge.getPX4(), ge.getPY4());
+		boolean pInside2 = isInsideSquare(getPX2(), getPY2(),ge.getPX1(), ge.getPY1(), ge.getPX4(), ge.getPY4());
+		boolean pInside3 = isInsideSquare(getPX3(), getPY3(),ge.getPX1(), ge.getPY1(), ge.getPX4(), ge.getPY4());
+		boolean pInside4 = isInsideSquare(getPX4(), getPY4(),ge.getPX1(), ge.getPY1(), ge.getPX4(), ge.getPY4());
+		
+		if (pInside1 && pInside2 && pInside3 && pInside4) {
+			return IntersectType.Inside;
+		}
+		else if (pInside1 && pInside2) {
+			return IntersectType.BottomLine;
+		}
+		else if (pInside2 && pInside3) {
+			return IntersectType.leftLine;
+		}
+		else if (pInside3 && pInside4) {
+			return IntersectType.UpperLine;
+		}
+		else if (pInside4 && pInside1) {
+			return IntersectType.RightLine;
+		}
+		else if (pInside1) {
+			return IntersectType.BottomRightCorner;
+		}
+		else if (pInside2) {
+			return IntersectType.BottomLeftCorner;
+		}
+		else if (pInside3) {
+			return IntersectType.UpperLeftCorner;
+		}
+		else if (pInside4) {
+			return IntersectType.UpperRightCorner;
+		}
+		return IntersectType.None;
+		
+	}
+	
+	/**
+	 * @param x
+	 * @param y
+	 * @param px1 gornji levi
+	 * @param py1
+	 * @param px2 dosni denji
+	 * @param py2
+	 * @return
+	 */
+	public boolean isInsideSquare(double x, double y, double px1,double py1, double px2, double py2) {
+		if (x >= px1 && x <= px2 && y >= py1 && y <= py2) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 	public double getX() {
 		return mX;
 	}

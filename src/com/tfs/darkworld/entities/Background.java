@@ -17,7 +17,7 @@ public class Background extends GameEntity {
 	private double mScale;
 
 	public Background(int sw, int sh) {
-		super(0, 0, 0, 0, 0);
+		super(0, 0, 0, 0, 0, 0);
 		mSkyRect = new Rectangle(0, 0, sw, sh);
 		mGroundRect = new Rectangle(0, sh - 100, sw, sh);
 		mScale = 0.6;
@@ -42,6 +42,12 @@ public class Background extends GameEntity {
 
 	public Rectangle getGroundRect() {
 		return mGroundRect;
+	}
+
+	@Override
+	public void intersect(GameEntity ge) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	//set x iz gamestate-a
