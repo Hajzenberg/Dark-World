@@ -115,16 +115,9 @@ public class Player extends Character {
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
 
-		// System.out.println(x + " " + y + " mDX " + mDX + "mDY " + mDY);
-
-//		mX += mDX;
-//		mY += mDY;
-
 		if (facingRight) {
-			// System.out.println("RIGHT");
 			g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY, null);
 		} else {
-			// System.out.println("LEFT");
 			g.drawImage(mCurrentAnimation.getImage(), (int) (mX + mWidth), (int) (mY), (int) -mWidth, (int) mHeight, null);
 		}
 
@@ -151,46 +144,6 @@ public class Player extends Character {
 		mX += mDX;
 		mY += mDY;
 		
-//		if (mIsGoingLeft) {
-//			mDX -= mSpeed;
-//			if (mDX < -mMaxSpeed) {
-//				mDX = -mMaxSpeed;
-//			}
-//		} else if (mIsGoingRight) {
-//			mDX += mSpeed;
-//			if (mDX > mMaxSpeed) {
-//				mDX = mMaxSpeed;
-//			}
-//		} else {
-//			if (mDX > 0) {
-//				mDX -= mStoppingSpeed;
-//				if (mDX < 0) {
-//					mDX = 0;
-//				}
-//			} else if (mDX < 0) {
-//				mDX += mStoppingSpeed;
-//				if (mDX > 0) {
-//					mDX = 0;
-//				}
-//			}
-//		}
-//
-//		if ((mIsAttacking) && !(mIsJumping || mIsFalling)) {
-//			mDX = 0;
-//		}
-//
-//		if (mIsJumping && !mIsFalling) {
-//			mDY = mStartingJumpSpeed;
-//			mIsFalling = true;
-//		}
-//
-//		if (mIsFalling) {
-//			mDY += mFallingSpeed;
-//			if (mDY < 0 && !mIsJumping)
-//				mDY += mStoppingJumpSpeed;
-//			if (mDY > mMaxFallSpeed)
-//				mDY = mMaxFallSpeed;
-//		}
 	}
 	
 	
@@ -200,7 +153,6 @@ public class Player extends Character {
 	
 	public void jump() {
 		if (mDY == 0) {
-			System.err.println("@@");
 			mIsJumping = true;
 			mDY = -mJumpingForce;
 		}
@@ -256,12 +208,15 @@ public class Player extends Character {
 		
 		IntersectType intersectType = isIntersecting(ge);
 		
-		System.out.println(intersectType.name());
+//		System.out.println(intersectType.name());
 		
 		switch (intersectType) {
 		case UpperLine: case UpperLeftCorner: case UpperRightCorner:
 //			System.out.println("!!!!");
 			mDY = 0;
+			
+			mY = (ge.getPY1()-mHeight);
+			
 			break;
 		case leftLine: case RightLine:
 //			System.err.println("123");
