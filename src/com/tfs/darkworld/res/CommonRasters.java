@@ -11,7 +11,7 @@ public class CommonRasters {
 	private static BufferedImage lastTransformedScreenCapture;
 	
 	private static BufferedImage menuBackgroundImg;
-	
+	private static BufferedImage partImg;
 	public static BufferedImage getLightBackground() {
 		return lightBackground;
 	}
@@ -59,6 +59,14 @@ public class CommonRasters {
 	}
 	public static void setLastTransformedScreenCapture(BufferedImage lastTransformedScreenCapture) {
 		CommonRasters.lastTransformedScreenCapture = lastTransformedScreenCapture;
+	}
+
+	public static BufferedImage getParticleImg() {
+		return partImg;
+	}
+
+	public static void setParticleImg(BufferedImage partImg) {
+		CommonRasters.partImg = partImg;
 	}
 	
 }
