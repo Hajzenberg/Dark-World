@@ -26,7 +26,7 @@ public class Background extends GameEntity {
 
 	@Override
 	public void update() {
-		mX--;
+		mX-=0.4;
 
 		if (mAlphaOffset >= 1 || mAlphaOffset <= 0) {
 			mDeltaAlphaOffset = -1f * mDeltaAlphaOffset;
