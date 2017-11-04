@@ -46,10 +46,10 @@ public class Player extends Character {
 
 	public Player(int sw, int sh) {
 
-		super(30, 30, 1.3, 70);
+		super(30, 30, 1.3, 10);
 
 		mCurrentAnimation = new Animation();
-		mJumpingForce = 6;
+		mJumpingForce = 5;
 
 		try {
 
@@ -112,7 +112,7 @@ public class Player extends Character {
 		// (int) -mWidth, (int) mHeight, null);
 		// }
 		// g.drawRect((int)mX,(int)mY,(int) mWidth,(int) mHeight);
-		g.draw(mCharacterRect);
+//		g.draw(mCharacterRect);
 	}
 
 	private double boundGreater(double x, double boundary) {
