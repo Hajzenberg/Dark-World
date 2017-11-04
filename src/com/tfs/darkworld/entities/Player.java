@@ -18,6 +18,7 @@ public class Player extends Character {
 	private static final int ACTION_JUMP = 5;
 	private static final int ACTION_FALL = 2;
 	//private static final int ACTION_RUN = 3;
+	private static final int ACTION_DIE = 1;
 
 	private ArrayList<BufferedImage[]> mSprites;
 
@@ -45,7 +46,7 @@ public class Player extends Character {
 
 	public Player(int sw, int sh) {
 
-		super(30, 30, 1.3, 30);
+		super(30, 30, 1.3, 70);
 
 		mCurrentAnimation = new Animation();
 		mJumpingForce = 6;
@@ -80,7 +81,11 @@ public class Player extends Character {
 	public void update() {
 
 		if (mDY == 0) {
-			mIsJumping = false;
+			
+			if (mIsJumping){
+				setAnimation(ACTION_WALK);
+				mIsJumping = false;
+			}
 		}
 
 		getNextPosition();
@@ -107,7 +112,7 @@ public class Player extends Character {
 		// (int) -mWidth, (int) mHeight, null);
 		// }
 		// g.drawRect((int)mX,(int)mY,(int) mWidth,(int) mHeight);
-//		g.draw(mCharacterRect);
+		g.draw(mCharacterRect);
 	}
 
 	private double boundGreater(double x, double boundary) {
@@ -135,6 +140,7 @@ public class Player extends Character {
 
 	public void jump() {
 		if (mDY == 0) {
+			setAnimation(ACTION_JUMP);
 			mIsJumping = true;
 			mDY = -mJumpingForce;
 		}
@@ -182,6 +188,7 @@ public class Player extends Character {
 	}
 
 	public void die() {
+		setAnimation(ACTION_DIE);
 		System.err.println("Just died!");
 	}
 

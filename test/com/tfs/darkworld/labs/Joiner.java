@@ -22,6 +22,7 @@ public class Joiner {
 	private static final int FRAME_HEIGHT = 128;
 	private static final String PATH_TO_DIR = "design/resized";
 	private static final String PATH_TO_FINAL_IMAGE = "design/character_sheet.png";
+	
 
 	public static void main(String[] args) {
 
