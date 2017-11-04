@@ -181,7 +181,7 @@ public class GameplayState extends GameState {
 		for (Box b : compositeGround) {
 			b.update();
 		}
-
+		
 		if (host.isKeyDown(KeyEvent.VK_A)) {
 			mPlayer.left();
 		}
@@ -194,9 +194,20 @@ public class GameplayState extends GameState {
 		if (host.isKeyDown(KeyEvent.VK_W)) {
 			mPlayer.jump();
 		}
-
+		
 		mPlayer.update();
 		mBackground.update();
+		
+		if (!mPlayer.isIsAlive()) {
+			changeSpeed(0);
+		}
+		
+		if (mPlayer.isOfficialyDead()) {
+			BufferedImage mImage = new BufferedImage(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH, BufferedImage.TYPE_3BYTE_BGR);
+			renderSnapshot(mImage);
+			CommonRasters.setDyingSnapshot(mImage);
+			Transition.transitionTo(Strings.GAME_TO_RETRY_SATE, TransitionType.Crossfade, 1f);
+		}
 	}
 
 	public void affectGraviation(GameEntity ge) {
@@ -209,9 +220,11 @@ public class GameplayState extends GameState {
 	}
 
 	public void findIntersections() {
-		for (Box b : compositeGround) {
-			mPlayer.intersect(b);
-		}
+//		if (mPlayer.isIsAlive()) {
+			for (Box b : compositeGround) {
+				mPlayer.intersect(b);
+			}
+//		}
 	}
 
 	@Override
@@ -235,11 +248,8 @@ public class GameplayState extends GameState {
 	@Override
 	public void handleKeyDown(int keyCode) {
 
-		TransitionType transType = null;
-
 		switch (keyCode) {
 		case KeyEvent.VK_P:
-			transType = TransitionType.Crossfade;
 
 			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
@@ -249,8 +259,7 @@ public class GameplayState extends GameState {
 			// Transition.transitionTo(Strings.GAME_TO_PAUSE_SATE, null, 0.5f);
 			break;
 		case KeyEvent.VK_ESCAPE:
-			transType = TransitionType.ZoomOut;
-			Transition.transitionTo(Strings.MENU_SATE, transType, 0.5f);
+			Transition.transitionTo(Strings.MENU_SATE, TransitionType.ZoomOut, 0.5f);
 			break;
 		default:
 			break;
@@ -262,11 +271,11 @@ public class GameplayState extends GameState {
 		switch (keyCode) {
 		case KeyEvent.VK_D:
 			mPlayer.stop();
-			mPlayer.setRight(false);
+//			mPlayer.setRight(false);
 			break;
 		case KeyEvent.VK_A:
 			mPlayer.stop();
-			mPlayer.setLeft(false);
+//			mPlayer.setLeft(false);
 			break;
 		default:
 			break;

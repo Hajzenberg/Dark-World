@@ -6,7 +6,8 @@ public class CommonRasters {
 
 	private static BufferedImage lastScreenCapture;
 	private static BufferedImage lastTransformedScreenCapture;
-
+	private static BufferedImage dyingSnapshot;
+	
 	/* Menu */
 	private static BufferedImage menuBackgroundImg;
 	private static BufferedImage partImg;
@@ -100,5 +101,13 @@ public class CommonRasters {
 	public static void setMountainBackground(BufferedImage mountainBackground) {
 		CommonRasters.mountainBackground = mountainBackground;
 	}
-
+	
+	public static BufferedImage getDyingSnapshot() {
+		return dyingSnapshot;
+	}
+	
+	public static void setDyingSnapshot(BufferedImage dyingSnapshot) {
+		CommonRasters.dyingSnapshot = dyingSnapshot;
+	}
+	
 }
