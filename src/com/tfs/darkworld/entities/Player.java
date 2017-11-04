@@ -28,7 +28,7 @@ public class Player extends Character {
 	
 	
 	public Player(int sw, int sh) {
-		super(200, 440, 30, 30, 2, 50);
+		super(200, 300, 30, 30, 2, 50);
 		mCurrentAnimation = new Animation();
 		facingRight = true;
 		mMovingSpeed = 1.8;
