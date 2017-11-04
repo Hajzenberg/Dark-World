@@ -13,6 +13,15 @@ public class CommonRasters {
 	private static BufferedImage menuBackgroundImg;
 	private static BufferedImage partImg;
 	private static BufferedImage groundTile;
+	private static BufferedImage lavaTile;
+	
+	public static BufferedImage getLavaTile() {
+		return lavaTile;
+	}
+	
+	public static void setLavaTile(BufferedImage lavaTile) {
+		CommonRasters.lavaTile = lavaTile;
+	}
 	
 	public static BufferedImage getGroundTile() {
 		return groundTile;

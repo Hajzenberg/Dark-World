@@ -190,7 +190,7 @@ public abstract class GameEntity {
 		return mSpeed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(double speed) {
 		mSpeed = speed;
 	}
 

@@ -169,30 +169,27 @@ public class Player extends Character {
 		}
 	}
 	
-
+	public void die() {
+		System.err.println("Just died!");
+	}
+	
+	
 	public Rectangle2D getCharacterRect() {
 		return mCharacterRect;
 	}
 
 	@Override
 	public void intersect(GameEntity ge) {
-//		System.err.println("Intesected checked");
-		
 		IntersectType intersectType = isIntersecting(ge);
-		
-//		System.out.println(intersectType.name());
 		
 		switch (intersectType) {
 		case UpperLine: case UpperLeftCorner: case UpperRightCorner:
-//			System.out.println("!!!!");
+			if (ge instanceof Lava) {
+				die();
+			}
 			mDY = 0;
-			
 			mY = (ge.getPY1()-mHeight);
-			
 			break;
-		case leftLine: case RightLine:
-//			System.err.println("123");
-			mDX = 0;
 		default:
 			break;
 		}

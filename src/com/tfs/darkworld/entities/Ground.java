@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import com.tfs.darkworld.res.CommonRasters;
 
 public class Ground extends Box {
-	public static final double TILE_WIDTH = 300;
-	public static final double TILE_HEIGHT = 170;
+	public static final double TILE_WIDTH = 320;
+	public static final double TILE_HEIGHT = 320;
 	
 	public Ground() {
 		super(TILE_WIDTH, TILE_HEIGHT);
@@ -21,8 +21,8 @@ public class Ground extends Box {
 
 	@Override
 	public void update() {
-		mX -= mDX;
-		mDY -= mDY;
+		mX += mDX;
+		mY += mDY;
 	}
 
 
