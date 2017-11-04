@@ -7,16 +7,15 @@ public abstract class Character extends GameEntity{
 	protected Rectangle2D mCharacterRect;
 	
 	protected boolean mIsAttacking;
-	protected boolean mIsGoingLeft;
 	protected boolean mIsGoingRight;
+	protected boolean mIsGoingLeft;
 	protected boolean mIsJumping;
 	protected boolean mIsFalling;
 
-	protected double mMovingSpeed;
 	protected double mJumpingForce;
 	
-	public Character(double x, double y, double width, double height, double speed, double mass) {
-		super(x, y, width, height, speed, mass);
+	public Character(double width, double height, double speed, double mass) {
+		super(width, height, mass, speed);
 	}
 	
 	public Rectangle2D getCharacterRect() {

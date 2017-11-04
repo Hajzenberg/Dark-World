@@ -15,6 +15,15 @@ public abstract class GameEntity {
 	
 	protected double mass;
 	
+	public double getHeight() {
+		return mHeight;
+	}
+	
+	public double getWidth() {
+		return mWidth;
+	}
+	
+	
 	public double getMass() {
 		return mass;
 	}
@@ -55,16 +64,19 @@ public abstract class GameEntity {
 	}
 	
 	
+	public GameEntity(double width, double height, double mass) {
+		this(width, height, mass, 0);
+	}
 	
-	
-	public GameEntity(double x, double y, double width, double height, double speed, double mass) {
-		mX = x;
-		mY = y;
+	public GameEntity(double width, double height, double mass, double speed) {
+		mX = 0;
+		mY = 0;
 		mWidth = width;
 		mHeight = height;
 		mSpeed = speed;
 		this.mass = mass;
 	}
+	
 
 	public abstract void update();
 
@@ -86,28 +98,7 @@ public abstract class GameEntity {
 		None;	
 	}
 	
-	
-//	public static enum IntersectType {
-//		UpperLine,
-//		BottomLine,
-//		leftLine,
-//		RightLine,
-//		Inside,
-//		None;	
-//	}
-	
-	/*
-	 *  p1 ----- p2
-	 *  |        |
-	 *  |        |
-	 * 	p3 ----- p4
-	 * 
-	 */
-	
-	
-	
 	/**
-	 * Ja secem prosledjeni entitet
 	 * @param ge
 	 * @return
 	 */
@@ -178,7 +169,7 @@ public abstract class GameEntity {
 		return mSpeed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(double speed) {
 		mSpeed = speed;
 	}
 

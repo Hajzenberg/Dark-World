@@ -17,7 +17,7 @@ public class Background extends GameEntity {
 	private double mScale;
 
 	public Background(int sw, int sh) {
-		super(0, 0, 0, 0, 0, 0);
+		super(0, 0, 0);
 		mSkyRect = new Rectangle(0, 0, sw, sh);
 		mGroundRect = new Rectangle(0, sh - 100, sw, sh);
 		mScale = 0.6;
@@ -33,7 +33,7 @@ public class Background extends GameEntity {
 		g.setColor(Colors.LIGHT_GREEN);
 		g.fill(mSkyRect);
 		g.draw(mSkyRect);
-		g.setColor(Colors.BROWN);
+//		g.setColor(Colors.BROWN);
 		g.fill(mGroundRect);
 		
 		g.drawImage(mBackGround,  (int)(mScale*mX), (int)(mY), null);
