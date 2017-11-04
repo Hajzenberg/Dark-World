@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import com.tfs.darkworld.util.ImageUtil;
 
+import rafgfxlib.Util;
+
 public class Player extends Character {
 
 	private static final int ACTION_IDLE = 0;
@@ -36,7 +38,7 @@ public class Player extends Character {
 
 		try {
 
-			BufferedImage spritesheet = ImageUtil.loadImage("/images/character_updated.png");
+			BufferedImage spritesheet = Util.loadImage("design/character_updated.png");
 
 			int count = 0;
 			mSprites = new ArrayList<BufferedImage[]>();
