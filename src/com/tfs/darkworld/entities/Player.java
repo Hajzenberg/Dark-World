@@ -14,15 +14,30 @@ public class Player extends Character {
 	private static final int ACTION_IDLE = 0;
 	// private static final int ACTION_ATTACK = 1;
 	private static final int ACTION_WALK = 4;
-	private static final int ACTION_JUMP = 3;
-	private static final int ACTION_FALL = 1;
+	private static final int ACTION_JUMP = 5;
+	private static final int ACTION_FALL = 2;
+	//private static final int ACTION_RUN = 3;
 
 	private ArrayList<BufferedImage[]> mSprites;
 
-	private int[] mNumOfFrames = { 1, 10, 10, 10, 10 };
-	private int[] mFrameWidths = { 60, 60, 60, 60, 60 };
-	private int[] mFrameLengths = { 64, 64, 64, 64, 64 };
-	private int[] mFrameIntervals = { 3, 3, 3, 3, 3 };
+	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 };
+	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameIntervals = { 3, 3, 14, 3, 3, 3 };
+	
+	/* private static final int ACTION_IDLE = 0;
+	// private static final int ACTION_ATTACK = 1;
+	private static final int ACTION_WALK = 4;
+	private static final int ACTION_JUMP = 5;
+	private static final int ACTION_FALL = 2;
+	//private static final int ACTION_RUN = 3;
+
+	private ArrayList<BufferedImage[]> mSprites;
+
+	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 };
+	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameIntervals = { 3, 3, 14, 3, 3, 3 }; */
 
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
@@ -38,7 +53,7 @@ public class Player extends Character {
 
 		try {
 
-			BufferedImage spritesheet = Util.loadImage("design/character_updated.png");
+			BufferedImage spritesheet = Util.loadImage("design/done.png");
 
 			int count = 0;
 			mSprites = new ArrayList<BufferedImage[]>();
