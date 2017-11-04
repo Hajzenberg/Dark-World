@@ -34,7 +34,7 @@ public class DiedState extends GameState {
 	@Override
 	public boolean handleWindowClose() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
