@@ -15,6 +15,12 @@ public class LoadingResurcesTask implements ITask {
 	private String menuBackgroundImgPath = "design/GatesOfHell.png";
 	private String skullImagePath = "design/skull.png";
 	
+
+	private String menuBackgroundImg = "design/GatesOfHell.png";
+	private String skull = "design/skull.png";
+	private String tileGround = "design/ground1.jpg";
+	private String lavaGround = "design/lava.jpg";
+
 	@Override
 	public void doTask(IProgressListener progressListener, ITaskListener taskListener) {
 		
@@ -22,15 +28,17 @@ public class LoadingResurcesTask implements ITask {
 		
 		taskListener.updateTaskName("Loading images...");
 		progressListener.updateProgress(0);
+		
 		BufferedImage playerSpritesheet = Util.loadImage(playerSpriteSheetPath);
-		BufferedImage menuBackgroundImage = Util.loadImage(menuBackgroundImgPath);
-		BufferedImage rotatingSkullImage = Util.loadImage(skullImagePath);
-		BufferedImage mountainImage = Util.loadImage(mountainImagePath);
+		BufferedImage menuBackgroundImage = Util.loadImage(menuBackgroundImg);
+		BufferedImage rotatingSkullImage = Util.loadImage(skull);
+		CommonRasters.setGroundTile(Util.loadImage(tileGround));
+		CommonRasters.setLavaTile(Util.loadImage(lavaGround));
+
 		progressListener.updateProgress(50);
 		CommonRasters.setMenuBackgroundImg(menuBackgroundImage);
 		CommonRasters.setPlayerSptitesheet(playerSpritesheet);
-		CommonRasters.setParticleImg(rotatingSkullImage);
-		CommonRasters.setMountainBackground(mountainImage);
+		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
 		progressListener.updateProgress(50);
 	}
 }

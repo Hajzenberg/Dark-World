@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import com.tfs.darkworld.res.GameConstants;
 import com.tfs.darkworld.util.ImageUtil;
 
 import rafgfxlib.Util;
@@ -17,6 +18,7 @@ public class Player extends Character {
 	private static final int ACTION_JUMP = 5;
 	private static final int ACTION_FALL = 2;
 	//private static final int ACTION_RUN = 3;
+	private static final int ACTION_DIE = 1;
 
 	private ArrayList<BufferedImage[]> mSprites;
 
@@ -41,15 +43,13 @@ public class Player extends Character {
 
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
-	protected boolean facingRight;
-	
-	
+
 	public Player(int sw, int sh) {
-		super(200, 300, 30, 30, 2, 50);
+
+		super(30, 30, 1.3, 70);
+
 		mCurrentAnimation = new Animation();
-		facingRight = true;
-		mMovingSpeed = 1.8;
-		mJumpingForce = 5;
+		mJumpingForce = 6;
 
 		try {
 
@@ -59,8 +59,6 @@ public class Player extends Character {
 			mSprites = new ArrayList<BufferedImage[]>();
 			for (int i = 0; i < mNumOfFrames.length; i++) {
 				BufferedImage[] bi = new BufferedImage[mNumOfFrames[i]];
-
-				//System.out.println("RED " + i);
 
 				for (int j = 0; j < mNumOfFrames[i]; j++) {
 					bi[j] = spritesheet.getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i]);
@@ -74,116 +72,92 @@ public class Player extends Character {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		// System.out.println("pre " + width + " " + height);
-
-		setAnimation(ACTION_IDLE);
-
+		setAnimation(ACTION_WALK);
 		// System.out.println("posle "+width + " " + height);
-
 		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
 	}
-	
-	
-	
-	
+
 	@Override
 	public void update() {
 
 		if (mDY == 0) {
-			mIsJumping = false;
-		}
-		
-		getNextPosition();
-		
-//		if (mDX == 0) {
-//			mX = (int) mX;
-//		}
-
-		if (mDY < 0) {
-			if (mCurrentAction != ACTION_JUMP) {
-				setAnimation(ACTION_JUMP);
-			}
-		} else if (mDY > 0) {
-			if (mCurrentAction != ACTION_FALL) {
-				setAnimation(ACTION_FALL);
-			}
-		} else if (mIsGoingLeft || mIsGoingRight) {
-			if (mCurrentAction != ACTION_WALK) {
+			
+			if (mIsJumping){
 				setAnimation(ACTION_WALK);
+				mIsJumping = false;
 			}
-		} else if (mCurrentAction != ACTION_IDLE) {
-			setAnimation(ACTION_IDLE);
+		}
+
+		getNextPosition();
+
+		if (mX + mWidth > GameConstants.FRAME_WIDTH - 100) {
+			mX = GameConstants.FRAME_WIDTH - 100 - mWidth;
+		} else if (mX < 50) {
+			mX = 50;
 		}
 
 		mCurrentAnimation.update();
-
-		if (!mIsAttacking) {
-			if (mIsGoingRight)
-				facingRight = true;
-			if (mIsGoingLeft)
-				facingRight = false;
-		}
 
 		mCharacterRect.setRect(mX, mY, mWidth, mHeight);
 	}
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
+		// System.out.println(mX+" "+mY);
+		// if (facingRight) {
+		g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY, null);
 
-		if (facingRight) {
-			g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY, null);
-		} else {
-			g.drawImage(mCurrentAnimation.getImage(), (int) (mX + mWidth), (int) (mY), (int) -mWidth, (int) mHeight, null);
-		}
-
+		// } else {
+		// g.drawImage(mCurrentAnimation.getImage(), (int) (mX + mWidth), (int) (mY),
+		// (int) -mWidth, (int) mHeight, null);
+		// }
+		// g.drawRect((int)mX,(int)mY,(int) mWidth,(int) mHeight);
 		g.draw(mCharacterRect);
 	}
-	
-	
+
 	private double boundGreater(double x, double boundary) {
 		if (x > boundary) {
 			return x;
 		}
 		return boundary;
 	}
-	
+
 	private double boundSmaller(double x, double boundary) {
 		if (x < boundary) {
 			return x;
 		}
 		return boundary;
 	}
-	
+
 	private void getNextPosition() {
-		
 		mX += mDX;
 		mY += mDY;
-		
 	}
-	
-	
+
 	public void stop() {
 		mDX = 0;
 	}
-	
+
 	public void jump() {
 		if (mDY == 0) {
+			setAnimation(ACTION_JUMP);
 			mIsJumping = true;
 			mDY = -mJumpingForce;
 		}
 	}
+
 	public void left() {
 		mIsGoingLeft = true;
-		facingRight = false;
-		mDX = -mMovingSpeed;
+		// facingRight = false;
+		mDX = -mSpeed;
 	}
+
 	public void right() {
 		mIsGoingRight = true;
-		facingRight = true;
-		mDX = +mMovingSpeed;
+		// facingRight = true;
+		mDX = +mSpeed;
 	}
-	
+
 	private void setAnimation(int i) {
 		mCurrentAction = i;
 		mCurrentAnimation.setFrames(mSprites.get(mCurrentAction));
@@ -191,7 +165,7 @@ public class Player extends Character {
 		mWidth = mFrameWidths[mCurrentAction];
 		mHeight = mFrameLengths[mCurrentAction];
 
-		System.out.println("SET ANIMATION " + mWidth + " " + mHeight);
+		// System.out.println("SET ANIMATION " + mWidth + " " + mHeight);
 	}
 
 	public void setLeft(boolean b) {
@@ -212,7 +186,11 @@ public class Player extends Character {
 			mDY = 0;
 		}
 	}
-	
+
+	public void die() {
+		setAnimation(ACTION_DIE);
+		System.err.println("Just died!");
+	}
 
 	public Rectangle2D getCharacterRect() {
 		return mCharacterRect;
@@ -220,26 +198,21 @@ public class Player extends Character {
 
 	@Override
 	public void intersect(GameEntity ge) {
-//		System.err.println("Intesected checked");
-		
 		IntersectType intersectType = isIntersecting(ge);
-		
-//		System.out.println(intersectType.name());
-		
+
 		switch (intersectType) {
-		case UpperLine: case UpperLeftCorner: case UpperRightCorner:
-//			System.out.println("!!!!");
+		case UpperLine:
+		case UpperLeftCorner:
+		case UpperRightCorner:
+			if (ge instanceof Lava) {
+				die();
+			}
 			mDY = 0;
-			
-			mY = (ge.getPY1()-mHeight);
-			
+			mY = (ge.getPY1() - mHeight);
 			break;
-		case leftLine: case RightLine:
-//			System.err.println("123");
-			mDX = 0;
 		default:
 			break;
 		}
-		
+
 	}
 }
