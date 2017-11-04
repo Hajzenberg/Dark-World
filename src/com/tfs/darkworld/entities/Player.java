@@ -8,25 +8,43 @@ import java.util.ArrayList;
 import com.tfs.darkworld.res.GameConstants;
 import com.tfs.darkworld.util.ImageUtil;
 
+import rafgfxlib.Util;
+
 public class Player extends Character {
 
 	private static final int ACTION_IDLE = 0;
 	// private static final int ACTION_ATTACK = 1;
 	private static final int ACTION_WALK = 4;
-	private static final int ACTION_JUMP = 3;
-	private static final int ACTION_FALL = 1;
+	private static final int ACTION_JUMP = 5;
+	private static final int ACTION_FALL = 2;
+	//private static final int ACTION_RUN = 3;
 
 	private ArrayList<BufferedImage[]> mSprites;
 
-	private int[] mNumOfFrames = { 1, 10, 10, 10, 10 };
-	private int[] mFrameWidths = { 60, 60, 60, 60, 60 };
-	private int[] mFrameLengths = { 64, 64, 64, 64, 64 };
-	private int[] mFrameIntervals = { 3, 3, 3, 3, 3 };
+	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 };
+	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameIntervals = { 3, 3, 14, 3, 3, 3 };
+	
+	/* private static final int ACTION_IDLE = 0;
+	// private static final int ACTION_ATTACK = 1;
+	private static final int ACTION_WALK = 4;
+	private static final int ACTION_JUMP = 5;
+	private static final int ACTION_FALL = 2;
+	//private static final int ACTION_RUN = 3;
+
+	private ArrayList<BufferedImage[]> mSprites;
+
+	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 };
+	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameIntervals = { 3, 3, 14, 3, 3, 3 }; */
 
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
 
 	public Player(int sw, int sh) {
+
 		super(30, 30, 1.3, 30);
 
 		mCurrentAnimation = new Animation();
@@ -34,14 +52,12 @@ public class Player extends Character {
 
 		try {
 
-			BufferedImage spritesheet = ImageUtil.loadImage("/images/character_updated.png");
+			BufferedImage spritesheet = Util.loadImage("design/character_sheet.png");
 
 			int count = 0;
 			mSprites = new ArrayList<BufferedImage[]>();
 			for (int i = 0; i < mNumOfFrames.length; i++) {
 				BufferedImage[] bi = new BufferedImage[mNumOfFrames[i]];
-
-//				System.out.println("RED " + i);
 
 				for (int j = 0; j < mNumOfFrames[i]; j++) {
 					bi[j] = spritesheet.getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i]);

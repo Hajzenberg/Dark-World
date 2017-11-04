@@ -125,6 +125,7 @@ public class GameplayState extends GameState {
 		for (Box b : compositeGround) {
 			b.render(g, sw, sh);
 		}
+
 		mPlayer.render(g, sw, sh);
 
 	}
@@ -144,8 +145,7 @@ public class GameplayState extends GameState {
 
 			if (!(compositeGround.getLast() instanceof Ground)) {
 				box = recycledGroundTiles.poll();
-			}
-			else if (n < 0.75f) {
+			} else if (n < 0.75f) {
 				box = recycledGroundTiles.poll();
 			} else {
 				box = recycledLavaTiles.poll();
@@ -204,6 +204,7 @@ public class GameplayState extends GameState {
 		}
 
 		mPlayer.update();
+		mBackground.update();
 	}
 
 	public void affectGraviation(GameEntity ge) {

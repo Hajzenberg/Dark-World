@@ -30,7 +30,7 @@ public class MenuState extends GameState{
 	private Rectangle rectStart; private Color startFlag  =  Colors.ALIZARIN;
 	private Rectangle rectAbout; private Color aboutFlag =  Colors.ALIZARIN;
 	private Rectangle rectExit;  private Color exitFlag  =  Colors.ALIZARIN;
-	private float scaleDelta = 0.001f;
+	private float scaleDelta = 0.0006f;
 	private float currentScale = 1f;
 	private AffineTransform old;
 	
@@ -101,8 +101,9 @@ public class MenuState extends GameState{
 		{
 			if(rectStart.contains(x, y)||rectAbout.contains(x, y) || rectExit.contains(x, y))
 			{
-				genSkulls(x, y, 10.0f, 200, 10);
+				//genSkulls(x, y, 10.0f, 200, 10);
 			}
+			genSkulls(x, y, 10.0f, 200, 10);
 		}
 	}
 
