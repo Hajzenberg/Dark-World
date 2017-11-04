@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import rafgfxlib.Util;
 
 /* Alat koji omogucuje citanje slika koje predstavljaju frejmove animacija
- * na sprite sheet-u i u jednu sliku smesta sve frejmove animacije u zasebne
+ * na sprite sheet-u, i u jednu sliku smesta sve frejmove animacije u zasebne
  * redove, tako da olaksava manipulaciju sprite sheetom u igri
  */
 
@@ -93,10 +93,6 @@ public class Joiner {
 				// System.out.println(spritePaths.get(k).get(l).toString());
 				BufferedImage img = Util.loadImage(spritePaths.get(k).get(l).toString());
 				WritableRaster src = img.getRaster();
-
-				BufferedImage done = Util.rasterToImage(dest);
-
-				Util.saveImage(done, "design/done.png");
 
 				// System.out.println(src.getWidth()+ " "+src.getHeight());
 
