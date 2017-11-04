@@ -37,7 +37,7 @@ public class BackgroundGeneratingTask implements ITask{
 	public void doTask(IProgressListener progressListener, ITaskListener taskListener) {
 		
 		// zbir progresa mora da bude 100!!!!
-		progressListener.updateProgress(0);
+//		progressListener.updateProgress(100);
 		
 		taskListener.updateTaskName("Generating sky...");
 		WritableRaster bg = skyGenerator.generateSky();

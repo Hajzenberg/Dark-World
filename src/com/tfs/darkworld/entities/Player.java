@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.tfs.darkworld.res.GameConstants;
-import com.tfs.darkworld.util.ImageUtil;
 
 import rafgfxlib.Util;
 
@@ -22,10 +21,34 @@ public class Player extends Character {
 
 	private ArrayList<BufferedImage[]> mSprites;
 
-	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 };
-	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128 };
-	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128 };
-	private int[] mFrameIntervals = { 3, 3, 14, 3, 3, 3 };
+	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6};
+	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128};
+	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128};
+	private int[] mFrameIntervals = { 3, 3, 14, 5, 20, 3};
+	
+	
+	private boolean officialyDead = false;
+	
+	public boolean isOfficialyDead() {
+		return officialyDead;
+	}
+	
+	private IFinishingAnimationListener[] listeners = {
+			null,
+			new IFinishingAnimationListener() {
+				
+				@Override
+				public void animationFinished() {
+					System.out.println("Anim finished.");
+					officialyDead = true;
+				}
+			},
+			null,
+			null,
+			null,
+			null
+			};
+	
 	
 	/* private static final int ACTION_IDLE = 0;
 	// private static final int ACTION_ATTACK = 1;
@@ -45,9 +68,8 @@ public class Player extends Character {
 	protected int mCurrentAction;
 
 	public Player(int sw, int sh) {
-
 		super(30, 30, 1.3, 10);
-
+		mIsAlive = true;
 		mCurrentAnimation = new Animation();
 		mJumpingForce = 5;
 
@@ -67,19 +89,55 @@ public class Player extends Character {
 				}
 				mSprites.add(bi);
 				count += mFrameLengths[i];
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		setAnimation(ACTION_WALK);
 		// System.out.println("posle "+width + " " + height);
 		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
 	}
-
+	
+	
+	private boolean accelerating = false;
+	private boolean slowing = false;
+	private boolean normal = false;
+	
 	@Override
 	public void update() {
-
+		
+		
+		if (mDX > 0) {
+			if (!accelerating) {
+				slowing = false;
+				normal = false;
+				accelerating = true;
+				mFrameIntervals[ACTION_WALK] = 20;
+				setAnimation(ACTION_WALK);
+				
+			}
+		}
+		else if (mDX < 0) {
+			if (!slowing) {
+				accelerating = false;
+				slowing = true;
+				normal = false;
+				mFrameIntervals[ACTION_WALK] = 50;
+				setAnimation(ACTION_WALK);
+			}
+		}
+		else {
+			if (!normal) {
+				accelerating = false;
+				slowing = false;
+				normal = true;
+				mFrameIntervals[ACTION_WALK] = 30;
+				setAnimation(ACTION_WALK);
+			}
+		}
+		
+		
 		if (mDY == 0) {
 			
 			if (mIsJumping){
@@ -164,7 +222,7 @@ public class Player extends Character {
 		mCurrentAnimation.setFrameInterval(mFrameIntervals[mCurrentAction]);
 		mWidth = mFrameWidths[mCurrentAction];
 		mHeight = mFrameLengths[mCurrentAction];
-
+		mCurrentAnimation.setFinishingAnimationListeners(listeners[mCurrentAction]);
 		// System.out.println("SET ANIMATION " + mWidth + " " + mHeight);
 	}
 
@@ -188,7 +246,9 @@ public class Player extends Character {
 	}
 
 	public void die() {
+		mIsAlive = false;
 		setAnimation(ACTION_DIE);
+		
 		System.err.println("Just died!");
 	}
 
@@ -198,6 +258,7 @@ public class Player extends Character {
 
 	@Override
 	public void intersect(GameEntity ge) {
+		
 		IntersectType intersectType = isIntersecting(ge);
 
 		switch (intersectType) {
@@ -205,7 +266,9 @@ public class Player extends Character {
 		case UpperLeftCorner:
 		case UpperRightCorner:
 			if (ge instanceof Lava) {
-				die();
+				if(mIsAlive) {
+					die();
+				}
 			}
 			mDY = 0;
 			mY = (ge.getPY1() - mHeight);
@@ -213,6 +276,5 @@ public class Player extends Character {
 		default:
 			break;
 		}
-
 	}
 }

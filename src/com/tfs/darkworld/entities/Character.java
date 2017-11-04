@@ -11,11 +11,16 @@ public abstract class Character extends GameEntity{
 	protected boolean mIsGoingLeft;
 	protected boolean mIsJumping;
 	protected boolean mIsFalling;
+	protected boolean mIsAlive;
 
 	protected double mJumpingForce;
 	
 	public Character(double width, double height, double speed, double mass) {
 		super(width, height, mass, speed);
+	}
+	
+	public boolean isIsAlive() {
+		return mIsAlive;
 	}
 	
 	public Rectangle2D getCharacterRect() {
