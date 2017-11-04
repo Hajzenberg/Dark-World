@@ -53,7 +53,7 @@ public class Player extends Character {
 
 		try {
 
-			BufferedImage spritesheet = Util.loadImage("design/done.png");
+			BufferedImage spritesheet = Util.loadImage("design/character_sheet.png");
 
 			int count = 0;
 			mSprites = new ArrayList<BufferedImage[]>();
