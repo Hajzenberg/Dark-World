@@ -43,14 +43,6 @@ public class GameplayState extends GameState {
 
 	private Deque<Box> compositeGround;
 
-	// private List<GameEntity> entities;
-
-	// private GameEntity[] intersectableEntities;
-
-	// private GameEntity[] renderableEntities = {mBackground, mPlayer};
-
-	// private GameEntity[] gravityAffectedEntities = {mPlayer};
-
 	private final double gravity = 0.0015;
 	private final double airResistance = 0.988;
 
