@@ -13,7 +13,9 @@ import rafgfxlib.Util;
 
 /* Alat koji omogucuje citanje slika koje predstavljaju frejmove animacija
  * na sprite sheet-u, i u jednu sliku smesta sve frejmove animacije u zasebne
- * redove, tako da olaksava manipulaciju sprite sheetom u igri
+ * redove, tako da olaksava manipulaciju sprite sheetom u igri.
+ * Frejmovi koji pripadaju istoj animaciji moraju ima isti jednocifreni
+ * prefiks
  */
 
 public class Joiner {
