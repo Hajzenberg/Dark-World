@@ -28,8 +28,7 @@ public class Player extends Character {
 	
 	
 	public Player(int sw, int sh) {
-		super(200, 200, 30, 30, 2, 50); // y = sh -200
-		
+		super(200, 440, 30, 30, 2, 50);
 		mCurrentAnimation = new Animation();
 		facingRight = true;
 		mMovingSpeed = 1.8;
@@ -44,12 +43,12 @@ public class Player extends Character {
 			for (int i = 0; i < mNumOfFrames.length; i++) {
 				BufferedImage[] bi = new BufferedImage[mNumOfFrames[i]];
 
-				System.out.println("RED " + i);
+				//System.out.println("RED " + i);
 
 				for (int j = 0; j < mNumOfFrames[i]; j++) {
 					bi[j] = spritesheet.getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i]);
-					System.out.println(" frame " + (j * mFrameWidths[i]) + " " + (count) + " " + " " + mFrameWidths[i]
-							+ " " + mFrameLengths[i]);
+//					System.out.println(" frame " + (j * mFrameWidths[i]) + " " + (count) + " " + " " + mFrameWidths[i]
+//							+ " " + mFrameLengths[i]);
 				}
 				mSprites.add(bi);
 				count += mFrameLengths[i];

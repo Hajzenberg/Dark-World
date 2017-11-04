@@ -10,10 +10,11 @@ import rafgfxlib.Util;
 
 public class LoadingResurcesTask implements ITask {
 	
-	private String playerSpriteSheet = "design/Undead_Knight_F_noBG.png";
+	private String playerSpriteSheetPath = "design/Undead_Knight_F_noBG.png";
+	private String mountainImagePath = "design/mountain.png";
+	private String menuBackgroundImgPath = "design/GatesOfHell.png";
+	private String skullImagePath = "design/skull.png";
 	
-	private String menuBackgroundImg = "design/GatesOfHell.png";
-	private String skull = "design/skull.png";
 	@Override
 	public void doTask(IProgressListener progressListener, ITaskListener taskListener) {
 		
@@ -21,14 +22,15 @@ public class LoadingResurcesTask implements ITask {
 		
 		taskListener.updateTaskName("Loading images...");
 		progressListener.updateProgress(0);
-		BufferedImage playerSpritesheet = Util.loadImage(playerSpriteSheet);
-		BufferedImage menuBackgroundImage = Util.loadImage(menuBackgroundImg);
-		BufferedImage rotatingSkullImage = Util.loadImage(skull);
+		BufferedImage playerSpritesheet = Util.loadImage(playerSpriteSheetPath);
+		BufferedImage menuBackgroundImage = Util.loadImage(menuBackgroundImgPath);
+		BufferedImage rotatingSkullImage = Util.loadImage(skullImagePath);
+		BufferedImage mountainImage = Util.loadImage(mountainImagePath);
 		progressListener.updateProgress(50);
 		CommonRasters.setMenuBackgroundImg(menuBackgroundImage);
 		CommonRasters.setPlayerSptitesheet(playerSpritesheet);
 		CommonRasters.setParticleImg(rotatingSkullImage);
+		CommonRasters.setMountainBackground(mountainImage);
 		progressListener.updateProgress(50);
-		
 	}
 }
