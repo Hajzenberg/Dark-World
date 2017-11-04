@@ -12,6 +12,17 @@ public class CommonRasters {
 	
 	private static BufferedImage menuBackgroundImg;
 	private static BufferedImage partImg;
+	private static BufferedImage groundTile;
+	
+	public static BufferedImage getGroundTile() {
+		return groundTile;
+	}
+	
+	public static void setGroundTile(BufferedImage groundTile) {
+		CommonRasters.groundTile = groundTile;
+	}
+	
+	
 	public static BufferedImage getLightBackground() {
 		return lightBackground;
 	}

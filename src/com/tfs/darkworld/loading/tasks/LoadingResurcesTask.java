@@ -14,6 +14,7 @@ public class LoadingResurcesTask implements ITask {
 	
 	private String menuBackgroundImg = "design/GatesOfHell.png";
 	private String skull = "design/skull.png";
+	private String tileGround = "design/ground1.png";
 	@Override
 	public void doTask(IProgressListener progressListener, ITaskListener taskListener) {
 		
@@ -24,6 +25,7 @@ public class LoadingResurcesTask implements ITask {
 		BufferedImage playerSpritesheet = Util.loadImage(playerSpriteSheet);
 		BufferedImage menuBackgroundImage = Util.loadImage(menuBackgroundImg);
 		BufferedImage rotatingSkullImage = Util.loadImage(skull);
+		CommonRasters.setGroundTile(Util.loadImage(tileGround));
 		progressListener.updateProgress(50);
 		CommonRasters.setMenuBackgroundImg(menuBackgroundImage);
 		CommonRasters.setPlayerSptitesheet(playerSpritesheet);
