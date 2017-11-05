@@ -16,14 +16,15 @@ public class Ground extends Box {
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
 		g.drawImage(CommonRasters.getGroundTile(),(int) mX,(int) mY,(int) mWidth, (int)mHeight, null);
+		super.render(g, sw, sh);
 	}
 
-
-	@Override
-	public void update() {
-		mX += mDX;
-		mY += mDY;
-	}
+//
+//	@Override
+//	public void update() {
+//		mX += mDX;
+//		mY += mDY;
+//	}
 
 
 	@Override

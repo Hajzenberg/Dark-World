@@ -1,10 +1,16 @@
 package com.tfs.darkworld.entities;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 
-public abstract class GameEntity {
 
+public abstract class GameEntity {
+	private static final boolean DEBUG_BODY = false;
+	private static final boolean DEBUG_INTERSECT= true;
+	
+	
+	
 	protected double mX;
 	protected double mY;
 	protected double mWidth;
@@ -14,6 +20,9 @@ public abstract class GameEntity {
 	protected double mSpeed;
 	
 	protected double mass;
+	
+	
+	protected IntersectionRectBody intersectionBody;
 	
 	public double getHeight() {
 		return mHeight;
@@ -38,30 +47,30 @@ public abstract class GameEntity {
 	 * 
 	 */
 	
-	protected double getPX1() {
-		return mX;
-	}
-	protected double getPY1() {
-		return mY;
-	}
-	protected double getPX2() {
-		return mX+mWidth;
-	}
-	protected double getPY2() {
-		return mY;
-	}
-	protected double getPX3() {
-		return mX;
-	}
-	protected double getPY3() {
-		return mY+mHeight;
-	}
-	protected double getPX4() {
-		return mX+mWidth;
-	}
-	protected double getPY4() {
-		return mY+mHeight;
-	}
+//	protected double getPX1() {
+//		return intersectionBody.getX1();
+//	}
+//	protected double getPY1() {
+//		return intersectionBody.getY1();
+//	}
+//	protected double getPX2() {
+//		return intersectionBody.getX2();
+//	}
+//	protected double getPY2() {
+//		return intersectionBody.getY2();
+//	}
+//	protected double getPX3() {
+//		return intersectionBody.getX3();
+//	}
+//	protected double getPY3() {
+//		return intersectionBody.getY3();
+//	}
+//	protected double getPX4() {
+//		return intersectionBody.getX4();
+//	}
+//	protected double getPY4() {
+//		return intersectionBody.getY4();
+//	}
 	
 	
 	public GameEntity(double width, double height, double mass) {
@@ -75,86 +84,27 @@ public abstract class GameEntity {
 		mHeight = height;
 		mSpeed = speed;
 		this.mass = mass;
+		intersectionBody = new IntersectionRectBody();
 	}
 	
 
-	public abstract void update();
+	public void update() {
+		mX += mDX;
+		mY += mDY;
+		intersectionBody.updateIntersectionBody(mX, mY);
+	}
 
-	public abstract void render(Graphics2D g, int sw, int sh);
+	public void render(Graphics2D g, int sw, int sh) {
+		if (DEBUG_INTERSECT) {
+			intersectionBody.render(g);
+		}
+		if (DEBUG_BODY) {
+			g.setColor(Color.BLUE);
+			g.drawRect((int)mX-1,(int) mY-1,(int) mWidth+2, (int) mHeight+2);
+		}
+	}
 	
 	public abstract void intersect(GameEntity ge);
-//	public abstract void intersectRoutine(GameEntity ge);
-	
-	public static enum IntersectType {
-		UpperLine,
-		BottomLine,
-		leftLine,
-		RightLine,
-		UpperRightCorner,
-		UpperLeftCorner,
-		BottomRightCorner,
-		BottomLeftCorner,
-		Inside,
-		None;	
-	}
-	
-	/**
-	 * @param ge
-	 * @return
-	 */
-	public IntersectType isIntersecting(GameEntity ge) {
-		
-		boolean pInside1 = isInsideSquare(getPX1(), getPY1(),ge.getPX1(), ge.getPY1(), ge.getPX4(), ge.getPY4());
-		boolean pInside2 = isInsideSquare(getPX2(), getPY2(),ge.getPX1(), ge.getPY1(), ge.getPX4(), ge.getPY4());
-		boolean pInside3 = isInsideSquare(getPX3(), getPY3(),ge.getPX1(), ge.getPY1(), ge.getPX4(), ge.getPY4());
-		boolean pInside4 = isInsideSquare(getPX4(), getPY4(),ge.getPX1(), ge.getPY1(), ge.getPX4(), ge.getPY4());
-		
-		if (pInside1 && pInside2 && pInside3 && pInside4) {
-			return IntersectType.Inside;
-		}
-		else if (pInside1 && pInside2) {
-			return IntersectType.BottomLine;
-		}
-		else if (pInside2 && pInside3) {
-			return IntersectType.leftLine;
-		}
-		else if (pInside3 && pInside4) {
-			return IntersectType.UpperLine;
-		}
-		else if (pInside4 && pInside1) {
-			return IntersectType.RightLine;
-		}
-		else if (pInside1) {
-			return IntersectType.BottomRightCorner;
-		}
-		else if (pInside2) {
-			return IntersectType.BottomLeftCorner;
-		}
-		else if (pInside3) {
-			return IntersectType.UpperLeftCorner;
-		}
-		else if (pInside4) {
-			return IntersectType.UpperRightCorner;
-		}
-		return IntersectType.None;
-		
-	}
-	
-	/**
-	 * @param x
-	 * @param y
-	 * @param px1 gornji levi
-	 * @param py1
-	 * @param px2 dosni denji
-	 * @param py2
-	 * @return
-	 */
-	public boolean isInsideSquare(double x, double y, double px1,double py1, double px2, double py2) {
-		if (x >= px1 && x <= px2 && y >= py1 && y <= py2) {
-			return true;
-		}
-		return false;
-	}
 	
 	
 	public double getX() {
@@ -193,6 +143,4 @@ public abstract class GameEntity {
 	public void setDY(double mDY) {
 		this.mDY = mDY;
 	}
-	
-	
 }

@@ -3,6 +3,7 @@ package com.tfs.darkworld.entities;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 
 import com.tfs.darkworld.res.CommonRasters;
@@ -21,12 +22,31 @@ public class Player extends Character {
 	private static final int ACTION_DIE = 1;
 	private static final int ACTION_RUN = 4;
 
+	private static final double NORMAL_MASS = 10;
+	private static final double FALLING_MASS = 30;
+
+	
+	//Djole
+//	private static final int RUNNING_FRAMES = 20;
+//	private static final int WALKING_FRAMES = 30;
+//	private static final int WALKING_SPEED_OFFSET =  4;
+	
+	//Maksa
+//	private static final int RUNNING_FRAMES = 20;
+//	private static final int WALKING_FRAMES = 30;
+//	private static final int WALKING_SPEED_OFFSET =  4;
+	
+	//Draza
+	private static final int RUNNING_FRAMES = 10;
+	private static final int WALKING_FRAMES = 6;
+	private static final int WALKING_SPEED_OFFSET =  4;
+
 	private ArrayList<BufferedImage[]> mSprites;
 
 	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6, 10, 10 };
 	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128, 128, 128 };
 	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128, 128, 128 };
-	private int[] mFrameIntervals = { 3, 3, 14, 5, 10, 3, 6, 3 };
+	private int[] mFrameIntervals = { 3, 3, 14, 5, RUNNING_FRAMES, 3, WALKING_FRAMES, 3 };
 
 	private boolean officialyDead = false;
 
@@ -69,12 +89,18 @@ public class Player extends Character {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		
 		/* Izdvojena logika za setovanje igraca
 		 * na default poziciju pri startovanju
 		 * nivoa
 		 */
 		reset();
+
+		intersectionBody.setLeftOffset(32);
+		intersectionBody.setUpperOffset(0);
+		intersectionBody.setHeight(mHeight);
+		intersectionBody.setWidth(64);
 	}
 
 	private boolean accelerating = false;
@@ -90,14 +116,13 @@ public class Player extends Character {
 			}
 		}
 
-		if (mIsAlive) {
+		if (mIsAlive && !mIsJumping) {
 			if (mDX > 0) {
 				if (!accelerating) {
 					slowing = false;
 					normal = false;
 					accelerating = true;
-					//mFrameIntervals[ACTION_WALK] = 20;
-					setAnimation(ACTION_WALK);
+					setAnimation(ACTION_RUN);
 
 				}
 			} else if (mDX < 0) {
@@ -105,7 +130,7 @@ public class Player extends Character {
 					accelerating = false;
 					slowing = true;
 					normal = false;
-					//mFrameIntervals[ACTION_WALK] = 50;
+					mFrameIntervals[ACTION_WALK] = WALKING_FRAMES;
 					setAnimation(ACTION_WALK);
 				}
 			} else {
@@ -113,20 +138,21 @@ public class Player extends Character {
 					accelerating = false;
 					slowing = false;
 					normal = true;
-					//mFrameIntervals[ACTION_WALK] = 30;
+					mFrameIntervals[ACTION_WALK] = WALKING_FRAMES + WALKING_SPEED_OFFSET;
 					setAnimation(ACTION_WALK);
 				}
 			}
-
+		} else if (mIsAlive && mIsJumping) {
 			if (mDY == 0) {
-
 				if (mIsJumping) {
 					setAnimation(ACTION_WALK);
 					mIsJumping = false;
 				}
 			}
+
 		}
-		getNextPosition();
+
+		super.update();
 
 		if (mX + mWidth > GameConstants.FRAME_WIDTH - 100) {
 			mX = GameConstants.FRAME_WIDTH - 100 - mWidth;
@@ -135,33 +161,13 @@ public class Player extends Character {
 		}
 
 		mCurrentAnimation.update();
-
-		mCharacterRect.setRect(mX, mY, mWidth, mHeight);
 	}
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
+		super.render(g, sw, sh);
+
 		g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY + 3, null);
-		g.draw(mCharacterRect);
-	}
-
-	private double boundGreater(double x, double boundary) {
-		if (x > boundary) {
-			return x;
-		}
-		return boundary;
-	}
-
-	private double boundSmaller(double x, double boundary) {
-		if (x < boundary) {
-			return x;
-		}
-		return boundary;
-	}
-
-	private void getNextPosition() {
-		mX += mDX;
-		mY += mDY;
 	}
 
 	public void stop() {
@@ -173,6 +179,7 @@ public class Player extends Character {
 			if (mDY == 0) {
 				setAnimation(ACTION_JUMP);
 				mIsJumping = true;
+				mIsFalling = false;
 				mDY = -mJumpingForce;
 			}
 		}
@@ -236,19 +243,19 @@ public class Player extends Character {
 	@Override
 	public void intersect(GameEntity ge) {
 
-		IntersectType intersectType = isIntersecting(ge);
+		IntersectType intersectType = intersectionBody.isIntersecting(ge.intersectionBody);
 
 		switch (intersectType) {
 		case UpperLine:
 		case UpperLeftCorner:
 		case UpperRightCorner:
-			if (ge instanceof Lava) {
+			if (ge instanceof Lava || ge instanceof Spikes) {
 				if (mIsAlive) {
 					die();
 				}
 			}
 			mDY = 0;
-			mY = (ge.getPY1() - mHeight);
+			mY = (ge.getY() - mHeight);
 			break;
 		default:
 			break;

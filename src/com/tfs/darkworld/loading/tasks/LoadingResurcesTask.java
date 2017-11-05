@@ -17,9 +17,12 @@ public class LoadingResurcesTask implements ITask {
 	/* Gameplay state */
 	private String tileGround = "design/ground1.jpg";
 	private String lavaGround = "design/lava.jpg";
+
 	private String playerSpriteSheetPath = "design/character_sheet.png";
 	private String mountainImagePath = "design/mountain.png";
-	
+
+	private String spikesGround = "design/siljci2.png";
+
 
 	@Override
 	public void doTask(IProgressListener progressListener, ITaskListener taskListener) {
@@ -46,6 +49,8 @@ public class LoadingResurcesTask implements ITask {
 		CommonRasters.setMenuBackgroundImg(Util.loadImage(menuBackgroundImgPath));
 		CommonRasters.setPlayerSptitesheet(img);
 		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
+		CommonRasters.setSpikes(Util.loadImage(spikesGround));
+		
 		progressListener.updateProgress(50);
 	}
 }
