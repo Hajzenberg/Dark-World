@@ -3,7 +3,6 @@ package com.tfs.darkworld.entities;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 
 import com.tfs.darkworld.res.CommonRasters;
@@ -13,18 +12,14 @@ import rafgfxlib.Util;
 
 public class Player extends Character {
 
-	private static final int ACTION_IDLE = 0;
 	// private static final int ACTION_ATTACK = 1;
 	private static final int ACTION_WALK = 6;
 	private static final int ACTION_JUMP = 5;
-	private static final int ACTION_FALL = 5;
-	// private static final int ACTION_RUN = 3;
 	private static final int ACTION_DIE = 1;
 	private static final int ACTION_RUN = 4;
 
 	private static final double NORMAL_MASS = 10;
 	private static final double FALLING_MASS = 30;
-
 	
 	//Djole
 //	private static final int RUNNING_FRAMES = 20;
@@ -49,6 +44,10 @@ public class Player extends Character {
 	private int[] mFrameIntervals = { 3, 3, 14, 5, RUNNING_FRAMES, 3, WALKING_FRAMES, 3 };
 
 	private boolean officialyDead = false;
+	
+	private boolean accelerating = false;
+	private boolean slowing = false;
+	private boolean normal = false;
 
 	/*
 	 * private static final int ACTION_IDLE = 0; // private static final int
@@ -96,16 +95,12 @@ public class Player extends Character {
 		 * nivoa
 		 */
 		reset();
-
+		
 		intersectionBody.setLeftOffset(32);
 		intersectionBody.setUpperOffset(0);
 		intersectionBody.setHeight(mHeight);
 		intersectionBody.setWidth(64);
 	}
-
-	private boolean accelerating = false;
-	private boolean slowing = false;
-	private boolean normal = false;
 
 	@Override
 	public void update() {
@@ -263,14 +258,17 @@ public class Player extends Character {
 	}
 	
 	public void reset(){
+		System.out.println("RESET");
 		mX = 100;
-		mY = 400;
+		mY = 100;		//375
 		
 		mCurrentAnimation = new Animation();
 		mJumpingForce = 5;
 		
 		mIsAlive = true;
 		officialyDead = false;
+		
+		mIsGoingRight = true;
 		
 		setAnimation(ACTION_WALK);
 		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);

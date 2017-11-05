@@ -11,14 +11,15 @@ import java.util.stream.Collectors;
 
 import rafgfxlib.Util;
 
-/* Alat koji omogucuje citanje slika koje predstavljaju frejmove animacija
- * na sprite sheet-u, i u jednu sliku smesta sve frejmove animacije u zasebne
- * redove, tako da olaksava manipulaciju sprite sheetom u igri.
- * Frejmovi koji pripadaju istoj animaciji moraju ima isti jednocifreni
- * prefiks
+/* Alat koji omogucuje kreiranje chracter sheeta kombinovanjem slika koje predstavljaju
+ * zasebne frejmove animacija , tako da olaksava manipulaciju sprite sheetom u igri.
+ * Alat iscitava sve slike iz zadatog foldera i rasporedjuje ih u kolone na sheetu
+ * na osnovu prefiksa koji je jednocifreni integer i pocinje od 1.
+ * Parametri su dimenzije slika u folderu, putanja do direktorijuma i putanja do sheeta.
+ * Podrzan je rad samo sa slikama iste velicine
  */
 
-public class Joiner {
+public class SheetCreator {
 
 	private static final int FRAME_WIDTH = 128;
 	private static final int FRAME_HEIGHT = 128;
@@ -40,8 +41,8 @@ public class Joiner {
 		}
 
 		/*
-		 * Sada od liste pathova pravimo liste koje sadrze pathove do frejmova
-		 * jedne animacije
+		 * Sada od liste svih pathova pravimo listu listi koje sadrze
+		 * pathove samo jedne animacije. Grupisemo ih.
 		 */
 
 		char lastStartingChar = '.';

@@ -3,6 +3,9 @@ package com.tfs.darkworld.entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.tfs.darkworld.entities.interfaces.IRenderable;
+import com.tfs.darkworld.entities.interfaces.IUpdatable;
+
 
 
 public abstract class GameEntity implements IUpdatable, IRenderable {

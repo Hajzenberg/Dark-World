@@ -1,4 +1,4 @@
-package com.tfs.darkworld.entities;
+package com.tfs.darkworld.entities.interfaces;
 
 import java.awt.Graphics2D;
 

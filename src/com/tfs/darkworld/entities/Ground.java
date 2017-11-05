@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import com.tfs.darkworld.entities.interfaces.IRenderable;
+import com.tfs.darkworld.entities.interfaces.IUpdatable;
 import com.tfs.darkworld.res.GameConstants;
 
 public class Ground implements IRenderable, IUpdatable {
@@ -62,9 +64,7 @@ public class Ground implements IRenderable, IUpdatable {
 		// entities = new ArrayList<>();
 		// entities.add(mPlayer);
 		// entities.add(box);
-		changeSpeed(groundSpeed);
-		
-		
+		changeSpeed(groundSpeed);	
 	}
 
 
@@ -121,7 +121,6 @@ public class Ground implements IRenderable, IUpdatable {
 			box.setPosition(last.getX() + last.getWidth(), box.getY());
 			box.setDX(last.getDX());
 			compositeGround.addLast(box);
-
 		}
 	}
 
@@ -134,10 +133,9 @@ public class Ground implements IRenderable, IUpdatable {
 				System.out.println("recycling lava");
 				recycledLavaTiles.add((Lava) compositeGround.pollFirst());
 			} else if (compositeGround.getFirst() instanceof Spikes) {
-				System.out.println("recycling lava");
+				System.out.println("recycling spikes");
 				recycledSpikes.add((Spikes) compositeGround.pollFirst());
 			}
-			
 		}
 	}
 	

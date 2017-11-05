@@ -3,6 +3,8 @@ package com.tfs.darkworld.entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.tfs.darkworld.entities.interfaces.IIntersectionBody;
+
 public class IntersectionRectBody implements IIntersectionBody {
 	private double x1;
 	private double y1;

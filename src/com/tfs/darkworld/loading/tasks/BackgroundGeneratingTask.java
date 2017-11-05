@@ -55,8 +55,8 @@ public class BackgroundGeneratingTask implements ITask{
 		progressListener.updateProgress(20);
 		
 		taskListener.updateTaskName("Storing resources...");
-		CommonRasters.setDarkBackground(Util.rasterToImage(darkSky));
-		CommonRasters.setLightBackground(Util.rasterToImage(lightSky));
+		CommonRasters.setDarkSky(Util.rasterToImage(darkSky));
+		CommonRasters.setLightSky(Util.rasterToImage(lightSky));
 		
 		progressListener.updateProgress(10);
 		

@@ -12,32 +12,38 @@ public class CommonRasters {
 	private static BufferedImage partImg;
 
 	/* GamePlayState */
-	private static BufferedImage lightBackground;
-	private static BufferedImage darkBackground;
+	private static BufferedImage lightSky;
+	private static BufferedImage darkSky;
 	private static BufferedImage mountainBackground;
+	private static BufferedImage forestBackground;
 	private static BufferedImage playerSptitesheet;
-
 	private static BufferedImage groundTile;
 	private static BufferedImage lavaTile;
 	private static BufferedImage dyingSnapshot;
 	private static BufferedImage spikes;
 
-
-
-	public static BufferedImage getLightBackground() {
-		return lightBackground;
+	public static BufferedImage getForestBackground() {
+		return forestBackground;
 	}
 
-	public static void setLightBackground(BufferedImage lightBackground) {
-		CommonRasters.lightBackground = lightBackground;
+	public static void setForestBackground(BufferedImage forestBackground) {
+		CommonRasters.forestBackground = forestBackground;
 	}
 
-	public static BufferedImage getDarkBackground() {
-		return darkBackground;
+	public static BufferedImage getLightSky() {
+		return lightSky;
 	}
 
-	public static void setDarkBackground(BufferedImage darkBackground) {
-		CommonRasters.darkBackground = darkBackground;
+	public static void setLightSky(BufferedImage lightBackground) {
+		CommonRasters.lightSky = lightBackground;
+	}
+
+	public static BufferedImage getDarkSky() {
+		return darkSky;
+	}
+
+	public static void setDarkSky(BufferedImage darkBackground) {
+		CommonRasters.darkSky = darkBackground;
 	}
 
 	public static BufferedImage getPlayerSptitesheet() {
