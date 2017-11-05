@@ -60,7 +60,7 @@ public class Player extends Character {
 				BufferedImage[] bi = new BufferedImage[mNumOfFrames[i]];
 
 				for (int j = 0; j < mNumOfFrames[i]; j++) {
-					bi[j] = spritesheet.getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i])
+					bi[j] = CommonRasters.getPlayerSptitesheet().getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i])
 							.getSubimage(0, 0, mFrameWidths[i], mFrameLengths[i]);
 				}
 				mSprites.add(bi);

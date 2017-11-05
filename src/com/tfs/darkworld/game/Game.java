@@ -20,8 +20,8 @@ public class Game {
 		mGameHost = new GameHost(GameConstants.GAME_NAME, GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH, false);
 		
 		asyncLoader = new AsyncLoader();
-		asyncLoader.addTask(new StateLoading(mGameHost));
 		asyncLoader.addTask(new LoadingResurcesTask());
+		asyncLoader.addTask(new StateLoading(mGameHost));
 		asyncLoader.addTask(new BackgroundGeneratingTask());
 		
 		mGameHost.setUpdateRate(60);
@@ -31,7 +31,4 @@ public class Game {
 	public void start(){
 		mGameHost.setState(Strings.LOADING_SATE);
 	}
-	
-	
-	
 }
