@@ -4,21 +4,11 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.beans.beancontext.BeanContextChildComponentProxy;
-import java.security.KeyStore.PrivateKeyEntry;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
 
 import com.tfs.darkworld.entities.Background;
-import com.tfs.darkworld.entities.Box;
 import com.tfs.darkworld.entities.GameEntity;
 import com.tfs.darkworld.entities.Ground;
-import com.tfs.darkworld.entities.Lava;
 import com.tfs.darkworld.entities.Player;
-import com.tfs.darkworld.entities.Spikes;
-import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.GameConstants;
 import com.tfs.darkworld.res.Strings;
@@ -31,67 +21,29 @@ import rafgfxlib.GameState;
 
 public class GameplayState extends GameState {
 
-	private Fonts mFonts;
 
 	private double gameSpeed = -0.7;
 
-	private Background mBackground = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
-	private Player mPlayer = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
+	private Background mBackground;
+	private Player mPlayer;
 
-	private Queue<Ground> recycledGroundTiles;
-	private Queue<Lava> recycledLavaTiles;
-	private Queue<Spikes> recycledSpikes;
+	private Ground ground;
 
-	private Deque<Box> compositeGround;
+	
 
 	private final double gravity = 0.0015;
-	private final double airResistance = 0.988;
+	private final double airResistance = 0.989;
 
-	private Random rnd;
-	
-	private TransitionType mLastTransitonType;
 
 	public GameplayState(GameHost host) {
 		super(host);
-		rnd = new Random();
-
-		mFonts = new Fonts();
-
-		compositeGround = new LinkedList<Box>();
-
-		recycledGroundTiles = new LinkedList<>();
-		for (int i = 0; i < 10; i++) {
-			Ground ground = new Ground();
-			ground.setPosition(i * Ground.TILE_WIDTH, 500);
-			recycledGroundTiles.add(ground);
-		}
-
-		recycledLavaTiles = new LinkedList<>();
-
-		for (int i = 0; i < 10; i++) {
-			Lava lava = new Lava();
-			lava.setPosition(i * Lava.LAVA_WIDTH, 520);
-			// compositeGround.add(lava);
-			recycledLavaTiles.add(lava);
-		}
 		
-		recycledSpikes = new LinkedList<>();
+		mBackground = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
+		mPlayer = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
+		ground = new Ground();
 		
-		for (int i = 0; i < 10; i++) {
-			Spikes spikes = new Spikes();
-			spikes.setPosition(i * Spikes.SPIKES_WIDTH, 480);
-			// compositeGround.add(lava);
-			recycledSpikes.add(spikes);
-		}
-
-		for (int i = 0; i < 5; i++) {
-			compositeGround.add(recycledGroundTiles.poll());
-		}
-
-		// entities = new ArrayList<>();
-		// entities.add(mPlayer);
-		// entities.add(box);
 		changeSpeed(gameSpeed);
+		
 	}
 
 	@Override
@@ -124,79 +76,29 @@ public class GameplayState extends GameState {
 
 		mBackground.render(g, sw, sh);
 
-		for (Box b : compositeGround) {
-			b.render(g, sw, sh);
-		}
+		ground.render(g, sw, sh);
 
 		mPlayer.render(g, sw, sh);
 
 	}
 
 	private void changeSpeed(double speed) {
-		for (Box b : compositeGround) {
-			b.setDX(speed);
-		}
+		ground.changeSpeed(speed);
 	}
 
-	private void generateTiles() {
-		if (compositeGround.getLast().getX() + compositeGround.getLast().getWidth() - 200 < GameConstants.FRAME_WIDTH) {
-
-			float n = rnd.nextFloat();
-
-			Box box = null;
-
-			if (!(compositeGround.getLast() instanceof Ground)) {
-				box = recycledGroundTiles.poll();
-			} else if (n < 0.75f) {
-				box = recycledGroundTiles.poll();
-			} else if (n < (1f - 0.75f)/2 + 0.75f) {
-				box = recycledSpikes.poll();
-			} else {
-				box = recycledLavaTiles.poll();
-			}
-
-			if (box == null) {
-				System.err.println("Recycling failed!");
-				return;
-			}
-
-			Box last = compositeGround.getLast();
-			box.setPosition(last.getX() + last.getWidth(), box.getY());
-			box.setDX(last.getDX());
-			compositeGround.addLast(box);
-
-		}
-	}
-
-	private void recycleTiles() {
-		if (compositeGround.getFirst().getX() + compositeGround.getFirst().getWidth() < 0) {
-			if (compositeGround.getFirst() instanceof Ground) {
-				System.out.println("recycling ground");
-				recycledGroundTiles.add((Ground) compositeGround.pollFirst());
-			} else if (compositeGround.getFirst() instanceof Lava) {
-				System.out.println("recycling lava");
-				recycledLavaTiles.add((Lava) compositeGround.pollFirst());
-			} else if (compositeGround.getFirst() instanceof Spikes) {
-				System.out.println("recycling lava");
-				recycledSpikes.add((Spikes) compositeGround.pollFirst());
-			}
-			
-		}
-	}
 
 	@Override
 	public void update() {
 
 		affectGraviation(mPlayer);
 		affectAirResistance(mPlayer);
-		recycleTiles();
+		
+		
+		ground.update();
+		
+		ground.recycleTiles();
+		ground.generateTiles();
 
-		generateTiles();
-
-		// apdejtuje trenutne pozicije za podlogu
-		for (Box b : compositeGround) {
-			b.update();
-		}
 
 		if (host.isKeyDown(KeyEvent.VK_A)) {
 			mPlayer.left();
@@ -205,7 +107,7 @@ public class GameplayState extends GameState {
 			mPlayer.right();
 		}
 
-		findIntersections();
+		ground.findIntersectionsWith(mPlayer);
 
 		// if (mPlayer.isIsAlive()) {
 		if (host.isKeyDown(KeyEvent.VK_W)) {
@@ -239,13 +141,7 @@ public class GameplayState extends GameState {
 		ge.setDX(ge.getDX() * airResistance);
 	}
 
-	public void findIntersections() {
-		// if (mPlayer.isIsAlive()) {
-		for (Box b : compositeGround) {
-			mPlayer.intersect(b);
-		}
-		// }
-	}
+
 
 	@Override
 	public void handleMouseDown(int x, int y, GFMouseButton button) {

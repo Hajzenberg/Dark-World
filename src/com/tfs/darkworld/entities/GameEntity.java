@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 
 
-public abstract class GameEntity {
+public abstract class GameEntity implements IUpdatable, IRenderable {
 	private static final boolean DEBUG_BODY = false;
 	private static final boolean DEBUG_INTERSECT= true;
 	
@@ -87,16 +87,17 @@ public abstract class GameEntity {
 		intersectionBody = new IntersectionRectBody();
 	}
 	
-
+	@Override
 	public void update() {
 		mX += mDX;
 		mY += mDY;
 		intersectionBody.updateIntersectionBody(mX, mY);
 	}
 
+	@Override
 	public void render(Graphics2D g, int sw, int sh) {
 		if (DEBUG_INTERSECT) {
-			intersectionBody.render(g);
+			intersectionBody.render(g,sw,sh);
 		}
 		if (DEBUG_BODY) {
 			g.setColor(Color.BLUE);

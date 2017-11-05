@@ -81,8 +81,8 @@ public class IntersectionRectBody implements IIntersectionBody {
 		y4 = y3;
 	}
 	
-	
-	public void render(Graphics2D g) {
+	@Override
+	public void render(Graphics2D g, int sw, int sh) {
 //		Color c = g.getColor();
 		g.setColor(Color.GREEN);
 		g.drawRect((int)x1, (int)y1,(int) iBodyWidth,(int) iBodyHeight);

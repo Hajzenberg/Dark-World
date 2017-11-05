@@ -9,12 +9,12 @@ public class Spikes extends Box{
 	public static final int SPIKES_WIDTH = 320;
 	public static final int SPIKES_HEIGHT = 60;
 	
-	private Ground ground;
+	private GroundTile ground;
 	
 	
 	public Spikes() {
-		super(SPIKES_WIDTH, SPIKES_HEIGHT+Ground.TILE_HEIGHT);
-		ground = new Ground();
+		super(SPIKES_WIDTH, SPIKES_HEIGHT+GroundTile.TILE_HEIGHT);
+		ground = new GroundTile();
 	}
 
 	@Override
