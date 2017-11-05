@@ -36,6 +36,7 @@ public class CommonRasters {
 	private static BufferedImage darkBackground;
 	private static BufferedImage mountainBackground;
 	private static BufferedImage playerSptitesheet;
+	private static BufferedImage spikes;
 
 
 	public static BufferedImage getLightBackground() {
@@ -108,6 +109,14 @@ public class CommonRasters {
 	
 	public static void setDyingSnapshot(BufferedImage dyingSnapshot) {
 		CommonRasters.dyingSnapshot = dyingSnapshot;
+	}
+
+	public static void setSpikes(BufferedImage loadImage) {
+		CommonRasters.spikes = loadImage;
+	}
+	
+	public static BufferedImage getSpikes() {
+		return spikes;
 	}
 	
 }

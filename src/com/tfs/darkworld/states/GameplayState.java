@@ -17,6 +17,7 @@ import com.tfs.darkworld.entities.GameEntity;
 import com.tfs.darkworld.entities.Ground;
 import com.tfs.darkworld.entities.Lava;
 import com.tfs.darkworld.entities.Player;
+import com.tfs.darkworld.entities.Spikes;
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.GameConstants;
@@ -39,7 +40,7 @@ public class GameplayState extends GameState {
 
 	private Queue<Ground> recycledGroundTiles;
 	private Queue<Lava> recycledLavaTiles;
-	// private Queue<Ground> recycledSiljak;
+	private Queue<Spikes> recycledSpikes;
 
 	private Deque<Box> compositeGround;
 
@@ -70,6 +71,15 @@ public class GameplayState extends GameState {
 			lava.setPosition(i * Lava.LAVA_WIDTH, 520);
 			// compositeGround.add(lava);
 			recycledLavaTiles.add(lava);
+		}
+		
+		recycledSpikes = new LinkedList<>();
+		
+		for (int i = 0; i < 10; i++) {
+			Spikes spikes = new Spikes();
+			spikes.setPosition(i * Spikes.SPIKES_WIDTH, 480);
+			// compositeGround.add(lava);
+			recycledSpikes.add(spikes);
 		}
 
 		for (int i = 0; i < 5; i++) {
@@ -139,6 +149,8 @@ public class GameplayState extends GameState {
 				box = recycledGroundTiles.poll();
 			} else if (n < 0.75f) {
 				box = recycledGroundTiles.poll();
+			} else if (n < (1f - 0.75f)/2 + 0.75f) {
+				box = recycledSpikes.poll();
 			} else {
 				box = recycledLavaTiles.poll();
 			}
@@ -164,7 +176,11 @@ public class GameplayState extends GameState {
 			} else if (compositeGround.getFirst() instanceof Lava) {
 				System.out.println("recycling lava");
 				recycledLavaTiles.add((Lava) compositeGround.pollFirst());
+			} else if (compositeGround.getFirst() instanceof Spikes) {
+				System.out.println("recycling lava");
+				recycledSpikes.add((Spikes) compositeGround.pollFirst());
 			}
+			
 		}
 	}
 
@@ -190,12 +206,12 @@ public class GameplayState extends GameState {
 		}
 
 		findIntersections();
-		
-//		if (mPlayer.isIsAlive()) {
-			if (host.isKeyDown(KeyEvent.VK_W)) {
-				mPlayer.jump();
-			}
-//		}
+
+		// if (mPlayer.isIsAlive()) {
+		if (host.isKeyDown(KeyEvent.VK_W)) {
+			mPlayer.jump();
+		}
+		// }
 		mPlayer.update();
 		mBackground.update();
 
@@ -208,7 +224,9 @@ public class GameplayState extends GameState {
 					BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
 			CommonRasters.setDyingSnapshot(mImage);
-			Transition.transitionTo(Strings.GAME_TO_RETRY_SATE, TransitionType.Crossfade, 1f);
+			host.setState(Strings.GAME_TO_RETRY_SATE);
+			// Transition.transitionTo(Strings.GAME_TO_RETRY_SATE, TransitionType.Crossfade,
+			// 0.2f);
 		}
 	}
 

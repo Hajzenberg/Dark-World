@@ -20,6 +20,8 @@ public class LoadingResurcesTask implements ITask {
 	private String skull = "design/skull.png";
 	private String tileGround = "design/ground1.jpg";
 	private String lavaGround = "design/lava.jpg";
+	
+	private String spikesGround = "design/siljci2.png";
 
 	@Override
 	public void doTask(IProgressListener progressListener, ITaskListener taskListener) {
@@ -39,6 +41,8 @@ public class LoadingResurcesTask implements ITask {
 		CommonRasters.setMenuBackgroundImg(menuBackgroundImage);
 		CommonRasters.setPlayerSptitesheet(playerSpritesheet);
 		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
+		CommonRasters.setSpikes(Util.loadImage(spikesGround));
+		
 		progressListener.updateProgress(50);
 	}
 }

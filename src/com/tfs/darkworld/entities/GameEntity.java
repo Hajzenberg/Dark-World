@@ -78,7 +78,10 @@ public abstract class GameEntity {
 	}
 	
 
-	public abstract void update();
+	public void update() {
+		mX += mDX;
+		mY += mDY;
+	}
 
 	public abstract void render(Graphics2D g, int sw, int sh);
 	

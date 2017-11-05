@@ -18,12 +18,12 @@ public class Ground extends Box {
 		g.drawImage(CommonRasters.getGroundTile(),(int) mX,(int) mY,(int) mWidth, (int)mHeight, null);
 	}
 
-
-	@Override
-	public void update() {
-		mX += mDX;
-		mY += mDY;
-	}
+//
+//	@Override
+//	public void update() {
+//		mX += mDX;
+//		mY += mDY;
+//	}
 
 
 	@Override

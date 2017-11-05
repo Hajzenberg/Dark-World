@@ -18,13 +18,13 @@ public class Player extends Character {
 	private static final int ACTION_FALL = 2;
 	// private static final int ACTION_RUN = 3;
 	private static final int ACTION_DIE = 1;
-
+	
 	private ArrayList<BufferedImage[]> mSprites;
 
 	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 };
 	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128 };
 	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128 };
-	private int[] mFrameIntervals = { 3, 3, 14, 5, 20, 3 };
+	private int[] mFrameIntervals = { 3, 30, 14, 5, 20, 3 };
 
 	private boolean officialyDead = false;
 
@@ -129,7 +129,7 @@ public class Player extends Character {
 				}
 			}
 		}
-		getNextPosition();
+		super.update();
 
 		if (mX + mWidth > GameConstants.FRAME_WIDTH - 100) {
 			mX = GameConstants.FRAME_WIDTH - 100 - mWidth;
@@ -160,11 +160,6 @@ public class Player extends Character {
 			return x;
 		}
 		return boundary;
-	}
-
-	private void getNextPosition() {
-		mX += mDX;
-		mY += mDY;
 	}
 
 	public void stop() {
@@ -245,7 +240,7 @@ public class Player extends Character {
 		case UpperLine:
 		case UpperLeftCorner:
 		case UpperRightCorner:
-			if (ge instanceof Lava) {
+			if (ge instanceof Lava || ge instanceof Spikes) {
 				if (mIsAlive) {
 					die();
 				}
