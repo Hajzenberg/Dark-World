@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import com.tfs.darkworld.entities.Background;
 import com.tfs.darkworld.entities.GameEntity;
@@ -14,6 +15,7 @@ import com.tfs.darkworld.res.GameConstants;
 import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.states.Transition.TransitionType;
 
+import jaco.mp3.player.MP3Player;
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
 import rafgfxlib.GameState;
@@ -25,17 +27,25 @@ public class GameplayState extends GameState {
 	
 	private double gameSpeed = -1.7;
 
-	private Background background;
 	private Ground ground;
-	private Player player;
+	private Player mPlayer;
 
 	private String lastStateTransitionedTo = "";
 
+	private Background mBackground;
+
+	
+//	private MP3Player moonwalkSong = new MP3Player(new File("music/moonwalk.mp3"));
+	private MP3Player gameSong;
+
 	public GameplayState(GameHost host) {
 		super(host);
-
-		background = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
-		player = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
+//		gameSong = new MP3Player(new File("music/gameplay.mp3"));
+		gameSong = new MP3Player(new File("music/moonwalk.mp3"));
+		gameSong.setRepeat(true);
+		
+		mBackground = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
+		mPlayer = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
 		ground = new Ground();
 
 		changeSpeed(gameSpeed);
@@ -58,16 +68,17 @@ public class GameplayState extends GameState {
 		System.out.println("RESUME STATE");
 		if (lastStateTransitionedTo.equals(Strings.GAME_TO_RETRY_SATE)) {
 			System.out.println("DOSAO IZ RETRY STATEA");
-			player.reset();
+			mPlayer.reset();
 		} else {
 			System.out.println("NIJE DOSAO IZ RETRY STATE-a");
+		}
+		if (gameSong.isPaused() || gameSong.isStopped()) {
+			gameSong.play();
 		}
 	}
 
 	@Override
 	public void suspendState() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -75,11 +86,11 @@ public class GameplayState extends GameState {
 
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		background.render(g, sw, sh);
+		mBackground.render(g, sw, sh);
 
 		ground.render(g, sw, sh);
 
-		player.render(g, sw, sh);
+		mPlayer.render(g, sw, sh);
 
 	}
 
@@ -90,8 +101,8 @@ public class GameplayState extends GameState {
 	@Override
 	public void update() {
 
-		affectGraviation(player);
-		affectAirResistance(player);
+		affectGraviation(mPlayer);
+		affectAirResistance(mPlayer);
 
 		ground.update();
 
@@ -99,29 +110,29 @@ public class GameplayState extends GameState {
 		ground.generateTiles();
 
 		if (host.isKeyDown(KeyEvent.VK_A)) {
-			player.left();
+			mPlayer.left();
 		}
 		if (host.isKeyDown(KeyEvent.VK_D)) {
-			player.right();
+			mPlayer.right();
 		}
 		if (host.isKeyDown(KeyEvent.VK_S)) {
-			player.down();
+			mPlayer.down();
 		}
-		ground.findIntersectionsWith(player);
+		ground.findIntersectionsWith(mPlayer);
 
 		// if (mPlayer.isIsAlive()) {
 		if (host.isKeyDown(KeyEvent.VK_W)) {
-			player.jump();
+			mPlayer.jump();
 		}
 		// }
-		player.update();
-		background.update();
+		mPlayer.update();
+		mBackground.update();
 
-		if (!player.isIsAlive()) {
+		if (!mPlayer.isIsAlive()) {
 			changeSpeed(0);
 		}
 
-		if (player.isOfficialyDead()) {
+		if (mPlayer.isOfficialyDead()) {
 			BufferedImage mImage = new BufferedImage(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH,
 					BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
@@ -167,12 +178,12 @@ public class GameplayState extends GameState {
 			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
 			CommonRasters.setLastScreenCapture(mImage);
-
+			gameSong.pause();
 			host.setState(Strings.GAME_TO_PAUSE_SATE);
 			lastStateTransitionedTo = Strings.GAME_TO_PAUSE_SATE;
 			break;
 		case KeyEvent.VK_ESCAPE:
-			
+			gameSong.pause();
 			Transition.transitionTo(Strings.MENU_SATE, TransitionType.ZoomOut, 0.5f);
 			lastStateTransitionedTo = Strings.MENU_SATE;
 			break;
@@ -185,10 +196,10 @@ public class GameplayState extends GameState {
 	public void handleKeyUp(int keyCode) {
 		switch (keyCode) {
 		case KeyEvent.VK_D:
-			player.stop();
+			mPlayer.stop();
 			break;
 		case KeyEvent.VK_A:
-			player.stop();
+			mPlayer.stop();
 			break;
 		default:
 			break;

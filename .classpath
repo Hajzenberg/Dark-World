@@ -5,6 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="src/com/tfs/darkworld/libs/rtransformations.jar"/>
 	<classpathentry kind="lib" path="src/com/tfs/darkworld/libs/jaco-mp3-player-0.9.4.jar"/>
+	<classpathentry kind="lib" path="src/com/tfs/darkworld/libs/RAFGFXlib-src.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RAFFGXlib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

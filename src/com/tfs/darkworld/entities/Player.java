@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.GameConstants;
 
-import rafgfxlib.Util;
-
 public class Player extends Character {
 
 	// private static final int ACTION_ATTACK = 1;
@@ -52,13 +50,14 @@ public class Player extends Character {
 
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
+	
 
+	
 	public Player(int sw, int sh) {
 		super(30, 30, SPEED, NORMAL_MASS);
 		
 		/* Mora se pozvati pre reset da bi se popunili nizovi koje koristi animacija */
 		try {
-			BufferedImage spritesheet = Util.loadImage("design/character_sheet.png");
 
 			int count = 0;
 			mSprites = new ArrayList<BufferedImage[]>();
@@ -105,7 +104,7 @@ public class Player extends Character {
 					normal = false;
 					accelerating = true;
 					setAnimation(ACTION_RUN);
-
+					
 				}
 			} else if (mDX < 0) {
 				if (!slowing) {
