@@ -3,12 +3,14 @@ package com.tfs.darkworld.entities;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.GameConstants;
 
+import jaco.mp3.player.MP3Player;
 import rafgfxlib.Util;
 
 public class Player extends Character {
@@ -66,13 +68,13 @@ public class Player extends Character {
 
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
+	
 
+	
 	public Player(int sw, int sh) {
 		super(30, 30, 1.3, 10);
-		
 		/* Mora se pozvati pre reset da bi se popunili nizovi koje koristi animacija */
 		try {
-			BufferedImage spritesheet = Util.loadImage("design/character_sheet.png");
 
 			int count = 0;
 			mSprites = new ArrayList<BufferedImage[]>();
@@ -123,7 +125,7 @@ public class Player extends Character {
 					normal = false;
 					accelerating = true;
 					setAnimation(ACTION_RUN);
-
+					
 				}
 			} else if (mDX < 0) {
 				if (!slowing) {

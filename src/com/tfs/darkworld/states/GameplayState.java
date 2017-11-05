@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import com.tfs.darkworld.entities.Background;
 import com.tfs.darkworld.entities.GameEntity;
@@ -15,6 +16,7 @@ import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
 import com.tfs.darkworld.states.Transition.TransitionType;
 
+import jaco.mp3.player.MP3Player;
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
 import rafgfxlib.GameState;
@@ -29,14 +31,17 @@ public class GameplayState extends GameState {
 
 	private Ground ground;
 
-	
-
 	private final double gravity = 0.0015;
 	private final double airResistance = 0.989;
-
+	
+//	private MP3Player moonwalkSong = new MP3Player(new File("music/moonwalk.mp3"));
+	private MP3Player gameSong;
 
 	public GameplayState(GameHost host) {
 		super(host);
+//		gameSong = new MP3Player(new File("music/gameplay.mp3"));
+		gameSong = new MP3Player(new File("music/moonwalk.mp3"));
+		gameSong.setRepeat(true);
 		
 		mBackground = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
 		mPlayer = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
@@ -59,14 +64,13 @@ public class GameplayState extends GameState {
 
 	@Override
 	public void resumeState() {
-		// TODO Auto-generated method stub
-
+		if (gameSong.isPaused() || gameSong.isStopped()) {
+			gameSong.play();
+		}
 	}
 
 	@Override
 	public void suspendState() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -170,11 +174,12 @@ public class GameplayState extends GameState {
 			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
 			CommonRasters.setLastScreenCapture(mImage);
-
+			gameSong.pause();
 			host.setState(Strings.GAME_TO_PAUSE_SATE);
 			// Transition.transitionTo(Strings.GAME_TO_PAUSE_SATE, null, 0.5f);
 			break;
 		case KeyEvent.VK_ESCAPE:
+			gameSong.pause();
 			Transition.transitionTo(Strings.MENU_SATE, TransitionType.ZoomOut, 0.5f);
 			mPlayer.reset();
 			break;
