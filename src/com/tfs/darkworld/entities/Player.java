@@ -31,9 +31,10 @@ public class Player extends Character {
 //	private static final int WALKING_SPEED_OFFSET =  4;
 	
 	//Draza
-	private static final int RUNNING_FRAMES = 6;
-	private static final int WALKING_FRAMES = 6;
-	private static final int WALKING_SPEED_OFFSET =  4;
+	private static final int RUNNING_FRAMES = 4;
+	private static final int WALKING_FRAMES = 5;
+	private static final int WALKING_SPEED_OFFSET =  2;
+
 
 	private ArrayList<BufferedImage[]> mSprites;
 
@@ -58,7 +59,6 @@ public class Player extends Character {
 		
 		/* Mora se pozvati pre reset da bi se popunili nizovi koje koristi animacija */
 		try {
-
 			int count = 0;
 			mSprites = new ArrayList<BufferedImage[]>();
 			for (int i = 0; i < mNumOfFrames.length; i++) {
@@ -100,6 +100,7 @@ public class Player extends Character {
 		if (mIsAlive && !mIsJumping) {
 			if (mDX > 0) {
 				if (!accelerating) {
+					System.out.println("TRCANJE");
 					slowing = false;
 					normal = false;
 					accelerating = true;
@@ -108,18 +109,20 @@ public class Player extends Character {
 				}
 			} else if (mDX < 0) {
 				if (!slowing) {
+					System.out.println("SPORI HOD");
 					accelerating = false;
 					slowing = true;
 					normal = false;
-					mFrameIntervals[ACTION_WALK] = WALKING_FRAMES;
+					mFrameIntervals[ACTION_WALK] = WALKING_FRAMES + WALKING_SPEED_OFFSET;
 					setAnimation(ACTION_WALK);
 				}
 			} else {
 				if (!normal) {
+					System.out.println("NORMALAN HOD");
 					accelerating = false;
 					slowing = false;
 					normal = true;
-					mFrameIntervals[ACTION_WALK] = WALKING_FRAMES + WALKING_SPEED_OFFSET;
+					mFrameIntervals[ACTION_WALK] = WALKING_FRAMES;
 					setAnimation(ACTION_WALK);
 				}
 			}
