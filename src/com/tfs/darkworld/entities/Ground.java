@@ -127,13 +127,13 @@ public class Ground implements IRenderable, IUpdatable {
 	public void recycleTiles() {
 		if (compositeGround.getFirst().getX() + compositeGround.getFirst().getWidth() < 0) {
 			if (compositeGround.getFirst() instanceof GroundTile) {
-				System.out.println("recycling ground");
+				//System.out.println("recycling ground");
 				recycledGroundTiles.add((GroundTile) compositeGround.pollFirst());
 			} else if (compositeGround.getFirst() instanceof Lava) {
-				System.out.println("recycling lava");
+				//System.out.println("recycling lava");
 				recycledLavaTiles.add((Lava) compositeGround.pollFirst());
 			} else if (compositeGround.getFirst() instanceof Spikes) {
-				System.out.println("recycling spikes");
+				//System.out.println("recycling spikes");
 				recycledSpikes.add((Spikes) compositeGround.pollFirst());
 			}
 		}

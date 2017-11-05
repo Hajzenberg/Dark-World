@@ -40,8 +40,8 @@ public class GameplayState extends GameState {
 
 	public GameplayState(GameHost host) {
 		super(host);
-//		gameSong = new MP3Player(new File("music/gameplay.mp3"));
-		gameSong = new MP3Player(new File("music/moonwalk.mp3"));
+		gameSong = new MP3Player(new File("music/sanity.mp3"));
+		//gameSong = new MP3Player(new File("music/moonwalk.mp3"));
 		gameSong.setRepeat(true);
 		
 		mBackground = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);

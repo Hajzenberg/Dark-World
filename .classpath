@@ -6,6 +6,5 @@
 	<classpathentry kind="lib" path="src/com/tfs/darkworld/libs/rtransformations.jar"/>
 	<classpathentry kind="lib" path="src/com/tfs/darkworld/libs/jaco-mp3-player-0.9.4.jar"/>
 	<classpathentry kind="lib" path="src/com/tfs/darkworld/libs/RAFGFXlib-src.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RAFFGXlib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -100,7 +100,7 @@ public class Player extends Character {
 		if (mIsAlive && !mIsJumping) {
 			if (mDX > 0) {
 				if (!accelerating) {
-					System.out.println("TRCANJE");
+					//System.out.println("TRCANJE");
 					slowing = false;
 					normal = false;
 					accelerating = true;
@@ -109,7 +109,7 @@ public class Player extends Character {
 				}
 			} else if (mDX < 0) {
 				if (!slowing) {
-					System.out.println("SPORI HOD");
+					//System.out.println("SPORI HOD");
 					accelerating = false;
 					slowing = true;
 					normal = false;
@@ -118,7 +118,7 @@ public class Player extends Character {
 				}
 			} else {
 				if (!normal) {
-					System.out.println("NORMALAN HOD");
+					//System.out.println("NORMALAN HOD");
 					accelerating = false;
 					slowing = false;
 					normal = true;

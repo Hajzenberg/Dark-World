@@ -31,13 +31,13 @@ public class BackgroundTile extends GameEntity {
 	@Override
 	public void update() {
 		// super.update();
-		mX -= mDX;
+		mX -= (scaleSpeed * mDX);
 	}
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
 		// super.render(g, sw, sh);
-		g.drawImage(image, (int) (scaleSpeed * mX), (int) mY + topOffset, null);
+		g.drawImage(image, (int) mX, (int) mY + topOffset, null);
 	}
 
 }
