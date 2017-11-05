@@ -10,16 +10,16 @@ import rafgfxlib.Util;
 
 public class LoadingResurcesTask implements ITask {
 	
-	private String playerSpriteSheetPath = "design/Undead_Knight_F_noBG.png";
-	private String mountainImagePath = "design/mountain.png";
+	/* Menu state */
 	private String menuBackgroundImgPath = "design/GatesOfHell.png";
 	private String skullImagePath = "design/skull.png";
 	
-
-	private String menuBackgroundImg = "design/GatesOfHell.png";
-	private String skull = "design/skull.png";
+	/* Gameplay state */
 	private String tileGround = "design/ground1.jpg";
 	private String lavaGround = "design/lava.jpg";
+	private String playerSpriteSheetPath = "design/character_sheet.png";
+	private String mountainImagePath = "design/mountain.png";
+	
 
 	@Override
 	public void doTask(IProgressListener progressListener, ITaskListener taskListener) {
@@ -29,15 +29,22 @@ public class LoadingResurcesTask implements ITask {
 		taskListener.updateTaskName("Loading images...");
 		progressListener.updateProgress(0);
 		
-		BufferedImage playerSpritesheet = Util.loadImage(playerSpriteSheetPath);
-		BufferedImage menuBackgroundImage = Util.loadImage(menuBackgroundImg);
-		BufferedImage rotatingSkullImage = Util.loadImage(skull);
+		CommonRasters.setParticleImg(Util.loadImage(skullImagePath));
 		CommonRasters.setGroundTile(Util.loadImage(tileGround));
 		CommonRasters.setLavaTile(Util.loadImage(lavaGround));
 
 		progressListener.updateProgress(50);
-		CommonRasters.setMenuBackgroundImg(menuBackgroundImage);
-		CommonRasters.setPlayerSptitesheet(playerSpritesheet);
+		
+		BufferedImage img = Util.loadImage(playerSpriteSheetPath);
+		
+		if (img == null){
+			System.out.println("NULL");
+		} else {
+			System.out.println(img.getWidth()+" "+img.getHeight());
+		}
+		
+		CommonRasters.setMenuBackgroundImg(Util.loadImage(menuBackgroundImgPath));
+		CommonRasters.setPlayerSptitesheet(img);
 		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
 		progressListener.updateProgress(50);
 	}

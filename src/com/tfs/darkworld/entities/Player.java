@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.GameConstants;
 
 import rafgfxlib.Util;
@@ -13,24 +14,21 @@ public class Player extends Character {
 
 	private static final int ACTION_IDLE = 0;
 	// private static final int ACTION_ATTACK = 1;
-	private static final int ACTION_WALK = 4;
+	private static final int ACTION_WALK = 6;
 	private static final int ACTION_JUMP = 5;
-	private static final int ACTION_FALL = 2;
+	private static final int ACTION_FALL = 5;
 	// private static final int ACTION_RUN = 3;
 	private static final int ACTION_DIE = 1;
+	private static final int ACTION_RUN = 4;
 
 	private ArrayList<BufferedImage[]> mSprites;
 
-	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 };
-	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128 };
-	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128 };
-	private int[] mFrameIntervals = { 3, 3, 14, 5, 20, 3 };
+	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6, 10, 10 };
+	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128, 128, 128 };
+	private int[] mFrameIntervals = { 3, 3, 14, 5, 10, 3, 6, 3 };
 
 	private boolean officialyDead = false;
-
-	public boolean isOfficialyDead() {
-		return officialyDead;
-	}
 
 	/*
 	 * private static final int ACTION_IDLE = 0; // private static final int
@@ -51,12 +49,9 @@ public class Player extends Character {
 
 	public Player(int sw, int sh) {
 		super(30, 30, 1.3, 10);
-		mIsAlive = true;
-		mCurrentAnimation = new Animation();
-		mJumpingForce = 5;
-
+		
+		/* Mora se pozvati pre reset da bi se popunili nizovi koje koristi animacija */
 		try {
-
 			BufferedImage spritesheet = Util.loadImage("design/character_sheet.png");
 
 			int count = 0;
@@ -74,10 +69,12 @@ public class Player extends Character {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		setAnimation(ACTION_WALK);
-		// System.out.println("posle "+width + " " + height);
-		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
+		
+		/* Izdvojena logika za setovanje igraca
+		 * na default poziciju pri startovanju
+		 * nivoa
+		 */
+		reset();
 	}
 
 	private boolean accelerating = false;
@@ -99,7 +96,7 @@ public class Player extends Character {
 					slowing = false;
 					normal = false;
 					accelerating = true;
-					mFrameIntervals[ACTION_WALK] = 20;
+					//mFrameIntervals[ACTION_WALK] = 20;
 					setAnimation(ACTION_WALK);
 
 				}
@@ -108,7 +105,7 @@ public class Player extends Character {
 					accelerating = false;
 					slowing = true;
 					normal = false;
-					mFrameIntervals[ACTION_WALK] = 50;
+					//mFrameIntervals[ACTION_WALK] = 50;
 					setAnimation(ACTION_WALK);
 				}
 			} else {
@@ -116,7 +113,7 @@ public class Player extends Character {
 					accelerating = false;
 					slowing = false;
 					normal = true;
-					mFrameIntervals[ACTION_WALK] = 30;
+					//mFrameIntervals[ACTION_WALK] = 30;
 					setAnimation(ACTION_WALK);
 				}
 			}
@@ -256,5 +253,23 @@ public class Player extends Character {
 		default:
 			break;
 		}
+	}
+	
+	public void reset(){
+		mX = 100;
+		mY = 400;
+		
+		mCurrentAnimation = new Animation();
+		mJumpingForce = 5;
+		
+		mIsAlive = true;
+		officialyDead = false;
+		
+		setAnimation(ACTION_WALK);
+		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
+	}
+	
+	public boolean isOfficialyDead() {
+		return officialyDead;
 	}
 }

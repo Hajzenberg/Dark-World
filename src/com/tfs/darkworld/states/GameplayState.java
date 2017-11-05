@@ -47,6 +47,8 @@ public class GameplayState extends GameState {
 	private final double airResistance = 0.988;
 
 	private Random rnd;
+	
+	private TransitionType mLastTransitonType;
 
 	public GameplayState(GameHost host) {
 		super(host);
@@ -75,8 +77,6 @@ public class GameplayState extends GameState {
 		for (int i = 0; i < 5; i++) {
 			compositeGround.add(recycledGroundTiles.poll());
 		}
-
-		mPlayer.setPosition(100, 400);
 
 		// entities = new ArrayList<>();
 		// entities.add(mPlayer);
@@ -262,6 +262,7 @@ public class GameplayState extends GameState {
 			break;
 		case KeyEvent.VK_ESCAPE:
 			Transition.transitionTo(Strings.MENU_SATE, TransitionType.ZoomOut, 0.5f);
+			mPlayer.reset();
 			break;
 		default:
 			break;
@@ -278,6 +279,11 @@ public class GameplayState extends GameState {
 		case KeyEvent.VK_A:
 			mPlayer.stop();
 			// mPlayer.setLeft(false);
+			break;
+		case KeyEvent.VK_R:
+			if (!mPlayer.isIsAlive()){
+				mPlayer.reset();
+			}
 			break;
 		default:
 			break;

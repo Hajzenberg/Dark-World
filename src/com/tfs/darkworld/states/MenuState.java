@@ -75,6 +75,10 @@ public class MenuState extends GameState{
 
 	@Override
 	public void suspendState() {
+		for (Particle particle : parts) {
+			particle.life = 0;
+		}
+		
 		mp3Player.pause();
 	}
 	
