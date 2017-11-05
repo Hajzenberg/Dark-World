@@ -10,6 +10,10 @@ public class Lava extends Box {
 	
 	public Lava() {
 		super(LAVA_WIDTH, LAVA_HEIGHT);
+		intersectionBody.setLeftOffset(0);
+		intersectionBody.setUpperOffset(0);
+		intersectionBody.setHeight(LAVA_HEIGHT);
+		intersectionBody.setWidth(LAVA_WIDTH);
 	}
 
 	@Override

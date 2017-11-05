@@ -20,10 +20,10 @@ import rafgfxlib.GameState;
 
 public class GameplayState extends GameState {
 
-	private final double gravity = 0.0015;
+	private final double gravity = 0.0055;
 	private final double airResistance = 0.989;
 	
-	private double gameSpeed = -0.7;
+	private double gameSpeed = -1.7;
 
 	private Background background;
 	private Ground ground;
@@ -104,7 +104,9 @@ public class GameplayState extends GameState {
 		if (host.isKeyDown(KeyEvent.VK_D)) {
 			player.right();
 		}
-
+		if (host.isKeyDown(KeyEvent.VK_S)) {
+			player.down();
+		}
 		ground.findIntersectionsWith(player);
 
 		// if (mPlayer.isIsAlive()) {

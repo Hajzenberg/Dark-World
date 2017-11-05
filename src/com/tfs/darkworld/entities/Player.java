@@ -18,8 +18,9 @@ public class Player extends Character {
 	private static final int ACTION_DIE = 1;
 	private static final int ACTION_RUN = 4;
 
-	private static final double NORMAL_MASS = 10;
-	private static final double FALLING_MASS = 30;
+	private static final double NORMAL_MASS = 40;
+	private static final double JUMPING_FORCE = 13;
+	private static final double SPEED = 4.3;
 	
 	//Djole
 //	private static final int RUNNING_FRAMES = 20;
@@ -32,7 +33,7 @@ public class Player extends Character {
 //	private static final int WALKING_SPEED_OFFSET =  4;
 	
 	//Draza
-	private static final int RUNNING_FRAMES = 10;
+	private static final int RUNNING_FRAMES = 6;
 	private static final int WALKING_FRAMES = 6;
 	private static final int WALKING_SPEED_OFFSET =  4;
 
@@ -49,25 +50,11 @@ public class Player extends Character {
 	private boolean slowing = false;
 	private boolean normal = false;
 
-	/*
-	 * private static final int ACTION_IDLE = 0; // private static final int
-	 * ACTION_ATTACK = 1; private static final int ACTION_WALK = 4; private static
-	 * final int ACTION_JUMP = 5; private static final int ACTION_FALL = 2;
-	 * //private static final int ACTION_RUN = 3;
-	 * 
-	 * private ArrayList<BufferedImage[]> mSprites;
-	 * 
-	 * private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 }; private int[]
-	 * mFrameWidths = { 128, 128, 128, 128, 128, 128 }; private int[] mFrameLengths
-	 * = { 128, 128, 128, 128, 128, 128 }; private int[] mFrameIntervals = { 3, 3,
-	 * 14, 3, 3, 3 };
-	 */
-
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
 
 	public Player(int sw, int sh) {
-		super(30, 30, 1.3, 10);
+		super(30, 30, SPEED, NORMAL_MASS);
 		
 		/* Mora se pozvati pre reset da bi se popunili nizovi koje koristi animacija */
 		try {
@@ -195,6 +182,12 @@ public class Player extends Character {
 			mDX = +mSpeed;
 		}
 	}
+	
+	public void down() {
+		if (mIsAlive && mIsJumping) {
+			mDY = +15;
+		}
+	}
 
 	private void setAnimation(int i) {
 		mCurrentAction = i;
@@ -231,10 +224,6 @@ public class Player extends Character {
 		System.err.println("Just died!");
 	}
 
-	public Rectangle2D getCharacterRect() {
-		return mCharacterRect;
-	}
-
 	@Override
 	public void intersect(GameEntity ge) {
 
@@ -263,7 +252,7 @@ public class Player extends Character {
 		mY = 100;		//375
 		
 		mCurrentAnimation = new Animation();
-		mJumpingForce = 5;
+		mJumpingForce = JUMPING_FORCE;
 		
 		mIsAlive = true;
 		officialyDead = false;

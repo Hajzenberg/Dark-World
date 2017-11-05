@@ -15,6 +15,12 @@ public class Spikes extends Box{
 	public Spikes() {
 		super(SPIKES_WIDTH, SPIKES_HEIGHT+GroundTile.TILE_HEIGHT);
 		ground = new GroundTile();
+		
+		intersectionBody.setLeftOffset(20);
+		intersectionBody.setUpperOffset(10);
+		intersectionBody.setHeight(SPIKES_HEIGHT-10);
+		intersectionBody.setWidth(SPIKES_WIDTH-40);
+		
 	}
 
 	@Override

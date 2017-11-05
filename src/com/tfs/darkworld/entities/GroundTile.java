@@ -10,6 +10,10 @@ public class GroundTile extends Box {
 	
 	public GroundTile() {
 		super(TILE_WIDTH, TILE_HEIGHT);
+		intersectionBody.setLeftOffset(0);
+		intersectionBody.setUpperOffset(0);
+		intersectionBody.setHeight(TILE_HEIGHT);
+		intersectionBody.setWidth(TILE_WIDTH);
 	}
 
 
