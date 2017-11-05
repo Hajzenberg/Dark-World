@@ -44,7 +44,7 @@ public class Background extends GameEntity {
 	 */
 	private void initTiles() {
 
-		skyTile = new SkyTile(SCALE_SKY_SPEED);
+		skyTile = new SkyTile(SCALE_SKY_SPEED, mDX);
 
 		forestTileArray = new ArrayList<>();
 		mountainTileArray = new ArrayList<>();

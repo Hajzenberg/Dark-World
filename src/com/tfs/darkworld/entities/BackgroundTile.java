@@ -31,7 +31,7 @@ public class BackgroundTile extends GameEntity {
 	@Override
 	public void update() {
 		// super.update();
-		mX -= (scaleSpeed * mDX);
+		mX -= scaleSpeed * mDX;
 	}
 
 	@Override
