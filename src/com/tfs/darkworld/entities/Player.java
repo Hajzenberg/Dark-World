@@ -3,6 +3,7 @@ package com.tfs.darkworld.entities;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 
 import com.tfs.darkworld.res.GameConstants;
@@ -18,13 +19,20 @@ public class Player extends Character {
 	private static final int ACTION_FALL = 2;
 	// private static final int ACTION_RUN = 3;
 	private static final int ACTION_DIE = 1;
-	
+
+	private static final double NORMAL_MASS = 10;
+	private static final double FALLING_MASS = 30;
+
+	private static final int RUNNING_FRAMES = 20;
+	private static final int WALKING_FRAMES = 30;
+	private static final int SLOWING_FRAMES = 50;
+
 	private ArrayList<BufferedImage[]> mSprites;
 
 	private int[] mNumOfFrames = { 12, 10, 8, 8, 8, 6 };
 	private int[] mFrameWidths = { 128, 128, 128, 128, 128, 128 };
 	private int[] mFrameLengths = { 128, 128, 128, 128, 128, 128 };
-	private int[] mFrameIntervals = { 3, 30, 14, 5, 20, 3 };
+	private int[] mFrameIntervals = { 3, 30, 14, 5, 20, 20 };
 
 	private boolean officialyDead = false;
 
@@ -78,6 +86,12 @@ public class Player extends Character {
 		setAnimation(ACTION_WALK);
 		// System.out.println("posle "+width + " " + height);
 		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
+
+		intersectionBody.setLeftOffset(32);
+		intersectionBody.setUpperOffset(0);
+		intersectionBody.setHeight(mHeight);
+		intersectionBody.setWidth(64);
+
 	}
 
 	private boolean accelerating = false;
@@ -93,13 +107,13 @@ public class Player extends Character {
 			}
 		}
 
-		if (mIsAlive) {
+		if (mIsAlive && !mIsJumping) {
 			if (mDX > 0) {
 				if (!accelerating) {
 					slowing = false;
 					normal = false;
 					accelerating = true;
-					mFrameIntervals[ACTION_WALK] = 20;
+					mFrameIntervals[ACTION_WALK] = RUNNING_FRAMES;
 					setAnimation(ACTION_WALK);
 
 				}
@@ -108,7 +122,7 @@ public class Player extends Character {
 					accelerating = false;
 					slowing = true;
 					normal = false;
-					mFrameIntervals[ACTION_WALK] = 50;
+					mFrameIntervals[ACTION_WALK] = SLOWING_FRAMES;
 					setAnimation(ACTION_WALK);
 				}
 			} else {
@@ -116,19 +130,32 @@ public class Player extends Character {
 					accelerating = false;
 					slowing = false;
 					normal = true;
-					mFrameIntervals[ACTION_WALK] = 30;
+					mFrameIntervals[ACTION_WALK] = WALKING_FRAMES;
 					setAnimation(ACTION_WALK);
 				}
 			}
-
+		} else if (mIsAlive && mIsJumping) {
 			if (mDY == 0) {
-
 				if (mIsJumping) {
 					setAnimation(ACTION_WALK);
 					mIsJumping = false;
 				}
+
+				// if (mIsJumping && onTheGround) {
+				// System.out.println("NORMAL MASS");
+				// setAnimation(ACTION_WALK);
+				// mass = NORMAL_MASS;
+				// mIsJumping = false;
+				// onTheGround = true;
+				// }
+				// else if (mIsJumping && !onTheGround) {
+				// System.out.println("FALLING MASS");
+				// mass = FALLING_MASS;
+				// }
 			}
+
 		}
+
 		super.update();
 
 		if (mX + mWidth > GameConstants.FRAME_WIDTH - 100) {
@@ -138,14 +165,13 @@ public class Player extends Character {
 		}
 
 		mCurrentAnimation.update();
-
-		mCharacterRect.setRect(mX, mY, mWidth, mHeight);
 	}
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
+		super.render(g, sw, sh);
+
 		g.drawImage(mCurrentAnimation.getImage(), (int) mX, (int) mY + 3, null);
-		g.draw(mCharacterRect);
 	}
 
 	private double boundGreater(double x, double boundary) {
@@ -171,6 +197,7 @@ public class Player extends Character {
 			if (mDY == 0) {
 				setAnimation(ACTION_JUMP);
 				mIsJumping = true;
+				mIsFalling = false;
 				mDY = -mJumpingForce;
 			}
 		}
@@ -234,7 +261,7 @@ public class Player extends Character {
 	@Override
 	public void intersect(GameEntity ge) {
 
-		IntersectType intersectType = isIntersecting(ge);
+		IntersectType intersectType = intersectionBody.isIntersecting(ge.intersectionBody);
 
 		switch (intersectType) {
 		case UpperLine:
@@ -246,7 +273,7 @@ public class Player extends Character {
 				}
 			}
 			mDY = 0;
-			mY = (ge.getPY1() - mHeight);
+			mY = (ge.getY() - mHeight);
 			break;
 		default:
 			break;

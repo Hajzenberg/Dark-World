@@ -14,8 +14,8 @@ public class Lava extends Box {
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
-		
 		g.drawImage(CommonRasters.getLavaTile(),(int) mX,(int) mY,(int)mWidth,(int)mHeight, null);
+		super.render(g, sw, sh);
 	}
 
 	@Override

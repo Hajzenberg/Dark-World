@@ -21,6 +21,7 @@ public class Spikes extends Box{
 	public void render(Graphics2D g, int sw, int sh) {
 		g.drawImage(CommonRasters.getSpikes(),(int) mX,(int) mY,(int)SPIKES_WIDTH,(int)SPIKES_HEIGHT, null);
 		ground.render(g, sw, sh);
+		super.render(g, sw, sh);
 	}
 	
 	@Override
