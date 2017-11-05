@@ -24,7 +24,7 @@ public class Game {
 		asyncLoader.addTask(new StateLoading(mGameHost));
 		asyncLoader.addTask(new BackgroundGeneratingTask());
 		
-		mGameHost.setUpdateRate(60);
+		mGameHost.setUpdateRate(120);
 		new LoadingState(mGameHost,asyncLoader);
 	}
 	

@@ -113,7 +113,7 @@ public class LoadingState extends GameState {
 			offset = (offset + 1) % msStrings.length;
 		}
 		if (percent == 100) {
-			Transition.transitionTo(Strings.MENU_SATE, TransitionType.Crossfade, 3f);
+			Transition.transitionTo(Strings.MENU_SATE, TransitionType.Crossfade, 1f);
 		}
 
 	}

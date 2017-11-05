@@ -100,8 +100,7 @@ public class Transition extends GameState
 	@Override
 	public boolean handleWindowClose()
 	{
-		// Ignorisacemo zatvaranje tokom tranzicije
-		return false;
+		return true;
 	}
 
 	@Override
