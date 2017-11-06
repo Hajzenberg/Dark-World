@@ -1,5 +1,6 @@
 package com.tfs.darkworld.entities;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
@@ -8,13 +9,13 @@ import com.tfs.darkworld.res.CommonRasters;
 
 public class SkyTile extends GameEntity {
 
-	private static float MAX_OFFSET = 1;
+	private static double MAX_OFFSET = 0.95;
 
 	private double scaleSpeed;
 
 	// Alfa offset vrednosti za nebo
-	private float deltaAlphaOffset = 0.001f;
-	private float alphaOffset = 1f;
+	private double deltaAlphaOffset = - 0.001;
+	private double alphaOffset = 0.95;
 
 	public SkyTile(double scaleSpeed, double dX) {
 		super(0, 0, 0);
@@ -30,19 +31,24 @@ public class SkyTile extends GameEntity {
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
-		float[] scales = { 1f, 1f, 1f, alphaOffset };
-		float[] offsets = new float[4];
-		RescaleOp rop = new RescaleOp(scales, offsets, null);
-
-		float[] scales1 = { 1f, 1f, 1f, MAX_OFFSET - alphaOffset };
-		float[] offsets1 = new float[4];
-		RescaleOp rop1 = new RescaleOp(scales, offsets, null);
-
-		// g.drawImage(CommonRasters.getLightSky(), rop, (int) mX, (int) mY);
-		// g.drawImage(CommonRasters.getDarkSky(), rop1, (int)mX, (int)mY);
+		
+		AlphaComposite c = (AlphaComposite) g.getComposite();
+		
+		
+		
+		AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (MAX_OFFSET - alphaOffset));
+		g.setComposite(composite);
+		
+		g.drawImage(CommonRasters.getDarkSky(), (int) mX, (int) mY, null);
+		
+		composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) alphaOffset);
+		g.setComposite(composite);
+		
 
 		g.drawImage(CommonRasters.getLightSky(), (int) mX, (int) mY, null);
-		//g.drawImage(CommonRasters.getDarkSky(), (int) mX, (int) mY, null);
+		
+		
+		g.setComposite(c);
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class SkyTile extends GameEntity {
 		mX -= scaleSpeed * mDX;
 		alphaOffset += deltaAlphaOffset;
 
-		if (alphaOffset <= 0 || alphaOffset >= 1) {
+		if (alphaOffset <= 0.05 || alphaOffset >= 0.95) {
 			deltaAlphaOffset = -deltaAlphaOffset;
 		}
 	}

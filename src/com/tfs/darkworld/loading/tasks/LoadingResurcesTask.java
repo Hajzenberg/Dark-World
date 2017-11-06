@@ -19,6 +19,9 @@ public class LoadingResurcesTask implements ITask {
 	private String playerSpriteSheetPath = "design/character_sheet.png";
 	private String mountainImagePath = "design/mountain.png";
 	private String forestImagePath = "design/forest.png";
+	private String coinImagePath = "design/coin.png";
+	private String explosionImagePath = "design/explosion.png";
+	private String rocketImagePath = "design/rocket.png";
 
 	@Override
 	public void doTask(IProgressListener progressListener, ITaskListener taskListener) {
@@ -37,7 +40,13 @@ public class LoadingResurcesTask implements ITask {
 		CommonRasters.setLavaTile(Util.loadImage(lavaGround));
 		CommonRasters.setSpikes(Util.loadImage(spikesGround));
 		
-		progressListener.updateProgress(40);
+		progressListener.updateProgress(20);
+		
+		CommonRasters.setCoinSheet(Util.loadImage(coinImagePath));
+		CommonRasters.setExplosionSheet(Util.loadImage(explosionImagePath));
+		CommonRasters.setRocketSheet(Util.loadImage(rocketImagePath));
+		
+		progressListener.updateProgress(20);
 		
 		CommonRasters.setPlayerSptitesheet(Util.loadImage(playerSpriteSheetPath));
 		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));

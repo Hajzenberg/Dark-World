@@ -17,6 +17,9 @@ public class CommonRasters {
 	private static BufferedImage mountainBackground;
 	private static BufferedImage forestBackground;
 	private static BufferedImage playerSptitesheet;
+	private static BufferedImage coinSheet;
+	private static BufferedImage rocketSheet;
+	private static BufferedImage explosionSheet;
 	private static BufferedImage groundTile;
 	private static BufferedImage lavaTile;
 	private static BufferedImage dyingSnapshot;
@@ -125,5 +128,31 @@ public class CommonRasters {
 	public static void setGroundTile(BufferedImage groundTile) {
 		CommonRasters.groundTile = groundTile;
 	}
+
+	public static BufferedImage getCoinSheet() {
+		return coinSheet;
+	}
+
+	public static void setCoinSheet(BufferedImage coinSheet) {
+		CommonRasters.coinSheet = coinSheet;
+	}
+
+	public static BufferedImage getRocketSheet() {
+		return rocketSheet;
+	}
+
+	public static void setRocketSheet(BufferedImage rocketSheet) {
+		CommonRasters.rocketSheet = rocketSheet;
+	}
+
+	public static BufferedImage getExplosionSheet() {
+		return explosionSheet;
+	}
+
+	public static void setExplosionSheet(BufferedImage explosionSheet) {
+		CommonRasters.explosionSheet = explosionSheet;
+	}
+	
+	
 	
 }
