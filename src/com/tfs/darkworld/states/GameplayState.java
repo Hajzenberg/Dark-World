@@ -42,7 +42,7 @@ public class GameplayState extends GameState {
 		super(host);
 		//gameSong = new MP3Player(new File("music/sanity.mp3"));
 		//gameSong = new MP3Player(new File("music/moonwalk.mp3"));
-		gameSong.setRepeat(true);
+		//gameSong.setRepeat(true);
 		
 		mBackground = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
 		mPlayer = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
@@ -72,9 +72,9 @@ public class GameplayState extends GameState {
 		} else {
 			System.out.println("NIJE DOSAO IZ RETRY STATE-a");
 		}
-		if (gameSong.isPaused() || gameSong.isStopped()) {
-			gameSong.play();
-		}
+//		if (gameSong.isPaused() || gameSong.isStopped()) {
+//			gameSong.play();
+//		}
 	}
 
 	@Override
@@ -178,12 +178,12 @@ public class GameplayState extends GameState {
 			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
 			CommonRasters.setLastScreenCapture(mImage);
-			gameSong.pause();
+			//gameSong.pause();
 			host.setState(Strings.GAME_TO_PAUSE_SATE);
 			lastStateTransitionedTo = Strings.GAME_TO_PAUSE_SATE;
 			break;
 		case KeyEvent.VK_ESCAPE:
-			gameSong.pause();
+			//gameSong.pause();
 			Transition.transitionTo(Strings.MENU_SATE, TransitionType.ZoomOut, 0.5f);
 			lastStateTransitionedTo = Strings.MENU_SATE;
 			break;
