@@ -2,6 +2,7 @@ package com.tfs.darkworld.entities;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -29,7 +30,7 @@ public class Background extends GameEntity {
 	// Lista pozadina koje se trenutno prikazuju
 	private Queue<BackgroundTile> forestTileQueue;
 	private Queue<BackgroundTile> mountainTileQueue;
-	private Queue<Coin> coinQueue;
+	private Deque<Coin> coinQueue;
 
 	private SkyTile skyTile;
 
@@ -162,6 +163,12 @@ public class Background extends GameEntity {
 		}
 	}
 
+	/* Ako se igrac intersectovao sa coinom, coin se biti ozanacen
+	 * kao collected. updateCoins proverava da li je coin collectovan
+	 * ili se nalazi van ekrana, ako jeste uklanja ga iz queua i dodaje
+	 * u niz potrosenih. Na kraju metode prolazi kroz listu potrosenih
+	 * i reciklira ih tako sto osvezi koordinate i doda ih na kraj queuea.
+	 */
 	private void updateCoins() {
 
 		ArrayList<Coin> collected = new ArrayList<>();
@@ -171,18 +178,19 @@ public class Background extends GameEntity {
 		while (iterator.hasNext()) {
 			Coin coin = iterator.next();
 			coin.update();
-			if (coin.isCollected()) {
+			if (coin.isCollected() || coin.mX < - 60) {
 				collected.add(coin);
 				iterator.remove();
 			}
 		}
 
-//		for (Coin coin : collected) {
-//			coin.mX = coinQueue.peek().mX + LEFT_COIN_OFFSET;
-//			coin.mY = random.nextInt(COIN_HEIGHT_RANGE) + TOP_COIN_OFFSET;
-//			coin.intersectionBody.updateIntersectionBody(mX, mY);
-//			coinQueue.add(coin);
-//		}
+		for (Coin coin : collected) {
+			coin.mX = coinQueue.peekLast().mX + LEFT_COIN_OFFSET;
+			coin.mY = random.nextInt(COIN_HEIGHT_RANGE) + TOP_COIN_OFFSET;
+			coin.intersectionBody.updateIntersectionBody(coin.mX, coin.mY);
+			coin.setCollected(false);
+			coinQueue.add(coin);
+		}
 	}
 
 	@Override

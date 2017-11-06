@@ -32,7 +32,7 @@ public class GameplayState extends GameState {
 
 	private String lastStateTransitionedTo = "";
 
-	private Background mBackground;
+	private Background background;
 
 	
 //	private MP3Player moonwalkSong = new MP3Player(new File("music/moonwalk.mp3"));
@@ -44,7 +44,7 @@ public class GameplayState extends GameState {
 		//gameSong = new MP3Player(new File("music/moonwalk.mp3"));
 		//gameSong.setRepeat(true);
 		
-		mBackground = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
+		background = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
 		mPlayer = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
 		ground = new Ground();
 
@@ -86,7 +86,7 @@ public class GameplayState extends GameState {
 
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		mBackground.render(g, sw, sh);
+		background.render(g, sw, sh);
 
 		ground.render(g, sw, sh);
 
@@ -119,7 +119,7 @@ public class GameplayState extends GameState {
 			mPlayer.down();
 		}
 		ground.findIntersectionsWith(mPlayer);
-		mBackground.findIntersectionsWith(mPlayer);
+		background.findIntersectionsWith(mPlayer);
 
 		// if (mPlayer.isIsAlive()) {
 		if (host.isKeyDown(KeyEvent.VK_W)) {
@@ -127,7 +127,7 @@ public class GameplayState extends GameState {
 		}
 		// }
 		mPlayer.update();
-		mBackground.update();
+		background.update();
 
 		if (!mPlayer.isIsAlive()) {
 			changeSpeed(0);
