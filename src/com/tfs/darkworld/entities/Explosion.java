@@ -15,7 +15,7 @@ public class Explosion extends GameEntity {
 	private int[] numOfFrames = { 7 };
 	private int[] frameWidths = { 118 };
 	private int[] frameLengths = { 123 };
-	private int[] frameIntervals = { 6 };
+	private int[] frameIntervals = { 5 };
 
 	private Animation animation;
 	private boolean isAlive;
