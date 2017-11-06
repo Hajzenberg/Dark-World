@@ -10,7 +10,7 @@ import com.tfs.darkworld.entities.interfaces.IUpdatable;
 
 public abstract class GameEntity implements IUpdatable, IRenderable {
 	private static final boolean DEBUG_BODY = false;
-	private static final boolean DEBUG_INTERSECT= false;
+	private static final boolean DEBUG_INTERSECT= true;
 	
 	
 	

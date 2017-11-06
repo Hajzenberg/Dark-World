@@ -119,6 +119,7 @@ public class GameplayState extends GameState {
 			mPlayer.down();
 		}
 		ground.findIntersectionsWith(mPlayer);
+		mBackground.findIntersectionsWith(mPlayer);
 
 		// if (mPlayer.isIsAlive()) {
 		if (host.isKeyDown(KeyEvent.VK_W)) {

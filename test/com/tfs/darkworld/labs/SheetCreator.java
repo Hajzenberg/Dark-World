@@ -21,10 +21,10 @@ import rafgfxlib.Util;
 
 public class SheetCreator {
 
-	private static final int FRAME_WIDTH = 128;
-	private static final int FRAME_HEIGHT = 128;
-	private static final String PATH_TO_DIR = "design/resized";
-	private static final String PATH_TO_FINAL_IMAGE = "design/character_sheet.png";
+	private static final int FRAME_WIDTH = 60;
+	private static final int FRAME_HEIGHT = 60;
+	private static final String PATH_TO_DIR = "design/coin";
+	private static final String PATH_TO_FINAL_IMAGE = "design/coin.png";
 	
 
 	public static void main(String[] args) {

@@ -239,9 +239,16 @@ public class Player extends Character {
 				if (mIsAlive) {
 					die();
 				}
+			} else if (ge instanceof Coin){
+				((Coin)ge).setCollected(true);
+				System.out.println("PLAYER - intersected coin");
 			}
-			mDY = 0;
-			mY = (ge.getY() - mHeight);
+			
+			//jer ako je coin igrac poleti iznad ekrana
+			if (!(ge instanceof Coin)){
+				mDY = 0;
+				mY = (ge.getY() - mHeight);
+			}
 			break;
 		default:
 			break;
