@@ -19,22 +19,21 @@ public class Player extends Character {
 	private static final double NORMAL_MASS = 40;
 	private static final double JUMPING_FORCE = 13;
 	private static final double SPEED = 4.3;
-	
-	//Djole
-//	private static final int RUNNING_FRAMES = 20;
-//	private static final int WALKING_FRAMES = 30;
-//	private static final int WALKING_SPEED_OFFSET =  4;
-	
-	//Maksa
-//	private static final int RUNNING_FRAMES = 20;
-//	private static final int WALKING_FRAMES = 30;
-//	private static final int WALKING_SPEED_OFFSET =  4;
-	
-	//Draza
+
+	// Djole
+	// private static final int RUNNING_FRAMES = 20;
+	// private static final int WALKING_FRAMES = 30;
+	// private static final int WALKING_SPEED_OFFSET = 4;
+
+	// Maksa
+	// private static final int RUNNING_FRAMES = 20;
+	// private static final int WALKING_FRAMES = 30;
+	// private static final int WALKING_SPEED_OFFSET = 4;
+
+	// Draza
 	private static final int RUNNING_FRAMES = 4;
 	private static final int WALKING_FRAMES = 5;
-	private static final int WALKING_SPEED_OFFSET =  2;
-
+	private static final int WALKING_SPEED_OFFSET = 2;
 
 	private ArrayList<BufferedImage[]> mSprites;
 
@@ -44,19 +43,17 @@ public class Player extends Character {
 	private int[] mFrameIntervals = { 3, 3, 14, 5, RUNNING_FRAMES, 3, WALKING_FRAMES, 3 };
 
 	private boolean officialyDead = false;
-	
+
 	private boolean accelerating = false;
 	private boolean slowing = false;
 	private boolean normal = false;
 
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
-	
 
-	
 	public Player(int sw, int sh) {
 		super(30, 30, SPEED, NORMAL_MASS);
-		
+
 		/* Mora se pozvati pre reset da bi se popunili nizovi koje koristi animacija */
 		try {
 			int count = 0;
@@ -65,7 +62,8 @@ public class Player extends Character {
 				BufferedImage[] bi = new BufferedImage[mNumOfFrames[i]];
 
 				for (int j = 0; j < mNumOfFrames[i]; j++) {
-					bi[j] = CommonRasters.getPlayerSptitesheet().getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i])
+					bi[j] = CommonRasters.getPlayerSptitesheet()
+							.getSubimage(j * mFrameWidths[i], count, mFrameWidths[i], mFrameLengths[i])
 							.getSubimage(0, 0, mFrameWidths[i], mFrameLengths[i]);
 				}
 				mSprites.add(bi);
@@ -75,9 +73,8 @@ public class Player extends Character {
 			e.printStackTrace();
 		}
 
-		
-		/* Izdvojena logika za setovanje igraca
-		 * na default poziciju pri startovanju
+		/*
+		 * Izdvojena logika za setovanje igraca na default poziciju pri startovanju
 		 * nivoa
 		 */
 		reset();
@@ -86,6 +83,8 @@ public class Player extends Character {
 		intersectionBody.setUpperOffset(0);
 		intersectionBody.setHeight(mHeight);
 		intersectionBody.setWidth(64);
+		intersectionBody.updateIntersectionBody(mX, mY);
+		
 	}
 
 	@Override
@@ -100,16 +99,16 @@ public class Player extends Character {
 		if (mIsAlive && !mIsJumping) {
 			if (mDX > 0) {
 				if (!accelerating) {
-					//System.out.println("TRCANJE");
+					// System.out.println("TRCANJE");
 					slowing = false;
 					normal = false;
 					accelerating = true;
 					setAnimation(ACTION_RUN);
-					
+
 				}
 			} else if (mDX < 0) {
 				if (!slowing) {
-					//System.out.println("SPORI HOD");
+					// System.out.println("SPORI HOD");
 					accelerating = false;
 					slowing = true;
 					normal = false;
@@ -118,7 +117,7 @@ public class Player extends Character {
 				}
 			} else {
 				if (!normal) {
-					//System.out.println("NORMALAN HOD");
+					// System.out.println("NORMALAN HOD");
 					accelerating = false;
 					slowing = false;
 					normal = true;
@@ -184,7 +183,7 @@ public class Player extends Character {
 			mDX = +mSpeed;
 		}
 	}
-	
+
 	public void down() {
 		if (mIsAlive && mIsJumping) {
 			mDY = +15;
@@ -228,50 +227,49 @@ public class Player extends Character {
 
 	@Override
 	public void intersect(GameEntity ge) {
-
 		IntersectType intersectType = intersectionBody.isIntersecting(ge.intersectionBody);
 
-		switch (intersectType) {
-		case UpperLine:
-		case UpperLeftCorner:
-		case UpperRightCorner:
-			if (ge instanceof Lava || ge instanceof Spikes) {
-				if (mIsAlive) {
-					die();
-				}
-			} else if (ge instanceof Coin){
-				((Coin)ge).setCollected(true);
-				System.out.println("PLAYER - intersected coin");
-			}
+		if (intersectType != IntersectType.None) {
 			
-			//jer ako je coin igrac poleti iznad ekrana
-			if (!(ge instanceof Coin)){
-				mDY = 0;
-				mY = (ge.getY() - mHeight);
+			if (ge instanceof Box) {
+				switch (intersectType) {
+				case UpperLine:
+				case UpperLeftCorner:
+				case UpperRightCorner:
+					if (ge instanceof Lava || ge instanceof Spikes) {
+						if (mIsAlive) {
+							die();
+						}
+					}
+					mDY = 0;
+					mY = (ge.getY() - mHeight);
+					break;
+				default:
+					break;
+				}
+			} else if (ge instanceof Coin) {
+				((Coin) ge).setCollected(true);
 			}
-			break;
-		default:
-			break;
 		}
 	}
-	
-	public void reset(){
+
+	public void reset() {
 		System.out.println("RESET");
 		mX = 100;
-		mY = 100;		//375
-		
+		mY = 375; // 375
+
 		mCurrentAnimation = new Animation();
 		mJumpingForce = JUMPING_FORCE;
-		
+
 		mIsAlive = true;
 		officialyDead = false;
-		
+
 		mIsGoingRight = true;
-		
+
 		setAnimation(ACTION_WALK);
 		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
 	}
-	
+
 	public boolean isOfficialyDead() {
 		return officialyDead;
 	}
