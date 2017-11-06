@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import rafgfxlib.Util;
@@ -21,10 +23,10 @@ import rafgfxlib.Util;
 
 public class SheetCreator {
 
-	private static final int FRAME_WIDTH = 60;
-	private static final int FRAME_HEIGHT = 60;
-	private static final String PATH_TO_DIR = "design/coin";
-	private static final String PATH_TO_FINAL_IMAGE = "design/coin.png";
+	private static final int FRAME_WIDTH = 128;
+	private static final int FRAME_HEIGHT = 128;
+	private static final String PATH_TO_DIR = "design/resized";
+	private static final String PATH_TO_FINAL_IMAGE = "design/character_sheet.png";
 	
 
 	public static void main(String[] args) {
@@ -40,11 +42,19 @@ public class SheetCreator {
 			e.printStackTrace();
 		}
 
+		/* 
+		 * Sortiramo listu po nazivu fajlova da ne bi bilo
+		 * problema na MacOS-u ili drugim os-ovima koji 
+		 * drugavije listaju fajlove po defaultu
+		 * */
+		
+		Collections.sort(filePaths);
+
 		/*
 		 * Sada od liste svih pathova pravimo listu listi koje sadrze
 		 * pathove samo jedne animacije. Grupisemo ih.
 		 */
-
+		
 		char lastStartingChar = '.';
 		char currentStartingChar = '.';
 		ArrayList<ArrayList<Path>> spritePaths = new ArrayList<>();
