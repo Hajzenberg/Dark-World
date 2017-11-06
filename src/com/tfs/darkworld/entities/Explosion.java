@@ -6,24 +6,23 @@ import java.util.ArrayList;
 
 import com.tfs.darkworld.res.CommonRasters;
 
-public class Rocket extends GameEntity{
+public class Explosion extends GameEntity {
 	
-private static final int ACTION_IDLE = 0;
-	
+	private static final int ACTION_IDLE = 0;
+
 	private ArrayList<BufferedImage[]> sprites;
-	
-	private int[] numOfFrames = { 3 };
-	private int[] frameWidths = { 56 };
-	private int[] frameLengths = { 22 };
+
+	private int[] numOfFrames = { 7 };
+	private int[] frameWidths = { 118 };
+	private int[] frameLengths = { 123 };
 	private int[] frameIntervals = { 6 };
-	
+
 	private Animation animation;
 	private boolean isAlive;
-	private double distance;
 
-	public Rocket(double x, double y, double dX) {
-		super(56, 22, 0);
-		
+	public Explosion(double x, double y, double dX) {
+		super(118, 123, 0);
+
 		try {
 			int count = 0;
 			sprites = new ArrayList<BufferedImage[]>();
@@ -31,7 +30,8 @@ private static final int ACTION_IDLE = 0;
 				BufferedImage[] bi = new BufferedImage[numOfFrames[i]];
 
 				for (int j = 0; j < numOfFrames[i]; j++) {
-					bi[j] = CommonRasters.getRocketSheet().getSubimage(j * frameWidths[i], count, frameWidths[i], frameLengths[i])
+					bi[j] = CommonRasters.getExplosionSheet()
+							.getSubimage(j * frameWidths[i], count, frameWidths[i], frameLengths[i])
 							.getSubimage(0, 0, frameWidths[i], frameLengths[i]);
 				}
 				sprites.add(bi);
@@ -40,42 +40,43 @@ private static final int ACTION_IDLE = 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		animation = new Animation();
-		
+
 		setAnimation(ACTION_IDLE);
-		
+
 		mX = x;
 		mY = y;
 		mDX = dX;
-		distance = 100;
 		isAlive = true;
-		
+
 		intersectionBody.setLeftOffset(0);
 		intersectionBody.setUpperOffset(0);
-		intersectionBody.setHeight(22);
-		intersectionBody.setWidth(56);
+		intersectionBody.setHeight(123);
+		intersectionBody.setWidth(118);
 	}
-	
-	@Override
-		public void update() {
-			animation.update();
-			mX += mDX;
-			intersectionBody.updateIntersectionBody(mX, mY);
-			if (--distance <= 0){
-				isAlive = false;
-			}
-		}
-	
-	@Override
-		public void render(Graphics2D g, int sw, int sh) {
-			super.render(g, sw, sh);
-			g.drawImage(animation.getImage(), (int) mX, (int) mY, null);
-		}
 
 	@Override
 	public void intersect(GameEntity ge) {
 		// TODO Auto-generated method stub
+
+	}
+	
+	@Override
+	public void update() {
+		animation.update();
+		mX -= mDX;
+		intersectionBody.updateIntersectionBody(mX, mY);
+		if (animation.hasPlayedOnce()){
+			isAlive = false;
+		}
+		
+	}
+	
+	@Override
+	public void render(Graphics2D g, int sw, int sh) {
+		super.render(g, sw, sh);
+		g.drawImage(animation.getImage(), (int) mX, (int) mY, null);
 		
 	}
 	

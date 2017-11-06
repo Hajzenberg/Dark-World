@@ -273,4 +273,8 @@ public class Player extends Character {
 	public boolean isOfficialyDead() {
 		return officialyDead;
 	}
+	
+	public int getCurrentAction(){
+		return mCurrentAction;
+	}
 }

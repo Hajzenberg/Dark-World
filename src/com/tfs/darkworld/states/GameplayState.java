@@ -5,11 +5,16 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.tfs.darkworld.entities.Background;
+import com.tfs.darkworld.entities.Coin;
+import com.tfs.darkworld.entities.Explosion;
 import com.tfs.darkworld.entities.GameEntity;
 import com.tfs.darkworld.entities.Ground;
 import com.tfs.darkworld.entities.Player;
+import com.tfs.darkworld.entities.Rocket;
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.GameConstants;
 import com.tfs.darkworld.res.Strings;
@@ -24,7 +29,7 @@ public class GameplayState extends GameState {
 
 	private final double gravity = 0.0055;
 	private final double airResistance = 0.989;
-	
+
 	private double gameSpeed = -1.7;
 
 	private Ground ground;
@@ -34,19 +39,24 @@ public class GameplayState extends GameState {
 
 	private Background background;
 
-	
-//	private MP3Player moonwalkSong = new MP3Player(new File("music/moonwalk.mp3"));
+	private ArrayList<Rocket> rockets;
+	private ArrayList<Explosion> explosions;
+
+	// private MP3Player moonwalkSong = new MP3Player(new
+	// File("music/moonwalk.mp3"));
 	private MP3Player gameSong;
 
 	public GameplayState(GameHost host) {
 		super(host);
-		//gameSong = new MP3Player(new File("music/sanity.mp3"));
-		//gameSong = new MP3Player(new File("music/moonwalk.mp3"));
-		//gameSong.setRepeat(true);
-		
+		// gameSong = new MP3Player(new File("music/sanity.mp3"));
+		// gameSong = new MP3Player(new File("music/moonwalk.mp3"));
+		// gameSong.setRepeat(true);
+
 		background = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
 		mPlayer = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
 		ground = new Ground();
+		rockets = new ArrayList<>();
+		explosions = new ArrayList<>();
 
 		changeSpeed(gameSpeed);
 
@@ -72,9 +82,9 @@ public class GameplayState extends GameState {
 		} else {
 			System.out.println("NIJE DOSAO IZ RETRY STATE-a");
 		}
-//		if (gameSong.isPaused() || gameSong.isStopped()) {
-//			gameSong.play();
-//		}
+		// if (gameSong.isPaused() || gameSong.isStopped()) {
+		// gameSong.play();
+		// }
 	}
 
 	@Override
@@ -91,6 +101,16 @@ public class GameplayState extends GameState {
 		ground.render(g, sw, sh);
 
 		mPlayer.render(g, sw, sh);
+
+		//Fix for concurent modifier exception
+		ArrayList<Rocket> rocketsToIterate = new ArrayList<>(rockets);
+		for (Rocket rocket : rocketsToIterate) {
+			rocket.render(g, sw, sh);
+		}
+		
+		for (Explosion explosion : explosions) {
+			explosion.render(g, sw, sh);
+		}
 
 	}
 
@@ -141,6 +161,31 @@ public class GameplayState extends GameState {
 			host.setState(Strings.GAME_TO_RETRY_SATE);
 			lastStateTransitionedTo = Strings.GAME_TO_RETRY_SATE;
 		}
+
+		Iterator<Rocket> rIterator = rockets.iterator();
+
+		while (rIterator.hasNext()) {
+			Rocket rocket = rIterator.next();
+			rocket.update();
+
+			//0.7 ground speed
+			if (!rocket.isAlive()) {
+				explosions.add(new Explosion(rocket.getX() - 40, rocket.getY() - 60, 0.7));
+				rIterator.remove();
+				
+			}
+		}
+		
+		Iterator<Explosion> eIterator = explosions.iterator();
+		
+		while (eIterator.hasNext()){
+			Explosion explosion = eIterator.next();
+			explosion.update();
+			
+			if (!explosion.isAlive()){
+				eIterator.remove();
+			}
+		}
 	}
 
 	public void affectGraviation(GameEntity ge) {
@@ -179,12 +224,12 @@ public class GameplayState extends GameState {
 			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
 			CommonRasters.setLastScreenCapture(mImage);
-			//gameSong.pause();
+			// gameSong.pause();
 			host.setState(Strings.GAME_TO_PAUSE_SATE);
 			lastStateTransitionedTo = Strings.GAME_TO_PAUSE_SATE;
 			break;
 		case KeyEvent.VK_ESCAPE:
-			//gameSong.pause();
+			// gameSong.pause();
 			Transition.transitionTo(Strings.MENU_SATE, TransitionType.ZoomOut, 0.5f);
 			lastStateTransitionedTo = Strings.MENU_SATE;
 			break;
@@ -201,6 +246,13 @@ public class GameplayState extends GameState {
 			break;
 		case KeyEvent.VK_A:
 			mPlayer.stop();
+			break;
+		case KeyEvent.VK_L:
+			if (mPlayer.getCurrentAction() == 4 || mPlayer.getCurrentAction() == 6) {
+				rockets.add(new Rocket(mPlayer.getX() + mPlayer.getWidth(),
+						mPlayer.getY() + mPlayer.getHeight() / 2 + 15, 3));
+			}
+			System.out.println("dodao raketu " + rockets.size());
 			break;
 		default:
 			break;
