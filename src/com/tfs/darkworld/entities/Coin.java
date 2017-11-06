@@ -15,7 +15,7 @@ public class Coin extends GameEntity {
 	private int[] numOfFrames = { 4 };
 	private int[] frameWidths = { 60 };
 	private int[] frameLengths = { 60 };
-	private int[] frameIntervals = { 12 };
+	private int[] frameIntervals = { 10 };
 	
 	private Animation animation;
 	private boolean isCollected;
