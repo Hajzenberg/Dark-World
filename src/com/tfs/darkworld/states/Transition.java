@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import rafgfxlib.GameHost;
 import rafgfxlib.GameHost.GFMouseButton;
@@ -12,6 +13,33 @@ import rafgfxlib.GameState;
 // Posebno stanje za animirane tranzicije
 public class Transition extends GameState
 {
+	/* DoomTransition state params*/
+	
+	private static int COLUMNS = 160;
+
+	private int columnWidth;
+	private double maxDev = 200;
+	private double maxDiff = 90;
+	private double fallSpeed = 4;
+
+	/*
+	 * Sadrzi podslike slike na kojoj se vrsi tranzicija Ima ih onoliko koliko
+	 * je definisano u parametru COLUMNS
+	 */
+	private ArrayList<BufferedImage> columns;
+	/*
+	 * Sadrzi offsete koji se moraju potrositi pre nego sto krenemo da menjamo
+	 * visinu na kojoj iscrtavamo sliku
+	 */
+	private double[] offsets;
+	/* Sadrzi visine iscrtavanja za svaku sliku u nizu columns */
+	private double[] heights;
+
+	boolean done = true;
+	
+	/* end Doom state transition params */
+	
+	
 	// Dvije slike u kojim cuvamo snapshot trenutnog i sljedeceg stanja
 	private BufferedImage startImage = null;
 	private BufferedImage endImage = null;
@@ -30,7 +58,8 @@ public class Transition extends GameState
 		ZoomIn,
 		ZoomOut,
 		SwipeLeft,
-		SwipeRight
+		SwipeRight,
+		Doom
 	};
 	
 	// Trenutno odabrana vrsta tranzicije
@@ -49,6 +78,16 @@ public class Transition extends GameState
 		endImage = new BufferedImage(host.getWidth(), host.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 		
 		instance = this;
+		
+		/* DoomTransition params */
+		
+		columnWidth = 800 / COLUMNS;
+		
+		columns = new ArrayList<>();
+		offsets = new double[COLUMNS];
+		heights = new double[COLUMNS];
+
+		prepareOffsets();
 	}
 	
 	// Staticni poziv, radi lakse upotrebe, pokrenuce proces tranzicije
@@ -89,6 +128,11 @@ public class Transition extends GameState
 		
 		// Trazimo da se sljedece stanje iscrta u endImage
 		instance.nextState.renderSnapshot(instance.endImage);
+		
+		/* DoomTransition state param */
+		for (int i = 0; i < COLUMNS; i++) {
+			instance.columns.add(instance.startImage.getSubimage(i * instance.columnWidth, 0, instance.columnWidth, 600));
+		}
 		
 		// I sada prelazimo u stanje tranzicije, sto znaci da se azuriranja
 		// i iscrtavanja obavljaju samo u ovom stanju, dokle god ne prepustimo
@@ -199,6 +243,14 @@ public class Transition extends GameState
 					(int)((1.0f - position) * host.getHeight()),
 					null);
 			break;
+		case Doom:
+			// Druga slika je 1:1 pozadina
+			g.drawImage(endImage, 0, 0, null);
+			for (int i = 0; i < COLUMNS; i++) {
+				g.drawImage(columns.get(i), i * columnWidth, (int) heights[i], null);
+				// g.drawRect(i*columnWidth, 0, columnWidth, 600);
+			}
+			break;
 		}
 
 	}
@@ -209,6 +261,12 @@ public class Transition extends GameState
 		// U svakom koraku inkrementujemo poziciju za speed
 		position += speed;
 		
+		if (type == TransitionType.Doom){
+			melt();
+		}
+		
+		System.out.println(position);
+		
 		// Ako smo stigli do 1, treba da prijedjemo na iduce stanje
 		if(position >= 1.0f)
 		{
@@ -218,6 +276,8 @@ public class Transition extends GameState
 			// Prebacujemo se na zadato stanje
 			host.setState(nextState);
 		}
+		
+		
 	}
 
 	@Override
@@ -234,5 +294,72 @@ public class Transition extends GameState
 
 	@Override
 	public void handleKeyUp(int keyCode) { }
+	
+	/* Metode za Doom transition */
+	
+	private void prepareOffsets() {
+		for (int i = 0; i < COLUMNS; i++) {
+			/*
+			 * obradjujemo prvu kolonu kao specijalni slucaj jer se offset
+			 * trenutnog racuna prema offsetu prethodnika
+			 */
+			if (i == 0) {
+				offsets[i] = -Math.random() * maxDev;
+			} else {
+				offsets[i] = offsets[i - 1] + Math.random() * maxDiff - maxDiff / 2;
+			}
+
+			/*
+			 * Normalizujemo offsete tako da nijedan nije veci od 0, odnosno
+			 * prisutan na ekranu u vreme iscrtavanja i da nije veci od
+			 * maksimalne dozvoljene devijacije
+			 */
+
+			if (offsets[i] > 0) {
+				offsets[i] = 0;
+			} else if (offsets[i] < -maxDev) {
+				offsets[i] = -maxDev;
+			}
+		}
+
+		for (int i = 0; i < COLUMNS; i++) {
+			//System.out.println(offsets[i]);
+		}
+	}
+
+	private void melt() {
+		
+		//overrideujem position
+		position = 0;
+
+		for (int i = 0; i < COLUMNS; i++) {
+			done = true;
+
+			/*
+			 * Dokle god ne potrosimo offset, odnosno dok ne postane veci od
+			 * nule (na pocetku su svi setovani na vrednosti >= 0)/ * visina
+			 * iscrtavanja slike je 0 (default vrednostu heights array-u)
+			 * 
+			 * Kada vrednost offseta padne ispod nule, pocinjemo da menjamo
+			 * visinu na kojoj iscrtavamo sliku
+			 * 
+			 * Kada sve vrednosti u nizu budu vece od visine ekrana + mali
+			 * offset znamo da se tranzicija izvrsila
+			 */
+
+			if (offsets[i] <= 0) {
+				offsets[i] += fallSpeed;
+				done = false;
+			} else {
+				heights[i] += fallSpeed;
+				done = (heights[i] > 620) ? true : false;
+			}
+		}
+
+		if (done) {
+			position = 1;
+			System.out.println("DONE WTF");
+		}
+	}
 
 }

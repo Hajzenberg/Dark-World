@@ -12,7 +12,7 @@ import rafgfxlib.Util;
 
 public class DoomTransitionTester extends GameFrame {
 
-	private static int COLUMNS = 80;
+	private static int COLUMNS = 100;
 
 	private int columnWidth;
 	private double maxDev = 200;
@@ -22,8 +22,17 @@ public class DoomTransitionTester extends GameFrame {
 	private BufferedImage logo;
 	private BufferedImage background;
 
+	/*
+	 * Sadrzi podslike slike na kojoj se vrsi tranzicija Ima ih onoliko koliko
+	 * je definisano u parametru COLUMNS
+	 */
 	private ArrayList<BufferedImage> columns;
+	/*
+	 * Sadrzi offsete koji se moraju potrositi pre nego sto krenemo da menjamo
+	 * visinu na kojoj iscrtavamo sliku
+	 */
 	private double[] offsets;
+	/* Sadrzi visine iscrtavanja za svaku sliku u nizu columns */
 	private double[] heights;
 
 	boolean done = true;
@@ -68,7 +77,6 @@ public class DoomTransitionTester extends GameFrame {
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
 		g.drawImage(background, 0, 0, null);
-		// g.drawImage(logo, 0, 0, null);
 
 		for (int i = 0; i < COLUMNS; i++) {
 			g.drawImage(columns.get(i), i * columnWidth, (int) heights[i], null);
@@ -138,31 +146,33 @@ public class DoomTransitionTester extends GameFrame {
 		}
 
 		for (int i = 0; i < COLUMNS; i++) {
-			System.out.println(offsets[i]);
+			//System.out.println(offsets[i]);
 		}
 	}
 
 	private void melt() {
 
 		for (int i = 0; i < COLUMNS; i++) {
-			/* Prvo trosimo offsete kako bismo dobili
-			 * efekat padanja
-			 */
-			offsets[i] += fallSpeed;
+			done = true;
 
-			/* Dokle god ne potrosimo offset, odnosno dok ne postane veci
-			 * od nule (na pocetku su svi setovani na vrednosti >= 0)
-			 * visina iscrtavanja slike je 0 */
-			if (offsets[i] < 0) {
-				done = false;
-				heights[i] = 0;
-			/* Dokle god je kolona vidljiva na ekranu (+ mali offset)
-			 * visina kolone je jednaka vrednosti offseta kojoj se
-			 * u svakoj iteraciji dodaje fallSpeed
+			/*
+			 * Dokle god ne potrosimo offset, odnosno dok ne postane veci od
+			 * nule (na pocetku su svi setovani na vrednosti >= 0)/ * visina
+			 * iscrtavanja slike je 0 (default vrednostu heights array-u)
+			 * 
+			 * Kada vrednost offseta padne ispod nule, pocinjemo da menjamo
+			 * visinu na kojoj iscrtavamo sliku
+			 * 
+			 * Kada sve vrednosti u nizu budu vece od visine ekrana + mali
+			 * offset znamo da se tranzicija izvrsila
 			 */
-			} else if (offsets[i] < 620) {
+
+			if (offsets[i] <= 0) {
+				offsets[i] += fallSpeed;
 				done = false;
-				heights[i] = offsets[i];
+			} else {
+				heights[i] += fallSpeed;
+				done = (heights[i] > 620) ? true : false;
 			}
 		}
 

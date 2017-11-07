@@ -113,8 +113,10 @@ public class MenuState extends GameState{
 			if(rectStart.contains(x, y)||rectAbout.contains(x, y) || rectExit.contains(x, y))
 			{
 				//genSkulls(x, y, 10.0f, 200, 10);
+			} else {
+				genSkulls(x, y, 10.0f, 200, 10);
 			}
-			genSkulls(x, y, 10.0f, 200, 10);
+			
 		}
 	}
 
@@ -125,8 +127,7 @@ public class MenuState extends GameState{
 			
 			if(rectStart.contains(x, y))
 			{
-				TransitionType transType = TransitionType.values()[3];
-				Transition.transitionTo(Strings.GAMEPLAY_SATE, transType, 0.5f);
+				Transition.transitionTo(Strings.GAMEPLAY_SATE, TransitionType.Doom, 0.5f);
 				
 			}
 //			TREBAL' ABOUT?!
