@@ -1,19 +1,53 @@
 package com.tfs.darkworld.labs;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import rafgfxlib.GameFrame;
+import rafgfxlib.Util;
 
 public class DoomTransitionTester extends GameFrame{
 
-	public DoomTransitionTester(String title, int sizeX, int sizeY) {
-		super(title, sizeX, sizeY);
-		// TODO Auto-generated constructor stub
+	private static int COLUMNS = 40;
+	
+	private int columnWidth;
+	
+	private BufferedImage logo;
+	private BufferedImage background;
+	
+	private ArrayList<BufferedImage> columns;
+	private int[] speeds;
+	
+	public DoomTransitionTester() {
+		super("Doom", 800, 600);
+		
+		columnWidth = 800 / COLUMNS;
+		
+		logo = Util.loadImage("design/doom_logo.jpg");
+		background = Util.loadImage("design/doom_bg.jpg");
+		
+		columns = new ArrayList<>();
+		speeds = new int[30];
+		
+		for (int i = 0; i < COLUMNS; i++){
+			columns.add(logo.getSubimage(i*columnWidth, 0, columnWidth, 600));
+		}
+		
+		setUpdateRate(60);
+		startThread();
+	}
+	
+	public static void main(String[] args)
+	{
+		new DoomTransitionTester().initGameWindow();
 	}
 
 	@Override
 	public void handleWindowInit() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -25,8 +59,13 @@ public class DoomTransitionTester extends GameFrame{
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
-		// TODO Auto-generated method stub
+		g.drawImage(background, 0, 0, null);
+		//g.drawImage(logo, 0, 0, null);
 		
+		for (int i = 0; i < COLUMNS; i++){
+			g.drawImage(columns.get(i), i*columnWidth, 0, null);
+			g.drawRect(i*columnWidth, 0, columnWidth, 600);
+		}
 	}
 
 	@Override
