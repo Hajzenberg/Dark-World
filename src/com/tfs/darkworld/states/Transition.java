@@ -3,6 +3,7 @@ package com.tfs.darkworld.states;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -130,9 +131,15 @@ public class Transition extends GameState
 		instance.nextState.renderSnapshot(instance.endImage);
 		
 		/* DoomTransition state param */
+		
+		instance.columns.clear();
+		
 		for (int i = 0; i < COLUMNS; i++) {
 			instance.columns.add(instance.startImage.getSubimage(i * instance.columnWidth, 0, instance.columnWidth, 600));
 		}
+		
+		instance.heights = new double[COLUMNS];
+		instance.prepareOffsets();
 		
 		// I sada prelazimo u stanje tranzicije, sto znaci da se azuriranja
 		// i iscrtavanja obavljaju samo u ovom stanju, dokle god ne prepustimo
@@ -245,10 +252,12 @@ public class Transition extends GameState
 			break;
 		case Doom:
 			// Druga slika je 1:1 pozadina
-			g.drawImage(endImage, 0, 0, null);
-			for (int i = 0; i < COLUMNS; i++) {
-				g.drawImage(columns.get(i), i * columnWidth, (int) heights[i], null);
-				// g.drawRect(i*columnWidth, 0, columnWidth, 600);
+			if (position < 1.0f){
+				g.drawImage(endImage, 0, 0, null);
+				for (int i = 0; i < COLUMNS; i++) {
+					g.drawImage(columns.get(i), i * columnWidth, (int) heights[i], null);
+					// g.drawRect(i*columnWidth, 0, columnWidth, 600);
+				}
 			}
 			break;
 		}
@@ -261,7 +270,7 @@ public class Transition extends GameState
 		// U svakom koraku inkrementujemo poziciju za speed
 		position += speed;
 		
-		if (type == TransitionType.Doom){
+		if (type == TransitionType.Doom && position < 1.0f){
 			melt();
 		}
 		
@@ -322,9 +331,9 @@ public class Transition extends GameState
 			}
 		}
 
-		for (int i = 0; i < COLUMNS; i++) {
-			//System.out.println(offsets[i]);
-		}
+//		for (int i = 0; i < COLUMNS; i++) {
+//			//System.out.println(offsets[i]);
+//		}
 	}
 
 	private void melt() {

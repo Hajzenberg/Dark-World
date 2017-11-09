@@ -127,7 +127,7 @@ public class MenuState extends GameState{
 			
 			if(rectStart.contains(x, y))
 			{
-				Transition.transitionTo(Strings.GAMEPLAY_SATE, TransitionType.Doom, 0.5f);
+				Transition.transitionTo(Strings.GAMEPLAY_SATE, TransitionType.Doom, 1.5f);
 				
 			}
 //			TREBAL' ABOUT?!
