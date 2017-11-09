@@ -252,12 +252,10 @@ public class Transition extends GameState
 			break;
 		case Doom:
 			// Druga slika je 1:1 pozadina
-			if (position < 1.0f){
-				g.drawImage(endImage, 0, 0, null);
-				for (int i = 0; i < COLUMNS; i++) {
-					g.drawImage(columns.get(i), i * columnWidth, (int) heights[i], null);
-					// g.drawRect(i*columnWidth, 0, columnWidth, 600);
-				}
+			g.drawImage(endImage, 0, 0, null);
+			for (int i = 0; i < COLUMNS; i++) {
+				g.drawImage(columns.get(i), i * columnWidth, (int) heights[i], null);
+				// g.drawRect(i*columnWidth, 0, columnWidth, 600);
 			}
 			break;
 		}
@@ -273,8 +271,6 @@ public class Transition extends GameState
 		if (type == TransitionType.Doom && position < 1.0f){
 			melt();
 		}
-		
-		System.out.println(position);
 		
 		// Ako smo stigli do 1, treba da prijedjemo na iduce stanje
 		if(position >= 1.0f)
@@ -330,10 +326,6 @@ public class Transition extends GameState
 				offsets[i] = -maxDev;
 			}
 		}
-
-//		for (int i = 0; i < COLUMNS; i++) {
-//			//System.out.println(offsets[i]);
-//		}
 	}
 
 	private void melt() {
@@ -341,8 +333,9 @@ public class Transition extends GameState
 		//overrideujem position
 		position = 0;
 
+		done = true;
 		for (int i = 0; i < COLUMNS; i++) {
-			done = true;
+			
 
 			/*
 			 * Dokle god ne potrosimo offset, odnosno dok ne postane veci od
@@ -358,16 +351,21 @@ public class Transition extends GameState
 
 			if (offsets[i] <= 0) {
 				offsets[i] += fallSpeed;
-				done = false;
+				
+				if (done){
+					done = false;
+				}
+				
 			} else {
 				heights[i] += fallSpeed;
-				done = (heights[i] > 620) ? true : false;
+				if (done){
+					done = (heights[i] < 620) ? false : true;
+				}
 			}
 		}
 
 		if (done) {
 			position = 1;
-			System.out.println("DONE WTF");
 		}
 	}
 
