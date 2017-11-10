@@ -3,10 +3,13 @@ package com.tfs.darkworld.entities;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.GameConstants;
+
+import jaco.mp3.player.MP3Player;
 
 public class Player extends Character {
 
@@ -50,6 +53,8 @@ public class Player extends Character {
 
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
+	
+	private MP3Player mp3Player;
 
 	public Player(int sw, int sh) {
 		super(30, 30, SPEED, NORMAL_MASS);
@@ -84,6 +89,8 @@ public class Player extends Character {
 		intersectionBody.setHeight(mHeight);
 		intersectionBody.setWidth(64);
 		intersectionBody.updateIntersectionBody(mX, mY);
+		
+		mp3Player = new MP3Player(new File("music/coin.mp3"));
 		
 	}
 
@@ -249,6 +256,9 @@ public class Player extends Character {
 				}
 			} else if (ge instanceof Coin) {
 				((Coin) ge).setCollected(true);
+				mp3Player.play();
+				
+				
 			}
 		}
 	}

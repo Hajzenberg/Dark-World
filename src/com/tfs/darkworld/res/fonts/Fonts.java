@@ -30,8 +30,11 @@ public class Fonts {
 			ge.registerFont(font);
 
 			Font f2 = new Font("Phantom Fingers", Font.PLAIN, 48);
-
 			mFonts.put("Phantom Fingers", f2);
+			
+			f2 = new Font("Phantom Fingers", Font.PLAIN, 36);
+			mFonts.put("Phantom Fingers coin", f2);
+			
 		} catch (Exception ex) {
 			System.out.println("Error loading font");
 		}

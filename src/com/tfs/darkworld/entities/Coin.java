@@ -20,7 +20,7 @@ public class Coin extends GameEntity {
 	private Animation animation;
 	private boolean isCollected;
 	
-	public Coin(double x, double y, double dX) {
+	public Coin(double x, double y, double dX, int frameInterval) {
 		super(60, 60, 0);
 		
 		try {
@@ -47,6 +47,8 @@ public class Coin extends GameEntity {
 		mX = x;
 		mY = y;
 		mDX = dX;
+		
+		frameIntervals[0] = (frameInterval == 0) ? 10 : frameInterval;
 		
 		intersectionBody.setLeftOffset(0);
 		intersectionBody.setUpperOffset(0);
@@ -87,5 +89,11 @@ public class Coin extends GameEntity {
 	public boolean isCollected(){
 		return isCollected;
 	}
+
+	public Animation getAnimation() {
+		return animation;
+	}
+	
+	
 
 }
