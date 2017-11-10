@@ -16,12 +16,20 @@ public class Transition extends GameState
 {
 	/* DoomTransition state params*/
 	
-	private static int COLUMNS = 160;
+	/* Odredjuje na koliko podslika ce se startImage izdeliti,
+	 * veci broj daje bolji efekat meltinga
+	 */
+	private static int COLUMNS = 200;
 
 	private int columnWidth;
-	private double maxDev = 200;
+	/* Odredjuje maksimalnu visniu offseta, visine koja mora
+	 * biti pojedena  pre nego sto kolona krene stvarno da pada
+	 * tako sto joj se menja y koordinata koja se nalazi u heights nizu
+	 */
+	private double maxOffset = 200;
+	/* Maksimalna razlika u visini izmedju dve kolone */
 	private double maxDiff = 90;
-	private double fallSpeed = 4;
+	private double fallSpeed = 10;
 
 	/*
 	 * Sadrzi podslike slike na kojoj se vrsi tranzicija Ima ih onoliko koliko
@@ -33,7 +41,7 @@ public class Transition extends GameState
 	 * visinu na kojoj iscrtavamo sliku
 	 */
 	private double[] offsets;
-	/* Sadrzi visine iscrtavanja za svaku sliku u nizu columns */
+	/* Sadrzi visine iscrtavanja y koordinate za svaku sliku u nizu columns */
 	private double[] heights;
 
 	boolean done = true;
@@ -309,7 +317,7 @@ public class Transition extends GameState
 			 * trenutnog racuna prema offsetu prethodnika
 			 */
 			if (i == 0) {
-				offsets[i] = -Math.random() * maxDev;
+				offsets[i] = -Math.random() * maxOffset;
 			} else {
 				offsets[i] = offsets[i - 1] + Math.random() * maxDiff - maxDiff / 2;
 			}
@@ -322,8 +330,8 @@ public class Transition extends GameState
 
 			if (offsets[i] > 0) {
 				offsets[i] = 0;
-			} else if (offsets[i] < -maxDev) {
-				offsets[i] = -maxDev;
+			} else if (offsets[i] < -maxOffset) {
+				offsets[i] = -maxOffset;
 			}
 		}
 	}

@@ -230,7 +230,7 @@ public class GameplayState extends GameState {
 			break;
 		case KeyEvent.VK_ESCAPE:
 			// gameSong.pause();
-			Transition.transitionTo(Strings.MENU_SATE, TransitionType.ZoomOut, 0.5f);
+			Transition.transitionTo(Strings.MENU_SATE, TransitionType.Doom, 0.5f);
 			lastStateTransitionedTo = Strings.MENU_SATE;
 			break;
 		default:
