@@ -225,12 +225,12 @@ public class GameplayState extends GameState {
 			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
 			CommonRasters.setLastScreenCapture(mImage);
-			gameSong.pause();
+			//gameSong.pause();
 			host.setState(Strings.GAME_TO_PAUSE_SATE);
 			lastStateTransitionedTo = Strings.GAME_TO_PAUSE_SATE;
 			break;
 		case KeyEvent.VK_ESCAPE:
-			gameSong.pause();
+			//gameSong.pause();
 			Transition.transitionTo(Strings.MENU_SATE, TransitionType.Doom, 0.5f);
 			lastStateTransitionedTo = Strings.MENU_SATE;
 			break;
