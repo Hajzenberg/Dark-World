@@ -5,8 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 import com.tfs.darkworld.entities.Coin;
-import com.tfs.darkworld.res.CommonRasters;
-import com.tfs.darkworld.states.MenuState.Particle;
 
 public class ParticleManager {
 
@@ -61,14 +59,12 @@ public class ParticleManager {
 
 			af.setToIdentity();
 			af.translate(p.posX, p.posY);
-			//af.rotate(p.angle);
 			af.translate(-8.0, -8.0);
 
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) p.life / (float) p.lifeMax));
 
 			g.drawImage(p.coin.getAnimation().getImage(), af, null);
 		}
-		// g.setTransform(old);
 	}
 
 	private void updateSkulls() {
