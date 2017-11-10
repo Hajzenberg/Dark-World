@@ -150,6 +150,7 @@ public class GameplayState extends GameState {
 		background.update();
 
 		if (!mPlayer.isIsAlive()) {
+			//change speed se vraca kad lik ozivi na restart
 			changeSpeed(0);
 		}
 
@@ -224,12 +225,12 @@ public class GameplayState extends GameState {
 			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
 			CommonRasters.setLastScreenCapture(mImage);
-			// gameSong.pause();
+			gameSong.pause();
 			host.setState(Strings.GAME_TO_PAUSE_SATE);
 			lastStateTransitionedTo = Strings.GAME_TO_PAUSE_SATE;
 			break;
 		case KeyEvent.VK_ESCAPE:
-			// gameSong.pause();
+			gameSong.pause();
 			Transition.transitionTo(Strings.MENU_SATE, TransitionType.Doom, 0.5f);
 			lastStateTransitionedTo = Strings.MENU_SATE;
 			break;
@@ -252,7 +253,6 @@ public class GameplayState extends GameState {
 				rockets.add(new Rocket(mPlayer.getX() + mPlayer.getWidth(),
 						mPlayer.getY() + mPlayer.getHeight() / 2 + 15, 3));
 			}
-			System.out.println("dodao raketu " + rockets.size());
 			break;
 		default:
 			break;

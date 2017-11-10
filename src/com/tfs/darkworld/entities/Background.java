@@ -8,7 +8,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import com.tfs.darkworld.effects.ParticleManager;
+import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.CommonRasters;
+import com.tfs.darkworld.res.fonts.Fonts;
 
 public class Background extends GameEntity {
 
@@ -33,8 +36,12 @@ public class Background extends GameEntity {
 	private Deque<Coin> coinQueue;
 
 	private SkyTile skyTile;
-
-	Random random;
+	
+	private Random random;
+	private Fonts fonts;
+	private ParticleManager particleManager;
+	
+	private int coinCounter = 0;
 
 	public Background(int sw, int sh) {
 		super(0, 0, 0);
@@ -42,6 +49,9 @@ public class Background extends GameEntity {
 		mDX = 0.5;
 
 		random = new Random();
+		fonts = new Fonts();
+		particleManager = new ParticleManager();
+		
 
 		initTiles();
 		initCoins();
@@ -111,7 +121,7 @@ public class Background extends GameEntity {
 
 		for (int i = 0; i < 10; i++) {
 			coinQueue.add(
-					new Coin((i + 1) * LEFT_COIN_OFFSET, random.nextInt(COIN_HEIGHT_RANGE) + TOP_COIN_OFFSET, 0.7));
+					new Coin((i + 1) * LEFT_COIN_OFFSET, random.nextInt(COIN_HEIGHT_RANGE) + TOP_COIN_OFFSET, 1.7, 0));
 		}
 	}
 
@@ -119,6 +129,7 @@ public class Background extends GameEntity {
 	public void update() {
 
 		skyTile.update();
+		particleManager.onUpdate();
 
 		updateForestTiles();
 		updateMountainTiles();
@@ -178,7 +189,14 @@ public class Background extends GameEntity {
 		while (iterator.hasNext()) {
 			Coin coin = iterator.next();
 			coin.update();
-			if (coin.isCollected() || coin.mX < - 60) {
+			if (coin.isCollected()) {
+				coinCounter++;
+				collected.add(coin);
+				if (coinCounter%3 == 0){
+					particleManager.showMeTheLove((int)coin.getX(), (int)coin.getY());
+				}
+				iterator.remove();
+			} else if (coin.mX < - 60){
 				collected.add(coin);
 				iterator.remove();
 			}
@@ -209,6 +227,12 @@ public class Background extends GameEntity {
 		for (Coin coin : coinQueue) {
 			coin.render(g, sw, sh);
 		}
+		
+		particleManager.onRender((Graphics2D)g.create());
+		
+		g.setFont(fonts.getFont("Phantom Fingers coin"));
+		g.setColor(Colors.GOLD);
+		g.drawString(Integer.toString(coinCounter), 730, 90);
 	}
 
 	@Override

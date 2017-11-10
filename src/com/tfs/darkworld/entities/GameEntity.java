@@ -119,6 +119,14 @@ public abstract class GameEntity implements IUpdatable, IRenderable {
 		return mY;
 	}
 
+	public void setX(double mX) {
+		this.mX = mX;
+	}
+
+	public void setY(double mY) {
+		this.mY = mY;
+	}
+
 	public double getSpeed() {
 		return mSpeed;
 	}
