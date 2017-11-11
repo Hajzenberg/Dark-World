@@ -54,12 +54,12 @@ public class LoadingResurcesTask implements ITask {
 		CommonRasters.setPlayerSptitesheet(Util.loadImage(playerSpriteSheetPath));
 		
 		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
-		CommonRasters.setMountainBackgroundNoise(EffectsUtil.applyNoiseEffect(CommonRasters.getMountainBackground()));
-		CommonRasters.setMountainBackgroundVignette(EffectsUtil.applyVignette(CommonRasters.getMountainBackground()));
+		CommonRasters.setMountainBackgroundNoise(EffectsUtil.applyVignette(CommonRasters.getMountainBackground(), 1.2));
+		CommonRasters.setMountainBackgroundVignette(EffectsUtil.applyVignette(CommonRasters.getMountainBackground(), 0.8));
 		
 		CommonRasters.setForestBackground(Util.loadImage(forestImagePath));
-		CommonRasters.setForestBackgroundNoise(EffectsUtil.applyNoiseEffect(CommonRasters.getForestBackground()));
-		CommonRasters.setForestBackgroundVignette(EffectsUtil.applyVignette(CommonRasters.getForestBackground()));
+		CommonRasters.setForestBackgroundNoise(EffectsUtil.applyVignette(CommonRasters.getForestBackground(), 1.2));
+		CommonRasters.setForestBackgroundVignette(EffectsUtil.applyVignette(CommonRasters.getForestBackground(), 0.8));
 		
 		progressListener.updateProgress(50);
 	}

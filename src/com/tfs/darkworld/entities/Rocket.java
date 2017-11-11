@@ -21,7 +21,7 @@ private static final int ACTION_IDLE = 0;
 	private boolean isAlive;
 	private double distance;
 
-	public Rocket(int x, int y, double dX) {
+	public Rocket(double x, double y, double dX) {
 		super(56, 22, 0);
 		
 		try {

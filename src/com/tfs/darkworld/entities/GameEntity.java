@@ -14,10 +14,10 @@ public abstract class GameEntity implements IUpdatable, IRenderable {
 	
 	
 	
-	protected int mX;
-	protected int mY;
-	protected int mWidth;
-	protected int mHeight;
+	protected double mX;
+	protected double mY;
+	protected double mWidth;
+	protected double mHeight;
 	protected double mDX;
 	protected double mDY;
 	protected double mSpeed;
@@ -27,11 +27,11 @@ public abstract class GameEntity implements IUpdatable, IRenderable {
 	
 	protected IntersectionRectBody intersectionBody;
 	
-	public int getHeight() {
+	public double getHeight() {
 		return mHeight;
 	}
 	
-	public int getWidth() {
+	public double getWidth() {
 		return mWidth;
 	}
 	
@@ -111,11 +111,11 @@ public abstract class GameEntity implements IUpdatable, IRenderable {
 	public abstract void intersect(GameEntity ge);
 	
 	
-	public int getX() {
+	public double getX() {
 		return mX;
 	}
 
-	public int getY() {
+	public double getY() {
 		return mY;
 	}
 
@@ -135,7 +135,7 @@ public abstract class GameEntity implements IUpdatable, IRenderable {
 		mSpeed = speed;
 	}
 
-	public void setPosition(int x, int y) {
+	public void setPosition(double x, double y) {
 		mX = x;
 		mY = y;
 	}

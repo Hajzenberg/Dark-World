@@ -33,8 +33,8 @@ public class CoinParticleManager {
 		updateSkulls();
 	}
 
-	public void showMeTheLove(int x, int y) {
-		genSkulls(x, y, 16.0f, 500, 40);
+	public void showMeTheLove(int x, int y, int quantity) {
+		genSkulls(x, y, 16.0f, 500, quantity);
 	}
 
 	public static class Particle {

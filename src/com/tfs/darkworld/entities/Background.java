@@ -218,8 +218,9 @@ public class Background extends GameEntity {
 			if (coin.isCollected()) {
 				coinCounter++;
 				collected.add(coin);
+				//particleManager.showMeTheLove((int)coin.getX(), (int)coin.getY(), 3 + 5*((coinCounter-1)%3)*((coinCounter-1)%3)*((coinCounter-1)%3));
 				if (coinCounter%3 == 0){
-					particleManager.showMeTheLove((int)coin.getX(), (int)coin.getY());
+					particleManager.showMeTheLove((int)coin.getX(), (int)coin.getY(), 40);
 				}
 				iterator.remove();
 			} else if (coin.mX < - 60){

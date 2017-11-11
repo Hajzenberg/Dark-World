@@ -43,7 +43,7 @@ public class EffectsUtil {
 //		Util.saveImage(i, "design/mountain_finish.png");
 	}
 	
-	public static BufferedImage applyVignette(BufferedImage image){
+	public static BufferedImage applyVignette(BufferedImage image, double impact){
 		//BufferedImage image = Util.loadImage("design/mountain.png");
 		
 		if(image == null) { System.out.println("Nema slike!"); return null; }
@@ -54,7 +54,7 @@ public class EffectsUtil {
 		int rgb[] = new int[4];
 		
 		// Jacina efekta
-		double vignette = 0.8;
+		double vignette = impact;
 		
 		// Poluprecnik kruga opisanog oko jedinicnog kvadrata
 		final double radius = Math.sqrt(2) / 2.0;
