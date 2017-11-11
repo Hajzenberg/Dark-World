@@ -18,6 +18,8 @@ public class ParticleBoxTransitionTester extends GameFrame {
 
 	private BufferedImage logo;
 	private BufferedImage background;
+	
+	private boolean hasStarted;
 
 	public ParticleBoxTransitionTester() {
 		super("Doom", 800, 600);
@@ -38,6 +40,8 @@ public class ParticleBoxTransitionTester extends GameFrame {
 				particleManager.getParts()[c++] =  p;
 			}
 		}
+		
+		hasStarted = false;
 
 		setUpdateRate(60);
 		startThread();
@@ -61,7 +65,12 @@ public class ParticleBoxTransitionTester extends GameFrame {
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
 		g.drawImage(background, 0, 0, null);
-		particleManager.onRender((Graphics2D)g.create());
+		if (hasStarted){
+			particleManager.onRender((Graphics2D)g.create());
+		} else {
+			g.drawImage(logo, 0, 0, null);
+		}
+		
 	}
 
 	@Override
@@ -78,8 +87,10 @@ public class ParticleBoxTransitionTester extends GameFrame {
 
 	@Override
 	public void handleMouseUp(int x, int y, GFMouseButton button) {
-		particleManager.showMeTheLove(400, 300, PARTICLE_MAX);
-
+		if (!hasStarted){
+			particleManager.showMeTheLove(400, 300, PARTICLE_MAX);
+		}
+		hasStarted = true;
 	}
 
 	@Override
