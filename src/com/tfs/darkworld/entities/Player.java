@@ -54,8 +54,7 @@ public class Player extends Character {
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
 	
-	private MP3Player mp3Player;
-
+	
 	public Player(int sw, int sh) {
 		super(30, 30, SPEED, NORMAL_MASS);
 
@@ -89,8 +88,6 @@ public class Player extends Character {
 		intersectionBody.setHeight(mHeight);
 		intersectionBody.setWidth(64);
 		intersectionBody.updateIntersectionBody(mX, mY);
-		
-		mp3Player = new MP3Player(new File("music/coin.mp3"));
 		
 	}
 
@@ -256,13 +253,11 @@ public class Player extends Character {
 				}
 			} else if (ge instanceof Coin) {
 				((Coin) ge).setCollected(true);
-				mp3Player.play();
-				
-				
 			}
 		}
 	}
-
+	
+	
 	public void reset() {
 		System.out.println("RESET");
 		mX = 100;

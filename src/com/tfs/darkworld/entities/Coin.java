@@ -2,9 +2,13 @@ package com.tfs.darkworld.entities;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 
 import com.tfs.darkworld.res.CommonRasters;
+
+import jaco.mp3.player.MP3Player;
 
 public class Coin extends GameEntity {
 	
@@ -19,6 +23,10 @@ public class Coin extends GameEntity {
 	
 	private Animation animation;
 	private boolean isCollected;
+	
+	private MP3Player mp3Player;
+	
+	private CoinSoundThread coinSoundThread;
 	
 	public Coin(int x, int y, double dX, int frameInterval) {
 		super(60, 60, 0);
@@ -54,6 +62,9 @@ public class Coin extends GameEntity {
 		intersectionBody.setUpperOffset(0);
 		intersectionBody.setHeight(60);
 		intersectionBody.setWidth(60);
+		
+		mp3Player = new MP3Player(new File("music/coin.mp3"));
+		coinSoundThread = new CoinSoundThread(mp3Player);
 	}
 	
 	@Override
@@ -82,7 +93,26 @@ public class Coin extends GameEntity {
 		// System.out.println("SET ANIMATION " + mWidth + " " + mHeight);
 	}
 	
+	private static class CoinSoundThread extends Thread{
+		private MP3Player mp3Player;
+		
+		public CoinSoundThread(MP3Player mp3Player) {
+			super();
+			this.mp3Player = mp3Player;
+		}
+
+		@Override
+		public void run() {
+			super.run();
+			mp3Player.play();
+		}
+	}
+	
 	public void setCollected(boolean b){
+		if (b) {
+			coinSoundThread.start();
+			coinSoundThread = new CoinSoundThread(mp3Player);
+		}
 		isCollected = b;
 	}
 	

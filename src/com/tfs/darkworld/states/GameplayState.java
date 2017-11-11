@@ -4,12 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.tfs.darkworld.entities.Background;
-import com.tfs.darkworld.entities.Coin;
 import com.tfs.darkworld.entities.Explosion;
 import com.tfs.darkworld.entities.GameEntity;
 import com.tfs.darkworld.entities.Ground;
@@ -30,7 +28,7 @@ public class GameplayState extends GameState {
 	private final double gravity = 0.0055;
 	private final double airResistance = 0.989;
 
-	private double gameSpeed = -1.7;
+	private double gameSpeed = -2.2;
 
 	private Ground ground;
 	private Player mPlayer;
@@ -79,6 +77,7 @@ public class GameplayState extends GameState {
 		if (lastStateTransitionedTo.equals(Strings.GAME_TO_RETRY_SATE)) {
 			System.out.println("DOSAO IZ RETRY STATEA");
 			mPlayer.reset();
+			changeSpeed(gameSpeed);
 		} else {
 			System.out.println("NIJE DOSAO IZ RETRY STATE-a");
 		}
