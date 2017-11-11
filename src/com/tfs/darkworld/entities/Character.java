@@ -15,7 +15,7 @@ public abstract class Character extends GameEntity{
 
 	protected double mJumpingForce;
 	
-	public Character(double width, double height, double speed, double mass) {
+	public Character(int width, int height, double speed, double mass) {
 		super(width, height, mass, speed);
 	}
 	

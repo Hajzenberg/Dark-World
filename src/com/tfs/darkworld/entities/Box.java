@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 
 public abstract class Box extends GameEntity {
 
-	public Box(double width, double height) {
+	public Box(int width, int height) {
 		super(width, height, 0);
 	}
 }

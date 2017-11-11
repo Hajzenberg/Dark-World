@@ -12,6 +12,7 @@ public class LoadingResurcesTask implements ITask {
 	/* Menu state */
 	private String menuBackgroundImgPath = "design/GatesOfHell.png";
 	private String skullImagePath = "design/skull.png";
+	private String handImagePath = "design/hand.png";
 	
 	/* Gameplay state */
 	private String tileGround = "design/ground1.jpg";
@@ -34,6 +35,7 @@ public class LoadingResurcesTask implements ITask {
 		
 		CommonRasters.setParticleImg(Util.loadImage(skullImagePath));
 		CommonRasters.setMenuBackgroundImg(Util.loadImage(menuBackgroundImgPath));
+		CommonRasters.setHandImage(Util.loadImage(handImagePath));
 
 		progressListener.updateProgress(20);
 		

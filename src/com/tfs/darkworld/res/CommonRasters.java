@@ -10,6 +10,7 @@ public class CommonRasters {
 	/* Menu */
 	private static BufferedImage menuBackgroundImg;
 	private static BufferedImage partImg;
+	private static BufferedImage handImage;
 
 	/* GamePlayState */
 	private static BufferedImage lightSky;
@@ -188,4 +189,14 @@ public class CommonRasters {
 	public static void setForestBackgroundVignette(BufferedImage forestBackgroundVignette) {
 		CommonRasters.forestBackgroundVignette = forestBackgroundVignette;
 	}
+
+	public static BufferedImage getHandImage() {
+		return handImage;
+	}
+
+	public static void setHandImage(BufferedImage handImage) {
+		CommonRasters.handImage = handImage;
+	}
+	
+	
 }

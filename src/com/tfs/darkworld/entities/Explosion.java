@@ -20,7 +20,7 @@ public class Explosion extends GameEntity {
 	private Animation animation;
 	private boolean isAlive;
 
-	public Explosion(double x, double y, double dX) {
+	public Explosion(int x, int y, double dX) {
 		super(118, 123, 0);
 
 		try {

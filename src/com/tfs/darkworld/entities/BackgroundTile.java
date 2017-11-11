@@ -9,7 +9,7 @@ public class BackgroundTile extends GameEntity {
 	private double scaleSpeed;
 	private int topOffset;
 
-	public BackgroundTile(double width, double height, BufferedImage image, double scaleSpeed, int offset, double dx) {
+	public BackgroundTile(int width, int height, BufferedImage image, double scaleSpeed, int offset, double dx) {
 		super(width, height, 0);
 
 		this.image = image;

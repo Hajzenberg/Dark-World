@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import com.tfs.darkworld.res.CommonRasters;
 
 public class GroundTile extends Box {
-	public static final double TILE_WIDTH = 320;
-	public static final double TILE_HEIGHT = 320;
+	public static final int TILE_WIDTH = 320;
+	public static final int TILE_HEIGHT = 320;
 	
 	public GroundTile() {
 		super(TILE_WIDTH, TILE_HEIGHT);

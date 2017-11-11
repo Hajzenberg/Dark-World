@@ -49,7 +49,7 @@ public class Spikes extends Box{
 	}
 
 	@Override
-	public void setPosition(double x, double y) {
+	public void setPosition(int x, int y) {
 		super.setPosition(x, y);
 		ground.setPosition(x, y+SPIKES_HEIGHT);
 	}

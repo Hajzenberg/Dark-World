@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 
+import com.tfs.darkworld.entities.MenuHand;
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.Strings;
@@ -41,9 +42,13 @@ public class MenuState extends GameState{
 	private Particle[] parts = new Particle[PARTICLE_MAX];
 	private static final int PARTICLE_MAX = 100;
 	
+	private MenuHand menuHand;
+	
 	public MenuState(GameHost host) {
 		super(host);
 		mFonts = new Fonts();
+		
+		menuHand = new MenuHand();
 		
 		mp3Player = new MP3Player(new File("music/mercy_in_darkness.mp3"));
 		
@@ -85,8 +90,9 @@ public class MenuState extends GameState{
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
 		//System.out.println(" menu "+Thread.currentThread().getName());
-		g.drawImage(CommonRasters.getMenuBackgroundImg(), 0, 0,null);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.drawImage(CommonRasters.getMenuBackgroundImg(), 0, 0,null);
+		menuHand.render(g, sw, sh);
 		old = g.getTransform();
 		setTitle(g);
 		setStart(g, startFlag);
@@ -101,8 +107,10 @@ public class MenuState extends GameState{
 		if (currentScale > 1.3 || currentScale < 1) {
 			scaleDelta *= -1;
 		}
-		
+
 		updateSkulls();
+		
+		menuHand.onUpdate(host.getMouseX(), host.getMouseY());
 	}
 
 	@Override
@@ -154,6 +162,7 @@ public class MenuState extends GameState{
 		
 		if(rectExit.contains(p))  exitFlag = Colors.POMEGRANATE;
 		else 						 exitFlag = Colors.ALIZARIN;
+		
 		
 	}
 

@@ -20,7 +20,7 @@ public class Coin extends GameEntity {
 	private Animation animation;
 	private boolean isCollected;
 	
-	public Coin(double x, double y, double dX, int frameInterval) {
+	public Coin(int x, int y, double dX, int frameInterval) {
 		super(60, 60, 0);
 		
 		try {
