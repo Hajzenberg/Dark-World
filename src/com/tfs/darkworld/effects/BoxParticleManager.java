@@ -3,16 +3,15 @@ package com.tfs.darkworld.effects;
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
-import com.tfs.darkworld.entities.Coin;
+public class BoxParticleManager {
 
-public class CoinParticleManager {
-
-	private static final int PARTICLE_MAX = 100;
+	private static final int PARTICLE_MAX = 300;
 
 	private Particle[] parts = new Particle[PARTICLE_MAX];
 
-	public CoinParticleManager() {
+	public BoxParticleManager() {
 
 		for (int i = 0; i < PARTICLE_MAX; i++) {
 			parts[i] = new Particle();
@@ -26,15 +25,15 @@ public class CoinParticleManager {
 	}
 
 	public void onRender(Graphics2D g) {
-		setCoins(g);
+		setBoxes(g);
 	}
 
 	public void onUpdate() {
-		updateCoins();
+		updateBoxes();
 	}
 
 	public void showMeTheLove(int x, int y, int quantity) {
-		generateCoins(x, y, 16.0f, 500, quantity);
+		generateBoxes(x, y, 16.0f, 500, quantity);
 	}
 
 	public static class Particle {
@@ -46,10 +45,10 @@ public class CoinParticleManager {
 		public int lifeMax = 0;
 		public float angle = 0.0f;
 		public float rot = 0.0f;
-		private Coin coin = new Coin(0, 0, 0, 5);
+		public BufferedImage image;
 	}
 
-	private void setCoins(Graphics2D g) {
+	private void setBoxes(Graphics2D g) {
 
 		AffineTransform af = new AffineTransform();
 
@@ -63,11 +62,11 @@ public class CoinParticleManager {
 
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) p.life / (float) p.lifeMax));
 
-			g.drawImage(p.coin.getAnimation().getImage(), af, null);
+			g.drawImage(p.image, af, null);
 		}
 	}
 
-	private void updateCoins() {
+	private void updateBoxes() {
 		for (Particle p : parts) {
 			if (p.life <= 0)
 				continue;
@@ -79,11 +78,10 @@ public class CoinParticleManager {
 			p.dY = p.dY * 0.99f + 0.1f;
 			p.angle += p.rot;
 			p.rot *= 0.99f;
-			p.coin.getAnimation().update();
 		}
 	}
 
-	private void generateCoins(int cX, int cY, float radius, int life, int count) {
+	private void generateBoxes(int cX, int cY, float radius, int life, int count) {
 		for (Particle p : parts) {
 			if (p.life <= 0) {
 				p.life = p.lifeMax = (int) (Math.random() * life * 0.5) + life / 6;
@@ -101,6 +99,14 @@ public class CoinParticleManager {
 					return;
 			}
 		}
+	}
+
+	public Particle[] getParts() {
+		return parts;
+	}
+
+	public void setParts(Particle[] parts) {
+		this.parts = parts;
 	}
 
 }
