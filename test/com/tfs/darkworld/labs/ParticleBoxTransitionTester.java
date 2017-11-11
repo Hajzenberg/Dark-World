@@ -3,8 +3,7 @@ package com.tfs.darkworld.labs;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import com.tfs.darkworld.effects.BoxParticleManager;
-import com.tfs.darkworld.effects.BoxParticleManager.Particle;
+import com.tfs.darkworld.labs.BoxParticleManager.Particle;
 
 import rafgfxlib.GameFrame;
 import rafgfxlib.Util;

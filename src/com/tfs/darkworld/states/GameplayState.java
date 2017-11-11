@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import com.tfs.darkworld.entities.Background;
 import com.tfs.darkworld.entities.Explosion;
@@ -43,6 +44,7 @@ public class GameplayState extends GameState {
 	// private MP3Player moonwalkSong = new MP3Player(new
 	// File("music/moonwalk.mp3"));
 	private MP3Player gameSong;
+	private Random random;
 
 	public GameplayState(GameHost host) {
 		super(host);
@@ -55,6 +57,7 @@ public class GameplayState extends GameState {
 		ground = new Ground();
 		rockets = new ArrayList<>();
 		explosions = new ArrayList<>();
+		random = new Random();
 
 		changeSpeed(gameSpeed);
 
@@ -230,7 +233,7 @@ public class GameplayState extends GameState {
 			break;
 		case KeyEvent.VK_ESCAPE:
 			//gameSong.pause();
-			Transition.transitionTo(Strings.MENU_SATE, TransitionType.Doom, 0.5f);
+			Transition.transitionTo(Strings.MENU_SATE, TransitionType.values()[random.nextInt(2)+5], 0.5f);
 			lastStateTransitionedTo = Strings.MENU_SATE;
 			break;
 		default:

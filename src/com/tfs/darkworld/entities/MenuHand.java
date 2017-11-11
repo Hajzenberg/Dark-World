@@ -49,7 +49,7 @@ public class MenuHand extends GameEntity {
 			//System.out.println("mis iznad");
 		} else if (y > (int)mY + (int)(mHeight/2 - 20)){
 			mDY = handSpeedY;
-			System.out.println("mis ispod");
+			//System.out.println("mis ispod");
 		} else {
 			//System.out.println("AAAAAAAAAAAAAAAAAAAA");
 			mDY = 0;

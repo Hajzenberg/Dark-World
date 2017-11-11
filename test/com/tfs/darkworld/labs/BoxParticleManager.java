@@ -1,4 +1,4 @@
-package com.tfs.darkworld.effects;
+package com.tfs.darkworld.labs;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -58,7 +58,8 @@ public class BoxParticleManager {
 
 			af.setToIdentity();
 			af.translate(p.posX, p.posY);
-			af.translate(-8.0, -8.0);
+			af.rotate(-p.angle);
+			af.translate(-12.0, -12.0);
 
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) p.life / (float) p.lifeMax));
 

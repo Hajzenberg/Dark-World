@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
+import java.util.Random;
 
 import com.tfs.darkworld.entities.MenuHand;
 import com.tfs.darkworld.res.Colors;
@@ -36,6 +37,7 @@ public class MenuState extends GameState{
 	private float scaleDelta = 0.0006f;
 	private float currentScale = 1f;
 	private AffineTransform old;
+	private Random random;
 	
 	private MP3Player mp3Player;
 	
@@ -47,6 +49,7 @@ public class MenuState extends GameState{
 	public MenuState(GameHost host) {
 		super(host);
 		mFonts = new Fonts();
+		random = new Random();
 		
 		menuHand = new MenuHand();
 		
@@ -135,7 +138,7 @@ public class MenuState extends GameState{
 			
 			if(rectStart.contains(x, y))
 			{
-				Transition.transitionTo(Strings.GAMEPLAY_SATE, TransitionType.Doom, 0.5f);
+				Transition.transitionTo(Strings.GAMEPLAY_SATE, TransitionType.values()[random.nextInt(2)+5], 0.5f);
 				
 			}
 //			TREBAL' ABOUT?!
