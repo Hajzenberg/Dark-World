@@ -15,7 +15,11 @@ public class CommonRasters {
 	private static BufferedImage lightSky;
 	private static BufferedImage darkSky;
 	private static BufferedImage mountainBackground;
+	private static BufferedImage mountainBackgroundNoise;
+	private static BufferedImage mountainBackgroundVignette;
 	private static BufferedImage forestBackground;
+	private static BufferedImage forestBackgroundNoise;
+	private static BufferedImage forestBackgroundVignette;
 	private static BufferedImage playerSptitesheet;
 	private static BufferedImage coinSheet;
 	private static BufferedImage rocketSheet;
@@ -152,7 +156,36 @@ public class CommonRasters {
 	public static void setExplosionSheet(BufferedImage explosionSheet) {
 		CommonRasters.explosionSheet = explosionSheet;
 	}
-	
-	
-	
+
+	public static BufferedImage getMountainBackgroundNoise() {
+		return mountainBackgroundNoise;
+	}
+
+	public static void setMountainBackgroundNoise(BufferedImage mountainBackgroundNoise) {
+		CommonRasters.mountainBackgroundNoise = mountainBackgroundNoise;
+	}
+
+	public static BufferedImage getMountainBackgroundVignette() {
+		return mountainBackgroundVignette;
+	}
+
+	public static void setMountainBackgroundVignette(BufferedImage mountainBackgroundVignette) {
+		CommonRasters.mountainBackgroundVignette = mountainBackgroundVignette;
+	}
+
+	public static BufferedImage getForestBackgroundNoise() {
+		return forestBackgroundNoise;
+	}
+
+	public static void setForestBackgroundNoise(BufferedImage forestBackgroundNoise) {
+		CommonRasters.forestBackgroundNoise = forestBackgroundNoise;
+	}
+
+	public static BufferedImage getForestBackgroundVignette() {
+		return forestBackgroundVignette;
+	}
+
+	public static void setForestBackgroundVignette(BufferedImage forestBackgroundVignette) {
+		CommonRasters.forestBackgroundVignette = forestBackgroundVignette;
+	}
 }

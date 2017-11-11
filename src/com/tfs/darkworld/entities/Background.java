@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-import com.tfs.darkworld.effects.ParticleManager;
+import com.tfs.darkworld.effects.CoinParticleManager;
 import com.tfs.darkworld.res.Colors;
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.fonts.Fonts;
@@ -39,7 +39,7 @@ public class Background extends GameEntity {
 	
 	private Random random;
 	private Fonts fonts;
-	private ParticleManager particleManager;
+	private CoinParticleManager particleManager;
 	
 	private int coinCounter = 0;
 
@@ -50,7 +50,7 @@ public class Background extends GameEntity {
 
 		random = new Random();
 		fonts = new Fonts();
-		particleManager = new ParticleManager();
+		particleManager = new CoinParticleManager();
 		
 
 		initTiles();
@@ -71,18 +71,44 @@ public class Background extends GameEntity {
 		forestTileQueue = new LinkedList<>();
 		mountainTileQueue = new LinkedList<>();
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 2; i++) {
 			BackgroundTile tile = new BackgroundTile(CommonRasters.getMountainBackground().getWidth(),
 					CommonRasters.getMountainBackground().getHeight(), CommonRasters.getMountainBackground(),
 					SCALE_MOUNTAIN_SPEED, TOP_MOUNTAIN_OFFSET, mDX);
+			
+			mountainTileArray.add(tile);
+			
+			tile = new BackgroundTile(CommonRasters.getMountainBackgroundNoise().getWidth(),
+					CommonRasters.getMountainBackgroundNoise().getHeight(), CommonRasters.getMountainBackgroundNoise(),
+					SCALE_MOUNTAIN_SPEED, TOP_MOUNTAIN_OFFSET, mDX);
+			
+			mountainTileArray.add(tile);
+			
+			tile = new BackgroundTile(CommonRasters.getMountainBackgroundVignette().getWidth(),
+					CommonRasters.getMountainBackgroundVignette().getHeight(), CommonRasters.getMountainBackgroundVignette(),
+					SCALE_MOUNTAIN_SPEED, TOP_MOUNTAIN_OFFSET, mDX);
+			
 			mountainTileArray.add(tile);
 		}
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 2; i++) {
 
 			BackgroundTile tile = new BackgroundTile(CommonRasters.getForestBackground().getWidth(),
 					CommonRasters.getForestBackground().getHeight(), CommonRasters.getForestBackground(), 1,
 					TOP_FOREST_OFFSET, mDX);
+			
+			forestTileArray.add(tile);
+			
+			tile = new BackgroundTile(CommonRasters.getForestBackgroundNoise().getWidth(),
+					CommonRasters.getForestBackgroundNoise().getHeight(), CommonRasters.getForestBackgroundNoise(), 1,
+					TOP_FOREST_OFFSET, mDX);
+			
+			forestTileArray.add(tile);
+			
+			tile = new BackgroundTile(CommonRasters.getForestBackgroundVignette().getWidth(),
+					CommonRasters.getForestBackgroundVignette().getHeight(), CommonRasters.getForestBackgroundVignette(), 1,
+					TOP_FOREST_OFFSET, mDX);
+			
 			forestTileArray.add(tile);
 		}
 

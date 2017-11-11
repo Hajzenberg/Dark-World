@@ -6,13 +6,13 @@ import java.awt.geom.AffineTransform;
 
 import com.tfs.darkworld.entities.Coin;
 
-public class ParticleManager {
+public class CoinParticleManager {
 
 	private static final int PARTICLE_MAX = 100;
 
 	private Particle[] parts = new Particle[PARTICLE_MAX];
 
-	public ParticleManager() {
+	public CoinParticleManager() {
 
 		for (int i = 0; i < PARTICLE_MAX; i++) {
 			parts[i] = new Particle();

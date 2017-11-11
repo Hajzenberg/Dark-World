@@ -1,5 +1,6 @@
 package com.tfs.darkworld.loading.tasks;
 
+import com.tfs.darkworld.effects.EffectsUtil;
 import com.tfs.darkworld.loading.IProgressListener;
 import com.tfs.darkworld.loading.ITaskListener;
 import com.tfs.darkworld.res.CommonRasters;
@@ -46,12 +47,18 @@ public class LoadingResurcesTask implements ITask {
 		CommonRasters.setExplosionSheet(Util.loadImage(explosionImagePath));
 		CommonRasters.setRocketSheet(Util.loadImage(rocketImagePath));
 		
-		progressListener.updateProgress(20);
+		progressListener.updateProgress(10);
 		
 		CommonRasters.setPlayerSptitesheet(Util.loadImage(playerSpriteSheetPath));
-		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
-		CommonRasters.setForestBackground(Util.loadImage(forestImagePath));
 		
-		progressListener.updateProgress(40);
+		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
+		CommonRasters.setMountainBackgroundNoise(EffectsUtil.applyNoiseEffect(CommonRasters.getMountainBackground()));
+		CommonRasters.setMountainBackgroundVignette(EffectsUtil.applyVignette(CommonRasters.getMountainBackground()));
+		
+		CommonRasters.setForestBackground(Util.loadImage(forestImagePath));
+		CommonRasters.setForestBackgroundNoise(EffectsUtil.applyNoiseEffect(CommonRasters.getForestBackground()));
+		CommonRasters.setForestBackgroundVignette(EffectsUtil.applyVignette(CommonRasters.getForestBackground()));
+		
+		progressListener.updateProgress(50);
 	}
 }
