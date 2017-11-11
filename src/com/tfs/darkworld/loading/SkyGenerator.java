@@ -2,7 +2,7 @@ package com.tfs.darkworld.loading;
 
 import java.awt.image.WritableRaster;
 
-import com.corax.graphics.generators.gradientperlin.GradientPerlinGenerator;
+import com.tfs.graphics.generators.gradientperlin.GradientPerlinGenerator;
 
 import rafgfxlib.Util;
 

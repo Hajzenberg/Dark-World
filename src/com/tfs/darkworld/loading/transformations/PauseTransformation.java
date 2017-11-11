@@ -1,9 +1,9 @@
 package com.tfs.darkworld.loading.transformations;
 
-import com.corax.graphics.transformations.blur.BlurInvoker;
-import com.corax.graphics.transformations.manager.Transformation;
-import com.corax.graphics.transformations.negative.NegativeInvoker;
-import com.corax.graphics.transformations.vignette.VignetteInvoker;
+import com.tfs.graphics.transformations.blur.BlurInvoker;
+import com.tfs.graphics.transformations.manager.Transformation;
+import com.tfs.graphics.transformations.negative.NegativeInvoker;
+import com.tfs.graphics.transformations.vignette.VignetteInvoker;
 
 public class PauseTransformation extends Transformation {
 	public PauseTransformation() {

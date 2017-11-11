@@ -1,8 +1,8 @@
 package com.tfs.darkworld.loading.transformations;
 
-import com.corax.graphics.transformations.manager.Transformation;
-import com.corax.graphics.transformations.contrast.ContrastInvoker;
-import com.corax.graphics.transformations.vignette.VignetteInvoker;
+import com.tfs.graphics.transformations.contrast.ContrastInvoker;
+import com.tfs.graphics.transformations.manager.Transformation;
+import com.tfs.graphics.transformations.vignette.VignetteInvoker;
 
 public class LightTransformation extends Transformation {
 	

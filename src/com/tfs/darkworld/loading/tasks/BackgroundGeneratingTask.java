@@ -2,7 +2,6 @@ package com.tfs.darkworld.loading.tasks;
 
 import java.awt.image.WritableRaster;
 
-import com.corax.graphics.transformations.manager.Transformation;
 import com.tfs.darkworld.loading.IProgressListener;
 import com.tfs.darkworld.loading.ITaskListener;
 import com.tfs.darkworld.loading.SkyGenerator;
@@ -10,6 +9,7 @@ import com.tfs.darkworld.loading.transformations.DarkTransformation;
 import com.tfs.darkworld.loading.transformations.LightTransformation;
 import com.tfs.darkworld.loading.transformations.ScalingTransformation;
 import com.tfs.darkworld.res.CommonRasters;
+import com.tfs.graphics.transformations.manager.Transformation;
 
 import rafgfxlib.Util;
 

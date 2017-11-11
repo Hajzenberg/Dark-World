@@ -1,9 +1,10 @@
 package com.tfs.darkworld.loading.tasks;
 
-import com.tfs.darkworld.effects.EffectsUtil;
 import com.tfs.darkworld.loading.IProgressListener;
 import com.tfs.darkworld.loading.ITaskListener;
 import com.tfs.darkworld.res.CommonRasters;
+import com.tfs.graphics.transformations.noise.NoiseInvoker;
+import com.tfs.graphics.transformations.vignette.VignetteInvoker;
 
 import rafgfxlib.Util;
 
@@ -54,12 +55,12 @@ public class LoadingResurcesTask implements ITask {
 		CommonRasters.setPlayerSptitesheet(Util.loadImage(playerSpriteSheetPath));
 		
 		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
-		CommonRasters.setMountainBackgroundNoise(EffectsUtil.applyVignette(CommonRasters.getMountainBackground(), 1.2));
-		CommonRasters.setMountainBackgroundVignette(EffectsUtil.applyVignette(CommonRasters.getMountainBackground(), 0.8));
+		CommonRasters.setMountainBackgroundNoise(Util.rasterToImage(new NoiseInvoker().process(CommonRasters.getMountainBackground().getRaster())));
+		CommonRasters.setMountainBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.9f, 8f).process(CommonRasters.getMountainBackground().getRaster())));
 		
 		CommonRasters.setForestBackground(Util.loadImage(forestImagePath));
-		CommonRasters.setForestBackgroundNoise(EffectsUtil.applyVignette(CommonRasters.getForestBackground(), 1.2));
-		CommonRasters.setForestBackgroundVignette(EffectsUtil.applyVignette(CommonRasters.getForestBackground(), 0.8));
+		CommonRasters.setForestBackgroundNoise(Util.rasterToImage(new NoiseInvoker().process(CommonRasters.getForestBackground().getRaster())));
+		CommonRasters.setForestBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.9f, 8f).process(CommonRasters.getForestBackground().getRaster())));
 		
 		progressListener.updateProgress(50);
 	}

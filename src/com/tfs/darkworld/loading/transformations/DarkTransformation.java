@@ -1,10 +1,10 @@
 package com.tfs.darkworld.loading.transformations;
 
-import com.corax.graphics.transformations.brightness.BrightnessInvoker;
-import com.corax.graphics.transformations.grayscale.GrayscaleInvoker;
-import com.corax.graphics.transformations.grayscale.GrayscaleType;
-import com.corax.graphics.transformations.manager.Transformation;
-import com.corax.graphics.transformations.vignette.VignetteInvoker;
+import com.tfs.graphics.transformations.brightness.BrightnessInvoker;
+import com.tfs.graphics.transformations.grayscale.GrayscaleInvoker;
+import com.tfs.graphics.transformations.grayscale.GrayscaleType;
+import com.tfs.graphics.transformations.manager.Transformation;
+import com.tfs.graphics.transformations.vignette.VignetteInvoker;
 
 public class DarkTransformation extends Transformation {
 	public DarkTransformation() {
