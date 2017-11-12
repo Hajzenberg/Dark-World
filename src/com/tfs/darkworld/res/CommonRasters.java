@@ -6,7 +6,7 @@ public class CommonRasters {
 
 	private static BufferedImage lastScreenCapture;
 	private static BufferedImage lastTransformedScreenCapture;
-	
+
 	/* Menu */
 	private static BufferedImage menuBackgroundImg;
 	private static BufferedImage partImg;
@@ -29,6 +29,11 @@ public class CommonRasters {
 	private static BufferedImage lavaTile;
 	private static BufferedImage dyingSnapshot;
 	private static BufferedImage spikes;
+
+	// About state
+	private static BufferedImage maxoImg;
+	private static BufferedImage drazaImg;
+	private static BufferedImage djoleImg;
 
 	public static BufferedImage getForestBackground() {
 		return forestBackground;
@@ -101,11 +106,11 @@ public class CommonRasters {
 	public static void setMountainBackground(BufferedImage mountainBackground) {
 		CommonRasters.mountainBackground = mountainBackground;
 	}
-	
+
 	public static BufferedImage getDyingSnapshot() {
 		return dyingSnapshot;
 	}
-	
+
 	public static void setDyingSnapshot(BufferedImage dyingSnapshot) {
 		CommonRasters.dyingSnapshot = dyingSnapshot;
 	}
@@ -113,23 +118,23 @@ public class CommonRasters {
 	public static void setSpikes(BufferedImage loadImage) {
 		CommonRasters.spikes = loadImage;
 	}
-	
+
 	public static BufferedImage getSpikes() {
 		return spikes;
 	}
-	
+
 	public static BufferedImage getLavaTile() {
 		return lavaTile;
 	}
-	
+
 	public static void setLavaTile(BufferedImage lavaTile) {
 		CommonRasters.lavaTile = lavaTile;
 	}
-	
+
 	public static BufferedImage getGroundTile() {
 		return groundTile;
 	}
-	
+
 	public static void setGroundTile(BufferedImage groundTile) {
 		CommonRasters.groundTile = groundTile;
 	}
@@ -197,6 +202,29 @@ public class CommonRasters {
 	public static void setHandImage(BufferedImage handImage) {
 		CommonRasters.handImage = handImage;
 	}
-	
-	
+
+	public static BufferedImage getMaxoImg() {
+		return maxoImg;
+	}
+
+	public static void setMaxoImg(BufferedImage maxoImg) {
+		CommonRasters.maxoImg = maxoImg;
+	}
+
+	public static BufferedImage getDrazaImg() {
+		return drazaImg;
+	}
+
+	public static void setDrazaImg(BufferedImage drazaImg) {
+		CommonRasters.drazaImg = drazaImg;
+	}
+
+	public static BufferedImage getDjoleImg() {
+		return djoleImg;
+	}
+
+	public static void setDjoleImg(BufferedImage djoleImg) {
+		CommonRasters.djoleImg = djoleImg;
+	}
+
 }

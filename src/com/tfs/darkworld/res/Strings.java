@@ -16,4 +16,9 @@ public class Strings {
 	public static final String START_GAME = "START";
 	public static final String ABOUT = "ABOUT GAME";
 	public static final String EXIT = "EXIT";
+	
+	//about names
+	public static final String DRAZA = "Drazen Kojadinovic";
+	public static final String DJOLE = "Djordje Velickovic";
+	public static final String MAXO = "Igor Maksimovic";
 }
