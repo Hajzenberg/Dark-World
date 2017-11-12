@@ -155,11 +155,8 @@ public class MenuState extends GameState{
 //			TREBAL' ABOUT?!
 			if(rectAbout.contains(x,y))
 			{
-				//Otkomentarisi samo ovo ispod
-				//Transition.transitionTo(Strings.ABOUT_SATE, TransitionType.values()[random.nextInt(2)+5], 0.5f);
+				Transition.transitionTo(Strings.ABOUT, TransitionType.values()[random.nextInt(2)+5], 0.5f);
 				
-				//A au About state na handlekeyup proveri da li je escape i dodaj isto ovo
-				//Transition.transitionTo(Strings.ABOUT_SATE, TransitionType.values()[random.nextInt(2)+5], 0.5f);
 				System.err.println("Kliknuto!");
 			}
 			if(rectExit.contains(x, y))

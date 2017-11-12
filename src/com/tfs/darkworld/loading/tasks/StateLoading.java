@@ -6,6 +6,7 @@ import com.tfs.darkworld.states.GameToPauseTransitionState;
 import com.tfs.darkworld.states.GameplayState;
 import com.tfs.darkworld.states.MenuState;
 import com.tfs.darkworld.states.PauseState;
+import com.tfs.darkworld.states.AboutState;
 import com.tfs.darkworld.states.DiedState;
 import com.tfs.darkworld.states.Transition;
 
@@ -41,8 +42,12 @@ public class StateLoading implements ITask {
 		progressListener.updateProgress(20);
 		taskListener.updateTaskName("Loading game to pause state...");
 		new GameToPauseTransitionState(gameHost);
-		progressListener.updateProgress(20);
+		progressListener.updateProgress(10);
+		taskListener.updateTaskName("Loading died state...");
 		new DiedState(gameHost);
+		taskListener.updateTaskName("Loading about state...");
+		new AboutState(gameHost);
+		progressListener.updateProgress(10);
 	}
 
 }
