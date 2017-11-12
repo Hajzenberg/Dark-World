@@ -12,8 +12,9 @@ public class LoadingResurcesTask implements ITask {
 	
 	/* Menu state */
 	private String menuBackgroundImgPath = "design/GatesOfHell.png";
-	private String skullImagePath = "design/skull.png";
+	//private String skullImagePath = "design/skull.png";
 	private String handImagePath = "design/hand.png";
+	private String skullImagePath = "design/maks_ferhagen.png";
 	
 	/* Gameplay state */
 	private String tileGround = "design/ground1.jpg";

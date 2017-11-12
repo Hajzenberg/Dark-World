@@ -38,6 +38,10 @@ public class MenuState extends GameState{
 	private float currentScale = 1f;
 	private AffineTransform old;
 	private Random random;
+	private String aboutString;
+	private int aboutClickCounter;
+	private int aboutX;
+	private int aboutY;
 	
 	private MP3Player mp3Player;
 	
@@ -54,6 +58,10 @@ public class MenuState extends GameState{
 		menuHand = new MenuHand();
 		
 		mp3Player = new MP3Player(new File("music/mercy_in_darkness.mp3"));
+		
+		aboutString = Strings.ABOUT;
+		aboutX = 250;
+		aboutY = 450;
 		
 		rectStart = new Rectangle (rectCenterX - 85, rectCenterY - 25, 200, 100);
 		rectAbout = new Rectangle (rectCenterX - 160, rectCenterY + 75, 350, 100);
@@ -95,14 +103,16 @@ public class MenuState extends GameState{
 		//System.out.println(" menu "+Thread.currentThread().getName());
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(CommonRasters.getMenuBackgroundImg(), 0, 0,null);
-		menuHand.render(g, sw, sh);
+		//menuHand.render(g, sw, sh);
 		old = g.getTransform();
 		setTitle(g);
 		setStart(g, startFlag);
 		setAbout(g, aboutFlag);
 		setExit(g,  exitFlag);
-		setSkulls(g);
-//		g.setTransform(old);
+		setSkulls((Graphics2D) g.create());
+		//g.setTransform(old);
+		menuHand.render(g, sw, sh);
+
 	}
 
 	@Override
@@ -125,7 +135,7 @@ public class MenuState extends GameState{
 			{
 				//genSkulls(x, y, 10.0f, 200, 10);
 			} else {
-				genSkulls(x, y, 10.0f, 200, 10);
+				genSkulls((int)menuHand.getX()+ 65, (int)menuHand.getY() - 8, 12.0f, 200, 12);
 			}
 			
 		}
@@ -150,6 +160,13 @@ public class MenuState extends GameState{
 			{
 				System.exit(1);
 			}
+		}
+		/////
+		aboutClickCounter++;
+		if (aboutClickCounter > 30){
+			aboutString = "KAKO BILO UTUZLI MAKSO?";
+			aboutX = 55;
+			rectAbout = new Rectangle (aboutX, aboutY - 75, 709, 97);
 		}
 		
 	}
@@ -214,7 +231,7 @@ public class MenuState extends GameState{
 	private void setAbout(Graphics2D g, Color c){
 		g.setColor(c);
 		g.setFont(mFonts.getFont("Phantom Fingers"));
-		g.drawString(Strings.ABOUT, 250, 450);
+		g.drawString(aboutString, aboutX, aboutY);
 		g.setColor(new Color(0, 0, 0, 1));
 		g.drawRect(rectAbout.x, rectAbout.y, rectAbout.width, rectAbout.height);
 	}
