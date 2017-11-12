@@ -1,5 +1,7 @@
 package com.tfs.darkworld.loading.tasks;
 
+import java.awt.image.BufferedImage;
+
 import com.tfs.darkworld.loading.IProgressListener;
 import com.tfs.darkworld.loading.ITaskListener;
 import com.tfs.darkworld.res.CommonRasters;
@@ -39,7 +41,7 @@ public class LoadingResurcesTask implements ITask {
 		CommonRasters.setMenuBackgroundImg(Util.loadImage(menuBackgroundImgPath));
 		CommonRasters.setHandImage(Util.loadImage(handImagePath));
 
-		progressListener.updateProgress(20);
+		progressListener.updateProgress(10);
 		
 		CommonRasters.setGroundTile(Util.loadImage(tileGround));
 		CommonRasters.setLavaTile(Util.loadImage(lavaGround));
@@ -55,14 +57,17 @@ public class LoadingResurcesTask implements ITask {
 		
 		CommonRasters.setPlayerSptitesheet(Util.loadImage(playerSpriteSheetPath));
 		
-		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
-		CommonRasters.setMountainBackgroundNoise(Util.rasterToImage(new VignetteInvoker(1f, 1.4f).process(CommonRasters.getMountainBackground().getRaster())));
-		CommonRasters.setMountainBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.8f, 2f).process(CommonRasters.getMountainBackground().getRaster())));
+		BufferedImage image = Util.loadImage(mountainImagePath) ;
+		CommonRasters.setMountainBackground(Util.rasterToImage(new VignetteInvoker(1f, 1.4f).process(image.getRaster())));
+		CommonRasters.setMountainBackgroundNoise(Util.rasterToImage(new VignetteInvoker(1f, 1.4f).process(image.getRaster())));
+		CommonRasters.setMountainBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.8f, 2f).process(image.getRaster())));
+		progressListener.updateProgress(30);
 		
-		CommonRasters.setForestBackground(Util.loadImage(forestImagePath));
-		CommonRasters.setForestBackgroundNoise(Util.rasterToImage(new VignetteInvoker(1f, 1.4f).process(CommonRasters.getForestBackground().getRaster())));
-		CommonRasters.setForestBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.8f, 2f).process(CommonRasters.getForestBackground().getRaster())));
+		image = Util.loadImage(forestImagePath);
+		CommonRasters.setForestBackground(Util.rasterToImage(new VignetteInvoker(1f, 1.4f).process(image.getRaster())));
+		CommonRasters.setForestBackgroundNoise(Util.rasterToImage(new VignetteInvoker(1f, 1.4f).process(image.getRaster())));
+		CommonRasters.setForestBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.8f, 2f).process(image.getRaster())));
 		
-		progressListener.updateProgress(50);
+		progressListener.updateProgress(30);
 	}
 }
