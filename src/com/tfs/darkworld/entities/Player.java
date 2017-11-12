@@ -53,12 +53,14 @@ public class Player extends Character {
 
 	protected Animation mCurrentAnimation;
 	protected int mCurrentAction;
-	
-	
+
 	public Player(int sw, int sh) {
 		super(30, 30, SPEED, NORMAL_MASS);
 
-		/* Mora se pozvati pre reset da bi se popunili nizovi koje koristi animacija */
+		/*
+		 * Mora se pozvati pre reset da bi se popunili nizovi koje koristi
+		 * animacija
+		 */
 		try {
 			int count = 0;
 			mSprites = new ArrayList<BufferedImage[]>();
@@ -78,17 +80,17 @@ public class Player extends Character {
 		}
 
 		/*
-		 * Izdvojena logika za setovanje igraca na default poziciju pri startovanju
-		 * nivoa
+		 * Izdvojena logika za setovanje igraca na default poziciju pri
+		 * startovanju nivoa
 		 */
 		reset();
-		
+
 		intersectionBody.setLeftOffset(32);
 		intersectionBody.setUpperOffset(0);
 		intersectionBody.setHeight(mHeight);
 		intersectionBody.setWidth(64);
 		intersectionBody.updateIntersectionBody(mX, mY);
-		
+
 	}
 
 	@Override
@@ -234,7 +236,7 @@ public class Player extends Character {
 		IntersectType intersectType = intersectionBody.isIntersecting(ge.intersectionBody);
 
 		if (intersectType != IntersectType.None) {
-			
+
 			if (ge instanceof Box) {
 				switch (intersectType) {
 				case UpperLine:
@@ -256,8 +258,7 @@ public class Player extends Character {
 			}
 		}
 	}
-	
-	
+
 	public void reset() {
 		System.out.println("RESET");
 		mX = 100;
@@ -278,8 +279,8 @@ public class Player extends Character {
 	public boolean isOfficialyDead() {
 		return officialyDead;
 	}
-	
-	public int getCurrentAction(){
+
+	public int getCurrentAction() {
 		return mCurrentAction;
 	}
 }

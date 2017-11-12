@@ -2,9 +2,12 @@ package com.tfs.darkworld.entities;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 import com.tfs.darkworld.res.CommonRasters;
+
+import jaco.mp3.player.MP3Player;
 
 public class Rocket extends GameEntity{
 	
@@ -20,6 +23,9 @@ private static final int ACTION_IDLE = 0;
 	private Animation animation;
 	private boolean isAlive;
 	private double distance;
+	
+	private MP3Player mp3Player;
+	private RocketSoundThread rocketSoundThread;
 
 	public Rocket(double x, double y, double dX) {
 		super(56, 22, 0);
@@ -55,6 +61,9 @@ private static final int ACTION_IDLE = 0;
 		intersectionBody.setUpperOffset(0);
 		intersectionBody.setHeight(22);
 		intersectionBody.setWidth(56);
+		
+		mp3Player = new MP3Player(new File("music/explosion.mp3"));
+		rocketSoundThread = new RocketSoundThread(mp3Player);
 	}
 	
 	@Override
@@ -64,6 +73,8 @@ private static final int ACTION_IDLE = 0;
 			intersectionBody.updateIntersectionBody(mX, mY);
 			if (--distance <= 0){
 				isAlive = false;
+				rocketSoundThread.start();
+				rocketSoundThread = new RocketSoundThread(mp3Player);
 			}
 		}
 	
@@ -89,6 +100,21 @@ private static final int ACTION_IDLE = 0;
 	
 	public boolean isAlive(){
 		return isAlive;
+	}
+	
+	private static class RocketSoundThread extends Thread{
+		private MP3Player mp3Player;
+		
+		public RocketSoundThread(MP3Player mp3Player) {
+			super();
+			this.mp3Player = mp3Player;
+		}
+
+		@Override
+		public void run() {
+			super.run();
+			mp3Player.play();
+		}
 	}
 
 }

@@ -58,6 +58,7 @@ public class MenuState extends GameState{
 		menuHand = new MenuHand();
 		
 		mp3Player = new MP3Player(new File("music/mercy_in_darkness.mp3"));
+		mp3Player.setRepeat(true);
 		
 		aboutString = Strings.ABOUT;
 		aboutX = 250;

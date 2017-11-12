@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -49,8 +50,8 @@ public class GameplayState extends GameState {
 	public GameplayState(GameHost host) {
 		super(host);
 		// gameSong = new MP3Player(new File("music/sanity.mp3"));
-		// gameSong = new MP3Player(new File("music/moonwalk.mp3"));
-		// gameSong.setRepeat(true);
+		gameSong = new MP3Player(new File("music/gameplay.mp3"));
+		gameSong.setRepeat(true);
 
 		background = new Background(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
 		mPlayer = new Player(GameConstants.FRAME_WIDTH, GameConstants.FRAME_HEIGTH);
@@ -84,9 +85,9 @@ public class GameplayState extends GameState {
 		} else {
 			System.out.println("NIJE DOSAO IZ RETRY STATE-a");
 		}
-		// if (gameSong.isPaused() || gameSong.isStopped()) {
-		// gameSong.play();
-		// }
+		if (gameSong.isPaused() || gameSong.isStopped()) {
+			gameSong.play();
+		}
 	}
 
 	@Override
@@ -174,6 +175,7 @@ public class GameplayState extends GameState {
 			//0.7 ground speed
 			if (!rocket.isAlive()) {
 				explosions.add(new Explosion(rocket.getX() - 40, rocket.getY() - 60, 0.7));
+				
 				rIterator.remove();
 				
 			}
@@ -227,12 +229,12 @@ public class GameplayState extends GameState {
 			BufferedImage mImage = new BufferedImage(800, 600, BufferedImage.TYPE_3BYTE_BGR);
 			renderSnapshot(mImage);
 			CommonRasters.setLastScreenCapture(mImage);
-			//gameSong.pause();
+			gameSong.pause();
 			host.setState(Strings.GAME_TO_PAUSE_SATE);
 			lastStateTransitionedTo = Strings.GAME_TO_PAUSE_SATE;
 			break;
 		case KeyEvent.VK_ESCAPE:
-			//gameSong.pause();
+			gameSong.pause();
 			Transition.transitionTo(Strings.MENU_SATE, TransitionType.values()[random.nextInt(2)+5], 0.5f);
 			lastStateTransitionedTo = Strings.MENU_SATE;
 			break;
