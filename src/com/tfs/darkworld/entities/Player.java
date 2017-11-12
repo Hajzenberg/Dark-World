@@ -83,14 +83,13 @@ public class Player extends Character {
 		 * Izdvojena logika za setovanje igraca na default poziciju pri
 		 * startovanju nivoa
 		 */
+		
 		reset();
-
+		
 		intersectionBody.setLeftOffset(32);
 		intersectionBody.setUpperOffset(0);
 		intersectionBody.setHeight(mHeight);
 		intersectionBody.setWidth(64);
-		intersectionBody.updateIntersectionBody(mX, mY);
-
 	}
 
 	@Override
@@ -262,7 +261,7 @@ public class Player extends Character {
 	public void reset() {
 		System.out.println("RESET");
 		mX = 100;
-		mY = 375; // 375
+		mY = 175; // 375
 
 		mCurrentAnimation = new Animation();
 		mJumpingForce = JUMPING_FORCE;
@@ -272,8 +271,9 @@ public class Player extends Character {
 
 		mIsGoingRight = true;
 
-		setAnimation(ACTION_WALK);
-		mCharacterRect = new Rectangle2D.Double(50, 100, mWidth, mHeight);
+		setAnimation(ACTION_JUMP);
+		mCharacterRect = new Rectangle2D.Double(mX, mY, mWidth, mHeight);
+		intersectionBody.updateIntersectionBody(mX, mY);
 	}
 
 	public boolean isOfficialyDead() {
