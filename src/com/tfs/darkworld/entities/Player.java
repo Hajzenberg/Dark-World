@@ -79,13 +79,28 @@ public class Player extends Character {
 			e.printStackTrace();
 		}
 
-		/*
-		 * Izdvojena logika za setovanje igraca na default poziciju pri
-		 * startovanju nivoa
-		 */
+//		/*
+//		 * Izdvojena logika za setovanje igraca na default poziciju pri
+//		 * startovanju nivoa
+//		 */
+//		
+//		reset();
 		
-		reset();
+		mX = 100;
+		mY = 375;
+
+		mCurrentAnimation = new Animation();
+		mJumpingForce = JUMPING_FORCE;
+
+		mIsAlive = true;
+		officialyDead = false;
+
+		mIsGoingRight = true;
+
+		setAnimation(ACTION_WALK);
+		mCharacterRect = new Rectangle2D.Double(mX, mY, mWidth, mHeight);
 		
+		intersectionBody.updateIntersectionBody(mX, mY);	
 		intersectionBody.setLeftOffset(32);
 		intersectionBody.setUpperOffset(0);
 		intersectionBody.setHeight(mHeight);
