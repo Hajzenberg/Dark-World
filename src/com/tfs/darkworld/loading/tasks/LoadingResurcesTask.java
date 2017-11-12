@@ -56,12 +56,12 @@ public class LoadingResurcesTask implements ITask {
 		CommonRasters.setPlayerSptitesheet(Util.loadImage(playerSpriteSheetPath));
 		
 		CommonRasters.setMountainBackground(Util.loadImage(mountainImagePath));
-		CommonRasters.setMountainBackgroundNoise(Util.rasterToImage(new NoiseInvoker().process(CommonRasters.getMountainBackground().getRaster())));
-		CommonRasters.setMountainBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.9f, 8f).process(CommonRasters.getMountainBackground().getRaster())));
+		CommonRasters.setMountainBackgroundNoise(Util.rasterToImage(new VignetteInvoker(1f, 1.4f).process(CommonRasters.getMountainBackground().getRaster())));
+		CommonRasters.setMountainBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.8f, 2f).process(CommonRasters.getMountainBackground().getRaster())));
 		
 		CommonRasters.setForestBackground(Util.loadImage(forestImagePath));
-		CommonRasters.setForestBackgroundNoise(Util.rasterToImage(new NoiseInvoker().process(CommonRasters.getForestBackground().getRaster())));
-		CommonRasters.setForestBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.9f, 8f).process(CommonRasters.getForestBackground().getRaster())));
+		CommonRasters.setForestBackgroundNoise(Util.rasterToImage(new VignetteInvoker(1f, 1.4f).process(CommonRasters.getForestBackground().getRaster())));
+		CommonRasters.setForestBackgroundVignette(Util.rasterToImage(new VignetteInvoker(0.8f, 2f).process(CommonRasters.getForestBackground().getRaster())));
 		
 		progressListener.updateProgress(50);
 	}
