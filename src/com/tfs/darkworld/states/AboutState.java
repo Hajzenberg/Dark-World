@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import com.sun.javafx.geom.Ellipse2D;
 import com.tfs.darkworld.res.CommonRasters;
 import com.tfs.darkworld.res.Strings;
 import com.tfs.darkworld.res.fonts.Fonts;
